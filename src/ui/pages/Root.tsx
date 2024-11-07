@@ -6,7 +6,9 @@ function Root() {
 
   const isAuthenticated = Boolean(token);
 
-  return isAuthenticated ? <Navigate to="/boards" replace /> : <Navigate to="/login" replace />;
+  return <Navigate to="/boards" replace />; // FIXME: temporary bc no login page
+
+  //return isAuthenticated ? <Navigate to="/boards" replace /> : <Navigate to="/login" replace />;
 }
 
 export default Root;

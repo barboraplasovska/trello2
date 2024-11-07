@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
-import '../styles/Navbar.css';
+import '../../styles/Navbar.css';
 
-function NavBar()
+function HomeNavBar()
 {
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -28,4 +28,4 @@ function NavBar()
     );
 }
 
-export default NavBar;
+export default HomeNavBar;
