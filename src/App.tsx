@@ -5,6 +5,8 @@ import HomePage from './ui/pages/Home/HomePage';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Root from './ui/pages/Root';
 import HomeLayout from './ui/components/Layouts/HomeLayout';
+import Login from './ui/pages/Login';
+import Signup from './ui/pages/Signup';
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Root />} />
-          {/* <Route path="/login" element= { <Login/> } />
-          <Route path="/signup" element= { <SignUp/> } /> */}
+          <Route path="/login" element= { <Login/> } />
+          <Route path="/signup" element= { <Signup/> } />
           <Route path="/boards" element={
             <HomeLayout>
               <HomePage />
