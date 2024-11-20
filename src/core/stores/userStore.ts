@@ -1,15 +1,30 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface AuthStore {
-    jwt: string | null;
-    setJwt: (jwt: string) => void;
-    clearJwt: () => void;
+    isLoggedIn: boolean;
+    login: () => void;
+    logout: () => void;
 }
-
-const useAuthStore = create<AuthStore>((set) => ({
-    jwt: null,
-    setJwt: (jwt: string) => set({ jwt }),
-    clearJwt: () => set({ jwt: null }),
-}));
+const useAuthStore = create(
+    persist<AuthStore>(
+        (set) => ({
+            isLoggedIn: false,
+            login: () => {
+                const userLocalStorage = localStorage.getItem('accessToken');
+                if (userLocalStorage) {
+                    set({ isLoggedIn: true });
+                }
+            },
+            logout: () => {
+                set({ isLoggedIn: false });
+                localStorage.clear();
+            },
+        }),
+        {
+            name: 'userLoginStatus',
+        }
+    )
+);
 
 export default useAuthStore;

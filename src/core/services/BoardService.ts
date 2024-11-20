@@ -2,11 +2,9 @@ import axios from "axios";
 import {Board} from "../models/Board";
 import {BoardDto} from "../models/BoardDto";
 import {StatusObjectBoard} from "../models/StatusObjectBoard";
-import useAuthStore from "../stores/userStore";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-
-const jwt = useAuthStore((state) => state.jwt);
+const jwt = localStorage.getItem('accessToken');
 
 export const updateBoard = async (id: string, name: string): Promise<Board> => {
     try {

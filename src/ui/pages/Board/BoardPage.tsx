@@ -1,6 +1,5 @@
 // ui/pages/Board/Board.tsx
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 
 // interface BoardPageProps {
 //     board: Board | null;

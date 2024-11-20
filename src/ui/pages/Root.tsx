@@ -3,11 +3,9 @@ import { Navigate } from 'react-router-dom';
 import useAuthStore from '../../core/stores/userStore';
 
 function Root() {
-  const token = useAuthStore.getState().jwt;
+  const isLoggedIn = useAuthStore.getState().isLoggedIn;
 
-  const isAuthenticated = Boolean(token);
-  console.log("Aaaaaaa")
-  return isAuthenticated ? <Navigate to="/boards" replace /> : <Navigate to="/login" replace />;
+  return isLoggedIn ? <Navigate to="/boards" replace /> : <Navigate to="/login" replace />;
 }
 
 export default Root;

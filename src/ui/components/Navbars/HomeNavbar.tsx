@@ -2,12 +2,17 @@ import React from 'react';
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import '../../styles/Navbar.css';
 import useAuthStore from '../../../core/stores/userStore';
+import {useNavigate} from "react-router-dom";
 
 function HomeNavBar()
 {
+    const navigate = useNavigate();
+
     const logOut = () => {
-        useAuthStore.getState().clearJwt();
+        useAuthStore.getState().logout();
+        navigate("/");
     }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" id="appbar">

@@ -1,11 +1,9 @@
 import axios from "axios";
 import {Column} from "../models/Column";
 import {StatusObjectColumn} from "../models/StatusObjectColumn";
-import useAuthStore from "../stores/userStore";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-
-const jwt = useAuthStore((state) => state.jwt);
+const jwt = localStorage.getItem('accessToken');
 
 export const updateColumn = async (columnData: Column): Promise<void> => {
     try {

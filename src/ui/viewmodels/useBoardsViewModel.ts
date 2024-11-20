@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-// import { fetchBoards, fetchBoardById } from '../../core/api/api';
+import { useState } from 'react';
 import { useBoardStore } from '../../core/stores/BoardStore';
 
 export function useBoardsViewModel() {

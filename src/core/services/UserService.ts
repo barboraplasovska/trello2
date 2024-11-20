@@ -1,10 +1,8 @@
 import axios from "axios";
 import {User} from "../models/User";
-import useAuthStore from "../stores/userStore";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-
-const jwt = useAuthStore((state) => state.jwt);
+const jwt = localStorage.getItem('accessToken');
 
 export const getUsers = async (): Promise<User[]> => {
     try {

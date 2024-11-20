@@ -2,11 +2,9 @@ import axios from "axios";
 import {CardCreationForm} from "../models/CardCreationForm";
 import {Card} from "../models/Card";
 import {StatusObjectCard} from "../models/StatusObjectCard";
-import useAuthStore from "../stores/userStore";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-
-const jwt = useAuthStore((state) => state.jwt);
+const jwt = localStorage.getItem('accessToken');
 
 export const updateCard = async (id: string, cardData: CardCreationForm): Promise<Card> => {
     try {
