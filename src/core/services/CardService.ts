@@ -4,13 +4,13 @@ import {Card} from "../models/Card";
 import {StatusObjectCard} from "../models/StatusObjectCard";
 import useAuthStore from "../stores/userStore";
 
-const apiUrl = process.env.REACT_APP_KANBAN_API_URI;
-const API_BASE_URL = `${apiUrl}/kanban-api/v1`;
+const KANBAN_API_URL = `/kanban-api/v1`;
+
 const jwt = useAuthStore((state) => state.jwt);
 
 export const updateCard = async (id: string, cardData: CardCreationForm): Promise<Card> => {
     try {
-        const response = await axios.put<Card>(`${API_BASE_URL}/cards/${id}`, cardData, {
+        const response = await axios.put<Card>(`${KANBAN_API_URL}/cards/${id}`, cardData, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const updateCard = async (id: string, cardData: CardCreationForm): Promis
 
 export const moveCardToColumn = async (id: string, newColumnId: string, cardData: CardCreationForm): Promise<Card> => {
     try {
-        const response = await axios.put<Card>(`${API_BASE_URL}/cards/${id}/move-to/${newColumnId}`, cardData, {
+        const response = await axios.put<Card>(`${KANBAN_API_URL}/cards/${id}/move-to/${newColumnId}`, cardData, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const moveCardToColumn = async (id: string, newColumnId: string, cardData
 
 export const deleteCard = async (id: string, cardData: CardCreationForm): Promise<StatusObjectCard> => {
     try {
-        const response = await axios.post<StatusObjectCard>(`${API_BASE_URL}/cards/${id}/delete`, cardData, {
+        const response = await axios.post<StatusObjectCard>(`${KANBAN_API_URL}/cards/${id}/delete`, cardData, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const deleteCard = async (id: string, cardData: CardCreationForm): Promis
 
 export const createCard = async (cardData: CardCreationForm): Promise<Card> => {
     try {
-        const response = await axios.post<Card>(`${API_BASE_URL}/cards/`, cardData, {
+        const response = await axios.post<Card>(`${KANBAN_API_URL}/cards/`, cardData, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',

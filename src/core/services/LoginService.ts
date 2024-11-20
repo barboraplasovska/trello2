@@ -4,12 +4,11 @@ import {User} from "../models/User";
 import {JwtResponse} from "../models/JwtResponse";
 import useAuthStore from "../stores/userStore";
 
-const apiUrl = process.env.REACT_APP_KANBAN_API_URI;
-const API_BASE_URL = `${apiUrl}/kanban-api/v1`;
+const KANBAN_API_URL = `/kanban-api/v1`;
 
 export const register = async (loginRequest: LoginRequest): Promise<User> => {
     try {
-        const response = await axios.post<User>(`${API_BASE_URL}/register`, loginRequest, {
+        const response = await axios.post<User>(`${KANBAN_API_URL}/register`, loginRequest, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
@@ -25,7 +24,8 @@ export const register = async (loginRequest: LoginRequest): Promise<User> => {
 
 export const login = async (loginRequest: LoginRequest): Promise<JwtResponse> => {
     try {
-        const response = await axios.post<JwtResponse>(`${API_BASE_URL}/login`, loginRequest, {
+        console.log(`${KANBAN_API_URL}/login`)
+        const response = await axios.post<JwtResponse>(`${KANBAN_API_URL}/login`, loginRequest, {
             headers: {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
