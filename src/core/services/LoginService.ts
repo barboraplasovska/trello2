@@ -6,7 +6,6 @@ import useAuthStore from "../stores/userStore";
 
 const apiUrl = process.env.REACT_APP_KANBAN_API_URI;
 const API_BASE_URL = `${apiUrl}/kanban-api/v1`;
-const jwt = useAuthStore((state) => state.jwt);
 
 export const register = async (loginRequest: LoginRequest): Promise<User> => {
     try {
