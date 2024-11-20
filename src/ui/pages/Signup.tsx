@@ -4,6 +4,30 @@ import { LoginRequest } from "../../core/models/LoginRequest";
 import { register } from "../../core/services/LoginService";
 import { Box, Typography, TextField, Button } from "@mui/material";
 
+function validatePassword(password : string) {
+  const minLength = 8;
+  const maxLength = 24;
+
+  // Vérification de la longueur
+  if (password.length < 8 || password.length > 24) {
+    return 'Le mot de passe doit contenir entre 8 et 24 caractères.';
+  }
+
+  // Expression régulière pour les autres critères
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,24}$/;
+
+  if (!regex.test(password)) {
+    return `Le mot de passe doit contenir :
+    - Au moins une lettre majuscule
+    - Au moins une lettre minuscule
+    - Au moins un chiffre
+    - Au moins un caractère spécial.`;
+  }
+
+  return 'Mot de passe valide.';
+}
+
 export default function Signup() {
     const [formData, setFormData] = useState({
         username: "",
@@ -26,19 +50,26 @@ export default function Signup() {
         const { username, password, confirmPassword } = formData;
 
         if (!username || !password || !confirmPassword){
-            setError("Please fill in all fields");
-            return;
+          setError("Veuillez remplir tous les champs");
+          return;
         }
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
+          setError("Les mots de passe ne sont pas les mêmes.");
+          return;
         }
 
-        const registerRequest : LoginRequest = {
-            username: username,
-            password: password
+        const isPasswordValid = validatePassword(password);
+        if (isPasswordValid != 'Mot de passe valide.'){
+          setError(isPasswordValid);
+          return;
         }
-        await register(registerRequest).then(() => navigate("/login")).catch(() => setError("Login failed"))
+        const registerRequest : LoginRequest = {
+          username: username,
+          password: password
+        }
+        await register(registerRequest).then(() => navigate("/login")).catch((err) => {
+          setError(error)
+          console.log(err)});
     }
 
     return (

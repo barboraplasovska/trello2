@@ -32,7 +32,9 @@ export default function Login() {
             password: password
         }
 
-        await login(loginRequest).then(() => navigate("/")).catch(() => alert(error))
+        await login(loginRequest).then(() => {
+            console.log("Success")
+            navigate("/")}).catch((err) => alert(err))
         console.log('Username:', username);
         console.log('Password:', password);
         setError('');

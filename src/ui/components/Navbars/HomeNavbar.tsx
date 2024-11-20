@@ -1,9 +1,13 @@
 import React from 'react';
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import '../../styles/Navbar.css';
+import useAuthStore from '../../../core/stores/userStore';
 
 function HomeNavBar()
 {
+    const logOut = () => {
+        useAuthStore.getState().clearJwt();
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" id="appbar">
@@ -20,7 +24,7 @@ function HomeNavBar()
                 </Box>
                 <Box>
                     <Button variant="contained" color="primary">Create</Button>
-                    <Button color="inherit">Log out</Button>
+                    <Button color="inherit" onClick={logOut}>Log out</Button>
                 </Box>
             </Toolbar>
         </AppBar>
