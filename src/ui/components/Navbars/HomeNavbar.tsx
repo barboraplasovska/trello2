@@ -8,6 +8,10 @@ function HomeNavBar()
 {
     const navigate = useNavigate();
 
+    const createBoard = () => {
+        console.log("Create Board Button Clicked");
+    }
+
     const logOut = () => {
         useAuthStore.getState().logout();
         navigate("/");
@@ -28,7 +32,7 @@ function HomeNavBar()
                     <Typography variant="h6">Trello 2</Typography>
                 </Box>
                 <Box>
-                    <Button variant="contained" color="primary">Create</Button>
+                    <Button variant="contained" color="primary" onClick={createBoard}>Create</Button>
                     <Button color="inherit" onClick={logOut}>Log out</Button>
                 </Box>
             </Toolbar>

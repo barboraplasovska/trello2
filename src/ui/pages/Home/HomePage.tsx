@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
-import BoardList from '../../components/Board/BoardList';
+import BoardList from '../../components/Boards/BoardList';
 
 function HomePage() {
   const { boards, loading, error, loadBoards } = useBoardsViewModel();
@@ -9,13 +9,13 @@ function HomePage() {
     loadBoards();
   }, []);
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  // if (error) {
-  //   return <div>{error}</div>;
-  // }
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>

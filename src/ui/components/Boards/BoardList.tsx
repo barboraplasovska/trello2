@@ -1,6 +1,7 @@
 import React from 'react';
 import { Board } from '../../../core/models/Board';
 import { Link } from 'react-router-dom';
+import BoardItem from './BoardItem';
 
 interface BoardListProps {
   boards: Board[];
@@ -12,7 +13,7 @@ const BoardList: React.FC<BoardListProps> = ({ boards }) => {
       {boards.map((board) => (
         <div key={board.id}>
           <Link to={`/board/${board.id}`}>
-            <h3>{board.name}</h3>
+            <BoardItem board={board}/>
           </Link>
         </div>
       ))}
