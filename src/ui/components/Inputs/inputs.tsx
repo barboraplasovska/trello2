@@ -1,4 +1,5 @@
 import "./inputs.css"
+import PropTypes from 'prop-types';
 
 type inputProps = {
     isPassword: boolean
@@ -13,4 +14,9 @@ export default function InputField({ isPassword, value }: inputProps) {
                 placeholder={value}></input>
         </div>
     )
+}
+
+InputField.propTypes = {
+    isPassword: PropTypes.bool.isRequired,
+    value: PropTypes.string.isRequired,
 }

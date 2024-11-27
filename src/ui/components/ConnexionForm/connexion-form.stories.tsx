@@ -1,14 +1,14 @@
 import { fn } from "@storybook/test";
 
-import ConnexionButton from './connexion-button';
+import ConnexionForm from './connexion-form';
 
 const ActionData = {
     connect: fn(),
 }
 
 export default {
-    component: ConnexionButton,
-    title: 'ConnexionButton',
+    component: ConnexionForm,
+    title: 'ConnexionForm',
     tags: ['autodocs'],
     args: {
       ...ActionData,

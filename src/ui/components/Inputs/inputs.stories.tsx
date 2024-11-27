@@ -1,15 +1,9 @@
-import { fn } from "@storybook/test";
-
 import InputField from './inputs';
 
 export default {
     component: InputField,
     title: 'InputField',
     tags: ['autodocs'],
-    argTypes: {
-        isPassword: { control: 'boolean' },
-        value: { control: 'text' },
-    },
 };
 
 export const Username = {

@@ -1,23 +1,23 @@
 .input-field {
-    width: 100%; /* Full width or adjust as needed */
-    max-width: 300px; /* Adjust maximum width */
-    margin: 10px 0; /* Add spacing if needed */
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0;
 }
 
 .input-field input {
     width: 100%;
-    padding: 10px 15px; /* Add spacing inside the input */
-    font-size: 16px; /* Text size */
-    color: #555; /* Text color */
-    border: none; /* Remove default border */
-    border-radius: 8px; /* Rounded corners */
-    background-color: #d3d3d3; /* Light grey background */
-    outline: none; /* Remove blue outline on focus */
-    box-sizing: border-box; /* Ensure padding does not affect width */
-    transition: box-shadow 0.2s ease-in-out; /* Add focus effect */
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    background-color: #d3d3d3;
+    outline: none;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease-in-out;
 }
 
 .input-field input::placeholder {
-    color: #888; /* Placeholder color */
-    font-size: 16px; /* Ensure placeholder size matches text */
+    color: #888;
+    font-size: 16px;
 }
