@@ -16,6 +16,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "axios": "^1.7.7",
+    "node": "^20.18.1",
+    "nvm": "^0.0.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-responsive": "^10.0.0",
@@ -64,7 +66,7 @@
     "@storybook/test": "^8.4.4",
     "eslint-plugin-storybook": "^0.11.1",
     "prop-types": "^15.8.1",
-    "storybook": "^8.4.5",
+    "storybook": "^8.4.6",
     "webpack": "^5.96.1"
   }
 }

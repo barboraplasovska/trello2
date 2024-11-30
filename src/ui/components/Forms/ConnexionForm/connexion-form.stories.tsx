@@ -8,10 +8,10 @@ const ActionData = {
 
 export default {
     component: ConnexionForm,
-    title: 'ConnexionForm',
+    title: 'Components/Forms/ConnexionForm',
     tags: ['autodocs'],
     args: {
-      ...ActionData,
+        ...ActionData,
     },
 };
 

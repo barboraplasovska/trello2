@@ -2,7 +2,7 @@ import InputField from './inputs';
 
 export default {
     component: InputField,
-    title: 'InputField',
+    title: 'Components/Inputs/InputField',
     tags: ['autodocs'],
 };
 

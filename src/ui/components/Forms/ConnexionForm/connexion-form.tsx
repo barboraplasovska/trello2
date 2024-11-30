@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './connexion-form.css';
-import InputField from '../Inputs/inputs';
-import ConnexionButton from '../Buttons/connexion-button';
+import InputField from '../../Inputs/inputs';
+import ConnexionButton from '../../Buttons/ConnexionButton/connexion-button';
 
 type formProps = {
     isLogIn: boolean;

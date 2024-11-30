@@ -1,6 +1,6 @@
 import { fn } from "@storybook/test";
 
-import ConnexionButton from './connexion-button';
+import ConnexionButton from '../ConnexionButton/connexion-button';
 
 const ActionData = {
     connect: fn(),
@@ -8,10 +8,10 @@ const ActionData = {
 
 export default {
     component: ConnexionButton,
-    title: 'ConnexionButton',
+    title: 'Components/Buttons/ConnexionButton',
     tags: ['autodocs'],
     args: {
-      ...ActionData,
+        ...ActionData,
     },
 };
 

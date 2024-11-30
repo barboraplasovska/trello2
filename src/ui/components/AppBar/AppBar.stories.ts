@@ -1,0 +1,17 @@
+import { fn } from '@storybook/test';
+import AppBar from './AppBar';
+
+const ActionData = {
+  onLogout: fn(),
+};
+
+export default {
+  component: AppBar,
+  title: 'Components/AppBar',
+  tags: ['autodocs'],
+  args: {
+    ...ActionData,
+  },
+};
+
+export const Default = {};
