@@ -3,6 +3,7 @@ import AppBar from './AppBar';
 
 const ActionData = {
   onLogout: fn(),
+  href: 'https://google.com',
 };
 
 export default {
