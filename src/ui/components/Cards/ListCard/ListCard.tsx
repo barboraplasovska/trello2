@@ -1,9 +1,8 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import { TaskCard } from '../TaskCard/TaskCard';
 import { AddCardButton } from '../../Buttons/AddCardButton/AddCardButton';
-import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 
 type ListCardProps = {
@@ -12,9 +11,27 @@ type ListCardProps = {
   onAddCard: () => void;
   onArrowClick: () => void;
   onMoreClick: () => void;
+  moveListLeft?: () => void;
+  moveListRight?: () => void;
+  canMoveLeft: boolean;
+  canMoveRight: boolean;
+  onMoveTaskLeft: (task: string) => void;
+  onMoveTaskRight: (task: string) => void;
 };
 
-export const ListCard: React.FC<ListCardProps> = ({ title, tasks, onAddCard, onArrowClick, onMoreClick }) => {
+export const ListCard: React.FC<ListCardProps> = ({
+  title,
+  tasks,
+  onAddCard,
+  onArrowClick,
+  onMoreClick,
+  moveListLeft,
+  moveListRight,
+  canMoveLeft,
+  canMoveRight,
+  onMoveTaskLeft,
+  onMoveTaskRight,
+}) => {
   return (
     <Box
       sx={{
@@ -26,28 +43,39 @@ export const ListCard: React.FC<ListCardProps> = ({ title, tasks, onAddCard, onA
         position: 'relative',
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, padding: 0, }}>
         <Typography variant="h6" color="white" sx={{ marginRight: 2 }}>
           {title}
         </Typography>
 
-        <Box>
-          <CustomIconButton 
-            onClick={onArrowClick} 
-            icon={<SyncAltIcon />} 
-            ariaLabel="Move list"
-          />
+        <Box sx={{ display: 'flex', gap: '4px' }}>
+          {canMoveLeft && (
+            <CustomIconButton
+              onClick={moveListLeft}
+              icon={<ArrowBackIos sx={{ color: 'white' }} />}
+              ariaLabel="Move list left"
+            />
+          )}
 
-          <CustomIconButton 
-            onClick={onMoreClick} 
-            icon={<MoreHorizIcon />} 
-            ariaLabel="More options"
-          />
+          {canMoveRight && (
+            <CustomIconButton
+              onClick={moveListRight}
+              icon={<ArrowForwardIos sx={{ color: 'white' }} />}
+              ariaLabel="Move list right"
+            />
+          )}
         </Box>
       </Box>
 
       {tasks.map((task, index) => (
-        <TaskCard key={index} title={task} />
+        <TaskCard
+          key={task}
+          title={task}
+          moveTaskLeft={() => onMoveTaskLeft(task)}
+          moveTaskRight={() => onMoveTaskRight(task)}
+          canMoveLeft={index > 0}
+          canMoveRight={index < tasks.length - 1}
+        />
       ))}
 
       <AddCardButton onClick={onAddCard} />

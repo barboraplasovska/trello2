@@ -7,20 +7,25 @@ type AddListButtonProps = {
 
 export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
   return (
-    <Button 
-      variant="contained" 
-      color="secondary" 
-      onClick={onClick} 
+    <Button
+      variant="contained"
+      color="secondary"
+      onClick={onClick}
       sx={{
         textTransform: 'none', 
-        marginTop: 2,
         backgroundColor: 'rgba(255, 255, 255, 0.25)', 
         color: 'white',
-        boxShadow: 'none', 
+        boxShadow: 'none',
         '&:hover': {
-          backgroundColor: 'rgba(0, 0, 0, 0.15)', 
+          backgroundColor: 'rgba(0, 0, 0, 0.15)',
           boxShadow: 'none',
         },
+        width: '300px',
+        height: '40px', 
+        paddingLeft: 2, 
+        textAlign: 'left', 
+        display: 'flex', 
+        justifyContent: 'flex-start', 
       }}
     >
       + Add another list

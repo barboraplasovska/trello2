@@ -2,18 +2,22 @@ import React from 'react';
 import { IconButton } from '@mui/material';
 
 type CustomIconButtonProps = {
-  onClick: () => void;
-  icon: React.ReactNode; 
+  onClick?: () => void;
+  icon: React.ReactNode;
   ariaLabel: string;
 };
 
-export const CustomIconButton: React.FC<CustomIconButtonProps> = ({ onClick, icon, ariaLabel }) => {
+export const CustomIconButton: React.FC<CustomIconButtonProps> = ({
+  onClick = () => {}, 
+  icon,
+  ariaLabel,
+}) => {
   return (
     <IconButton
       onClick={onClick}
-      size="small"
       sx={{
         color: 'white',
+        padding: '0px',
         '&:hover': {
           backgroundColor: 'rgba(255, 255, 255, 0.2)',
         },
@@ -29,7 +33,7 @@ export const CustomIconButton: React.FC<CustomIconButtonProps> = ({ onClick, ico
       }}
       aria-label={ariaLabel}
     >
-      {icon}
+      {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 16 } })}
     </IconButton>
   );
 };
