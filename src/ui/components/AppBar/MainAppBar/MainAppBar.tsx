@@ -1,12 +1,12 @@
 import React from 'react';
-import LogoutButton from '../Buttons/LogoutButton/LogoutButton';
+import LogoutButton from '../../Buttons/LogoutButton/LogoutButton';
 
-interface AppBarProps {
+interface MainAppBarProps {
     onLogout: () => void;
     href: string;
 }
 
-const AppBar: React.FC<AppBarProps> = ({ href, onLogout }) => {
+const MainAppBar: React.FC<MainAppBarProps> = ({ href, onLogout }) => {
     return (
         <div style={styles.appBar}>
             <div style={styles.leftItems}>
@@ -47,4 +47,4 @@ const styles = {
     },
 };
 
-export default AppBar;
+export default MainAppBar;

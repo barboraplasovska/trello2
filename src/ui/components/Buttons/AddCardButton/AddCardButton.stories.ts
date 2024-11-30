@@ -1,14 +1,13 @@
 import { fn } from '@storybook/test';
-import AppBar from './AppBar';
+import { AddCardButton } from './AddCardButton';
 
 const ActionData = {
-  onLogout: fn(),
-  href: 'https://google.com',
+    onClick: fn(),
 };
 
 export default {
-  component: AppBar,
-  title: 'Components/AppBar',
+  title: 'Components/Buttons/AddCardButton',
+  component: AddCardButton,
   tags: ['autodocs'],
   args: {
     ...ActionData,

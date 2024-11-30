@@ -30,7 +30,7 @@ function BoardPage(id : string) {
     return (
         <div>
             <Typography>{board.board.name}</Typography>
-            <ColumnList columns={board.columns}/>
+            {/* <ColumnList columns={board.columns}/> */}
         </div>
     )
 }
