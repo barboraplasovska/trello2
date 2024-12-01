@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
-import { ArrowBackIos, ArrowForwardIos, Delete } from '@mui/icons-material';
+import { ArrowBackIos, ArrowForwardIos, Delete, Edit } from '@mui/icons-material';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 
 type TaskCardProps = {
@@ -26,7 +26,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
 }) => {
   const [editingTitle, setEditingTitle] = useState(title);
+  const [, setIsHovered] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isCurrentlyEditing, setIsCurrentlyEditing] = useState(isEditing);
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -35,12 +37,26 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   }, [isEditing]);
 
   const handleEditComplete = () => {
-    const finalTitle = editingTitle.trim() || 'New task'; 
+    const finalTitle = editingTitle.trim() || 'New task';
     setEditingTitle(finalTitle);
+    setIsCurrentlyEditing(false); 
     if (onEditComplete) {
       onEditComplete(finalTitle);
     }
   };
+
+  const handleEditClick = () => {
+    setIsCurrentlyEditing(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  useEffect(() => {
+    if (isCurrentlyEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isCurrentlyEditing]);
 
   return (
     <Box
@@ -53,11 +69,15 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        position: 'relative',
+        '&:hover .task-buttons': { opacity: 1 },
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {isEditing ? (
+      {isCurrentlyEditing ? (
         <TextField
-          inputRef={inputRef} // Focus on this input
+          inputRef={inputRef}
           fullWidth
           variant="standard"
           value={editingTitle}
@@ -75,10 +95,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         </Typography>
       )}
 
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box
+        className="task-buttons"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          opacity: 0,
+          transition: 'opacity 0.3s ease',
+        }}
+      >
         {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" />}
         {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" />}
         <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" />
+        <CustomIconButton onClick={handleEditClick} icon={<Edit />} ariaLabel="Edit task" />
       </Box>
     </Box>
   );
