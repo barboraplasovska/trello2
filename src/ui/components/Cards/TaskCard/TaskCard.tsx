@@ -1,11 +1,13 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import { Box, TextField, Typography } from '@mui/material';
 import { ArrowBackIos, ArrowForwardIos, Delete } from '@mui/icons-material';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 
 type TaskCardProps = {
   title: string;
+  isEditing?: boolean;
   onClick?: () => void;
+  onEditComplete?: (newTitle: string) => void;
   moveTaskLeft?: () => void;
   moveTaskRight?: () => void;
   canMoveLeft: boolean;
@@ -15,13 +17,31 @@ type TaskCardProps = {
 
 export const TaskCard: React.FC<TaskCardProps> = ({
   title,
-  onClick,
+  isEditing = false,
+  onEditComplete,
   moveTaskLeft,
   moveTaskRight,
   canMoveLeft,
   canMoveRight,
-  onDelete, 
+  onDelete,
 }) => {
+  const [editingTitle, setEditingTitle] = useState(title);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  const handleEditComplete = () => {
+    const finalTitle = editingTitle.trim() || 'New task'; 
+    setEditingTitle(finalTitle);
+    if (onEditComplete) {
+      onEditComplete(finalTitle);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -30,41 +50,35 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         borderRadius: 2,
         paddingY: 1,
         paddingX: 2,
-        margin: 1,
-        cursor: onClick ? 'pointer' : 'default',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        minHeight: '30px',
-        textAlign: 'left',
-        position: 'relative',
+        justifyContent: 'space-between',
       }}
     >
-      <Typography variant="body1" sx={{ flexGrow: 1 }}>
-        {title}
-      </Typography>
+      {isEditing ? (
+        <TextField
+          inputRef={inputRef} // Focus on this input
+          fullWidth
+          variant="standard"
+          value={editingTitle}
+          onChange={(e) => setEditingTitle(e.target.value)}
+          onBlur={handleEditComplete}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleEditComplete();
+          }}
+          placeholder="Enter a task"
+          sx={{ input: { color: 'white' } }}
+        />
+      ) : (
+        <Typography variant="body1" sx={{ flexGrow: 1 }}>
+          {title}
+        </Typography>
+      )}
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {canMoveLeft && (
-          <CustomIconButton 
-            onClick={moveTaskLeft} 
-            icon={<ArrowBackIos />} 
-            ariaLabel="Move task left"
-          />
-        )}
-        {canMoveRight && (
-          <CustomIconButton 
-            onClick={moveTaskRight} 
-            icon={<ArrowForwardIos />} 
-            ariaLabel="Move task right"
-          />
-        )}
-        <CustomIconButton 
-          onClick={onDelete} 
-          icon={<Delete />} 
-          ariaLabel="Delete task" 
-          sx={{ marginLeft: 2 }}
-        />
+        {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" />}
+        {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" />}
+        <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" />
       </Box>
     </Box>
   );

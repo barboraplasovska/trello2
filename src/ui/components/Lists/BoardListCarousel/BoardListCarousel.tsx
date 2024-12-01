@@ -8,27 +8,27 @@ type BoardListCarouselProps = {
 };
 
 export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) => {
-  const [listData, setListData] = useState(lists);
 
-  // Move the list to the left
+  const [listData, setListData] = useState(lists);
+  const [editingTask, setEditingTask] = useState<{ listIndex: number; taskIndex: number } | null>(null);
+
+
   const moveListLeft = (index: number) => {
-    if (index === 0) return; // If it's the first list, we can't move it left
+    if (index === 0) return; 
     const newListData = [...listData];
     const [movedList] = newListData.splice(index, 1);
     newListData.splice(index - 1, 0, movedList);
     setListData(newListData);
   };
 
-  // Move the list to the right
   const moveListRight = (index: number) => {
-    if (index === listData.length - 1) return; // If it's the last list, we can't move it right
+    if (index === listData.length - 1) return; 
     const newListData = [...listData];
     const [movedList] = newListData.splice(index, 1);
     newListData.splice(index + 1, 0, movedList);
     setListData(newListData);
   };
 
-  // Move the task to the left in a list
   const moveTaskLeft = (listIndex: number, task: string) => {
     if (listIndex === 0) return;
     const newListData = [...listData];
@@ -41,7 +41,6 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     }
   };
 
-  // Move the task to the right in a list
   const moveTaskRight = (listIndex: number, task: string) => {
     if (listIndex === listData.length - 1) return;
     const newListData = [...listData];
@@ -54,14 +53,12 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     }
   };
 
-  // Handle list deletion
   const handleDeleteList = (listIndex: number) => {
     const newListData = [...listData];
     newListData.splice(listIndex, 1);
     setListData(newListData);
   };
 
-  // Handle task deletion
   const handleDeleteTask = (listIndex: number, task: string) => {
     const newListData = [...listData];
     const sourceList = newListData[listIndex];
@@ -72,9 +69,30 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     }
   };
 
-  // Handle adding a card (this is just a placeholder)
-  const handleAddCard = () => {
-    console.log('Add card clicked');
+  const handleAddCard = (listIndex: number) => {
+    const newListData = [...listData];
+    const newTask = '';
+    newListData[listIndex].tasks.push(newTask);
+    setListData(newListData);
+
+    setEditingTask({ listIndex, taskIndex: newListData[listIndex].tasks.length - 1 });
+  };
+
+  const handleUpdateTask = (listIndex: number, taskIndex: number, newTitle: string) => {
+    const newListData = [...listData];
+    newListData[listIndex].tasks[taskIndex] = newTitle;
+    setListData(newListData);
+
+    setEditingTask(null);
+  };
+
+  const handleAddList = () => {
+    const newList = {
+      id: `list-${listData.length + 1}`,
+      title: `List ${listData.length + 1}`,
+      tasks: [],
+    };
+    setListData([...listData, newList]);
   };
 
   return (
@@ -92,10 +110,14 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
           onMoveTaskRight={(task) => moveTaskRight(index, task)}
           onDelete={() => handleDeleteList(index)} 
           onDeleteTask={(task) => handleDeleteTask(index, task)} 
-          onAddCard={handleAddCard}
+          onAddCard={() => handleAddCard(index)}
+          onUpdateTask={(taskIndex, newTitle) =>
+            handleUpdateTask(index, taskIndex, newTitle)
+          }
+          editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}
         />
       ))}
-      <AddListButton onClick={handleAddCard} />
+      <AddListButton onClick={handleAddList} />
     </Box>
   );
 };
