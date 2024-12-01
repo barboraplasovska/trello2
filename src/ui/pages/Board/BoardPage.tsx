@@ -5,6 +5,7 @@ import { getBoardById } from '../../../core/services/BoardService';
 import { Typography } from '@mui/material';
 import ColumnList from '../../components/Board/ColumnList';
 import {useParams} from "react-router-dom";
+import {BoardListCarousel} from "../../components/Lists/BoardListCarousel/BoardListCarousel";
 
 const defaultBoard : BoardDto = {
     board: {

@@ -23,7 +23,7 @@ function App() {
               <HomePage />
             </HomeLayout>
           } />
-          <Route path="/boards/:id" element={
+          <Route path="/board/:id" element={
             <HomeLayout>
               <BoardPage />
             </HomeLayout>
