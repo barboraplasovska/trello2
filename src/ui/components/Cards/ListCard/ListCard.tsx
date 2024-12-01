@@ -1,36 +1,36 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { ArrowBackIos, ArrowForwardIos, Delete } from '@mui/icons-material';
+import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton'; // Import the CustomIconButton
 import { TaskCard } from '../TaskCard/TaskCard';
 import { AddCardButton } from '../../Buttons/AddCardButton/AddCardButton';
-import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 
 type ListCardProps = {
   title: string;
   tasks: string[];
   onAddCard: () => void;
-  onArrowClick: () => void;
-  onMoreClick: () => void;
   moveListLeft?: () => void;
   moveListRight?: () => void;
   canMoveLeft: boolean;
   canMoveRight: boolean;
   onMoveTaskLeft: (task: string) => void;
   onMoveTaskRight: (task: string) => void;
+  onDelete: () => void; 
+  onDeleteTask: (task: string) => void; 
 };
 
 export const ListCard: React.FC<ListCardProps> = ({
   title,
   tasks,
   onAddCard,
-  onArrowClick,
-  onMoreClick,
   moveListLeft,
   moveListRight,
   canMoveLeft,
   canMoveRight,
   onMoveTaskLeft,
   onMoveTaskRight,
+  onDelete,
+  onDeleteTask,
 }) => {
   return (
     <Box
@@ -38,32 +38,39 @@ export const ListCard: React.FC<ListCardProps> = ({
         backgroundColor: '#1E2125',
         padding: 2,
         borderRadius: 2,
-        width: 300,
+        width: 800,
         marginRight: 2,
         position: 'relative',
       }}
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2, padding: 0, }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
         <Typography variant="h6" color="white" sx={{ marginRight: 2 }}>
           {title}
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: '4px' }}>
+        <Box>
           {canMoveLeft && (
-            <CustomIconButton
-              onClick={moveListLeft}
-              icon={<ArrowBackIos sx={{ color: 'white' }} />}
+            <CustomIconButton 
+              onClick={moveListLeft} 
+              icon={<ArrowBackIos />} 
               ariaLabel="Move list left"
             />
           )}
 
           {canMoveRight && (
-            <CustomIconButton
-              onClick={moveListRight}
-              icon={<ArrowForwardIos sx={{ color: 'white' }} />}
+            <CustomIconButton 
+              onClick={moveListRight} 
+              icon={<ArrowForwardIos />} 
               ariaLabel="Move list right"
             />
           )}
+          
+          <CustomIconButton 
+            onClick={onDelete} 
+            icon={<Delete />} 
+            ariaLabel="Delete list" 
+            sx={{ marginLeft: 2 }}
+          />
         </Box>
       </Box>
 
@@ -73,8 +80,9 @@ export const ListCard: React.FC<ListCardProps> = ({
           title={task}
           moveTaskLeft={() => onMoveTaskLeft(task)}
           moveTaskRight={() => onMoveTaskRight(task)}
-          canMoveLeft={index > 0}
-          canMoveRight={index < tasks.length - 1}
+          canMoveLeft={canMoveLeft}
+          canMoveRight={canMoveRight}
+          onDelete={() => onDeleteTask(task)}
         />
       ))}
 

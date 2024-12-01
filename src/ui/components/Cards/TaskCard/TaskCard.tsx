@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { ArrowBackIos, ArrowForwardIos, Delete } from '@mui/icons-material';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 
 type TaskCardProps = {
@@ -10,6 +10,7 @@ type TaskCardProps = {
   moveTaskRight?: () => void;
   canMoveLeft: boolean;
   canMoveRight: boolean;
+  onDelete: () => void;
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -19,6 +20,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   moveTaskRight,
   canMoveLeft,
   canMoveRight,
+  onDelete, 
 }) => {
   return (
     <Box
@@ -33,7 +35,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        minHeight: '20px',
+        minHeight: '30px',
         textAlign: 'left',
         position: 'relative',
       }}
@@ -44,19 +46,25 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {canMoveLeft && (
-          <CustomIconButton
-            onClick={moveTaskLeft}
-            icon={<ArrowBackIos />}
-            ariaLabel="Move Task Left"
+          <CustomIconButton 
+            onClick={moveTaskLeft} 
+            icon={<ArrowBackIos />} 
+            ariaLabel="Move task left"
           />
         )}
         {canMoveRight && (
-          <CustomIconButton
-            onClick={moveTaskRight}
-            icon={<ArrowForwardIos />}
-            ariaLabel="Move Task Right"
+          <CustomIconButton 
+            onClick={moveTaskRight} 
+            icon={<ArrowForwardIos />} 
+            ariaLabel="Move task right"
           />
         )}
+        <CustomIconButton 
+          onClick={onDelete} 
+          icon={<Delete />} 
+          ariaLabel="Delete task" 
+          sx={{ marginLeft: 2 }}
+        />
       </Box>
     </Box>
   );

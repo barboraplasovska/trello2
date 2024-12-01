@@ -20,7 +20,7 @@ export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
           backgroundColor: 'rgba(0, 0, 0, 0.15)',
           boxShadow: 'none',
         },
-        width: '300px',
+        width: '800px',
         height: '40px', 
         paddingLeft: 2, 
         textAlign: 'left', 

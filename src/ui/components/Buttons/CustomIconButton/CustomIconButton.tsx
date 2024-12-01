@@ -5,12 +5,14 @@ type CustomIconButtonProps = {
   onClick?: () => void;
   icon: React.ReactNode;
   ariaLabel: string;
+  sx?: object;
 };
 
 export const CustomIconButton: React.FC<CustomIconButtonProps> = ({
   onClick = () => {}, 
   icon,
   ariaLabel,
+  sx,
 }) => {
   return (
     <IconButton
@@ -33,7 +35,7 @@ export const CustomIconButton: React.FC<CustomIconButtonProps> = ({
       }}
       aria-label={ariaLabel}
     >
-      {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 16 } })}
+      {React.cloneElement(icon as React.ReactElement, { sx: { fontSize: 16, ...sx } })}
     </IconButton>
   );
 };

@@ -1,5 +1,5 @@
 import { fn } from '@storybook/test';
-import { ListCarousel } from './ListCarousel';
+import { BoardListCarousel } from './BoardListCarousel';
 
 const lists = [
   { id: '1', title: 'To Do', tasks: ['Task 1', 'Task 2', 'Task 3'] },
@@ -12,8 +12,8 @@ const ActionData = {
 };
 
 export default {
-  title: 'Components/Lists/ListCarousel',
-  component: ListCarousel,
+  title: 'Components/Lists/BoardListCarousel',
+  component: BoardListCarousel,
   tags: ['autodocs'],
   args: {
     lists,

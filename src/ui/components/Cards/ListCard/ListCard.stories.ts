@@ -9,6 +9,8 @@ const ActionData = {
   moveListRight: fn(),
   onMoveTaskLeft: fn(),
   onMoveTaskRight: fn(),
+  onDelete: fn(),
+  onDeleteTask: fn(),
 };
 
 export default {
