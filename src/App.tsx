@@ -26,7 +26,11 @@ function App() {
               <HomePage />
             </HomeLayout>
           } />
-          <Route path="/board/:id" element={ <BoardPage /> } />
+          <Route path="/board/:id" element={
+            <HomeLayout>
+              <BoardPage />
+            </HomeLayout>
+          } />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
