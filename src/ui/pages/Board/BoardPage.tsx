@@ -9,7 +9,7 @@ import {BoardListCarousel} from "../../components/Lists/BoardListCarousel/BoardL
 
 const defaultBoard : BoardDto = {
     board: {
-        name: 'defaultBoard',
+        name: '',
         id: '',
         version: 0,
         createdAt: '',
@@ -33,7 +33,7 @@ function BoardPage() {
     return (
         <div>
             <Typography>{board.board.name}</Typography>
-            {/* <ColumnList columns={board.columns}/> */}
+            {/* <BoardListCarousel lists={convertedColumns}/> */}
         </div>
     )
 }

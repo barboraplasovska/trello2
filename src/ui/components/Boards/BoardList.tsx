@@ -11,10 +11,6 @@ interface BoardListProps {
 }
 
 const BoardList: React.FC<BoardListProps> = ({ boards }) => {
-  const handleClick = (id: string) => {
-    console.log("Clicked on board with id:", id);
-  }
-
   const createBoardClick = () => {
     console.log("Create Board Button Clicked");
     createBoard("New Board");
@@ -26,10 +22,8 @@ const BoardList: React.FC<BoardListProps> = ({ boards }) => {
             <div key={board.id} style={styles.boardCardWrapper}>
               <Link to={`/board/${board.id}`} style={styles.link}>
                 <BoardCard
-                    id={board.id}
                     title={board.name}
                     color={"#000000"}
-                    onClick={handleClick}
                 />
               </Link>
             </div>
