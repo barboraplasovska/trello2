@@ -8,7 +8,17 @@ const lists = [
 ];
 
 const ActionData = {
-  onDragEnd: fn(),
+  onMoveListLeft: fn(),
+  onMoveListRight: fn(),
+  onMoveTaskLeft: fn(),
+  onMoveTaskRight: fn(),
+  onDeleteList: fn(),
+  onDeleteTask: fn(),
+  onAddCard: fn(),
+  onUpdateTask: fn(),
+  onUpdateListTitle: fn(),
+  onAddList: fn(),
+  onCancelAddList: fn(),
 };
 
 export default {
@@ -17,7 +27,7 @@ export default {
   tags: ['autodocs'],
   args: {
     lists,
-    onDragEnd: ActionData.onDragEnd,
+    ...ActionData,
   },
 };
 
