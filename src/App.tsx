@@ -7,6 +7,7 @@ import Root from './ui/pages/Root';
 import HomeLayout from './ui/components/Layouts/HomeLayout';
 import Login from './ui/pages/Login';
 import Signup from './ui/pages/Signup';
+import BoardPage from "./ui/pages/Board/BoardPage";
 
 function App() {
   return (
@@ -22,7 +23,11 @@ function App() {
               <HomePage />
             </HomeLayout>
           } />
-          {/* <Route path="/boards/:id" element= { <Board/> } /> */}
+          <Route path="/boards/:id" element={
+            <HomeLayout>
+              <BoardPage />
+            </HomeLayout>
+          } />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

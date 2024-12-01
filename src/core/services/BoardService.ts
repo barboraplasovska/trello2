@@ -38,7 +38,7 @@ export const createBoard = async (name: string): Promise<Board> => {
     }
 };
 
-export const getBoardById = async (id: string): Promise<BoardDto> => {
+export const getBoardById = async (id: string | undefined): Promise<BoardDto> => {
     try {
         const response = await axios.get<BoardDto>(`${KANBAN_API_URL}/boards/${id}`, {
             headers: {

@@ -24,7 +24,7 @@ const BoardList: React.FC<BoardListProps> = ({ boards }) => {
       <div style={styles.boardList}>
         {boards.map((board) => (
             <div key={board.id} style={styles.boardCardWrapper}>
-              <Link to={`/board/${board.id}`} style={styles.link}>
+              <Link to={`/boards/${board.id}`} style={styles.link}>
                 <BoardCard
                     id={board.id}
                     title={board.name}

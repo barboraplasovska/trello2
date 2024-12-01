@@ -4,6 +4,7 @@ import { BoardDto } from '../../../core/models/BoardDto';
 import { getBoardById } from '../../../core/services/BoardService';
 import { Typography } from '@mui/material';
 import ColumnList from '../../components/Board/ColumnList';
+import {useParams} from "react-router-dom";
 
 const defaultBoard : BoardDto = {
     board: {
@@ -17,7 +18,8 @@ const defaultBoard : BoardDto = {
     columns: []
 }
 
-function BoardPage(id : string) {
+function BoardPage() {
+    const { id } = useParams<{ id: string }>();
     const [board, setBoard] = useState<BoardDto>(defaultBoard);
 
     useEffect(() => {
