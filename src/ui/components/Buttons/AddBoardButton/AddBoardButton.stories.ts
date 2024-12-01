@@ -1,13 +1,13 @@
 import { fn } from '@storybook/test';
-import CreateBoardButton from './CreateBoardButton';
+import AddBoardButton from './AddBoardButton';
 
 const ActionData = {
     onClick: fn(),
 };
 
 export default {
-    component: CreateBoardButton,
-    title: 'Components/Buttons/CreateBoardButton',
+    component: AddBoardButton,
+    title: 'Components/Buttons/AddBoardButton',
     tags: ['autodocs'],
     args: {
         ...ActionData,

@@ -11,9 +11,9 @@ const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
     return (
         <Box
             sx={{
-                width: 200,
-                height: 120,
-                borderRadius: 1,
+                width: 300,
+                height: 220,
+                borderRadius: 3,
                 display: 'flex',
                 justifyContent: 'leading',
                 alignItems: 'leading',
@@ -31,7 +31,7 @@ const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
             }}
             onClick={onClick}
         >
-            <Typography>{title}</Typography>
+            <Typography sx={{ padding: 2 }}>{title}</Typography>
         </Box>
     );
 };

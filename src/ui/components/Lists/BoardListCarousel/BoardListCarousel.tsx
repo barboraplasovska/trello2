@@ -154,7 +154,11 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', overflowX: 'auto', padding: 2 }}>
+    <Box sx={{ 
+        display: 'flex', 
+        overflowX: 'auto', 
+        padding: 2 
+      }}>
       {listData.map((list, index) => (
         <ListCard
           key={list.id}

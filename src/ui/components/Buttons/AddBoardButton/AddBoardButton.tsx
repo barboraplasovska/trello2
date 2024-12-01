@@ -1,17 +1,17 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-interface CreateBoardButtonProps {
+interface AddBoardButtonProps {
     onClick: () => void;
 }
 
-const CreateBoardButton: React.FC<CreateBoardButtonProps> = ({ onClick }) => {
+const AddBoardButton: React.FC<AddBoardButtonProps> = ({ onClick }) => {
     return (
         <Box
             sx={{
-                width: 200,
-                height: 120,
-                borderRadius: 1,
+                width: 300,
+                height: 220,
+                borderRadius: 3,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -34,4 +34,4 @@ const CreateBoardButton: React.FC<CreateBoardButtonProps> = ({ onClick }) => {
     );
 };
 
-export default CreateBoardButton;
+export default AddBoardButton;
