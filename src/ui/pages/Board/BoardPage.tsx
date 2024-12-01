@@ -28,7 +28,7 @@ function BoardPage() {
             await getBoardById(id).then((res) => { setBoard(res)})
         }
         fetchBoard();
-    }, [board])
+    }, [id])
 
     return (
         <div>
