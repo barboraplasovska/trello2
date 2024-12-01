@@ -3,14 +3,11 @@ import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import '../../styles/Navbar.css';
 import useAuthStore from '../../../core/stores/userStore';
 import {useNavigate} from "react-router-dom";
+import {createBoard} from "../../../core/services/BoardService";
 
 function HomeNavBar()
 {
     const navigate = useNavigate();
-
-    const createBoard = () => {
-        console.log("Create Board Button Clicked");
-    }
 
     const logOut = () => {
         useAuthStore.getState().logout();
@@ -32,7 +29,6 @@ function HomeNavBar()
                     <Typography variant="h6">Trello 2</Typography>
                 </Box>
                 <Box>
-                    <Button variant="contained" color="primary" onClick={createBoard}>Create</Button>
                     <Button color="inherit" onClick={logOut}>Log out</Button>
                 </Box>
             </Toolbar>

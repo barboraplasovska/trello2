@@ -1,16 +1,16 @@
 import React from 'react';
 
 interface BoardCardProps {
+    id: string;
     title: string;
     color: string;
-    onClick: () => void;
+    onClick: (id: string) => void;
 }
 
-const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
+const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick, id }) => {
     return (
         <div
             style={{ ...styles.board, backgroundColor: color }}
-            onClick={onClick}
         >
             {title}
         </div>
