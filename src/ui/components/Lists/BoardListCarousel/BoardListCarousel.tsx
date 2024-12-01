@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { ListCard } from '../../Cards/ListCard/ListCard';
 import { AddListButton } from '../../Buttons/AddListButton/AddListButton';
+import { NewListCard } from '../../Cards/NewListCard/NewListCard';
 
 type BoardListCarouselProps = {
   lists: { id: string; title: string; tasks: string[] }[];
@@ -11,7 +12,7 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
 
   const [listData, setListData] = useState(lists);
   const [editingTask, setEditingTask] = useState<{ listIndex: number; taskIndex: number } | null>(null);
-
+  const [isAddingList, setIsAddingList] = useState(false); 
 
   const moveListLeft = (index: number) => {
     if (index === 0) return; 
@@ -86,13 +87,18 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     setEditingTask(null);
   };
 
-  const handleAddList = () => {
+  const handleAddList = (title: string) => {
     const newList = {
       id: `list-${listData.length + 1}`,
-      title: `List ${listData.length + 1}`,
+      title,
       tasks: [],
     };
     setListData([...listData, newList]);
+    setIsAddingList(false); 
+  };
+
+  const handleCancelAddList = () => {
+    setIsAddingList(false);  
   };
 
   return (
@@ -117,7 +123,11 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
           editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}
         />
       ))}
-      <AddListButton onClick={handleAddList} />
+      {isAddingList ? (
+        <NewListCard onAddList={handleAddList} onCancel={handleCancelAddList} />
+      ) : (
+        <AddListButton onClick={() => setIsAddingList(true)} />
+      )}
     </Box>
   );
 };

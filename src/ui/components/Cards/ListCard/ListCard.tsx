@@ -44,7 +44,7 @@ export const ListCard: React.FC<ListCardProps> = ({
         backgroundColor: '#1E2125',
         padding: 2,
         borderRadius: 2,
-        width: 800,
+        width: 300,
         marginRight: 2,
         position: 'relative',
         display: 'flex',
@@ -54,7 +54,7 @@ export const ListCard: React.FC<ListCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)} 
     >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 0.5 }}>
         <Typography variant="h6" color="white" sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {title}
         </Typography>
@@ -73,7 +73,7 @@ export const ListCard: React.FC<ListCardProps> = ({
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      {tasks.length > 0 && <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {tasks.map((task, index) => (
           <TaskCard
             key={`${task}-${index}`}
@@ -88,6 +88,7 @@ export const ListCard: React.FC<ListCardProps> = ({
           />
         ))}
       </Box>
+      }
 
       <AddCardButton onClick={onAddCard} />
     </Box>
