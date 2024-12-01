@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Typography } from '@mui/material';
 
 interface BoardCardProps {
     title: string;
@@ -8,31 +9,31 @@ interface BoardCardProps {
 
 const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
     return (
-        <div
-            style={{ ...styles.board, backgroundColor: color }}
+        <Box
+            sx={{
+                width: 200,
+                height: 120,
+                borderRadius: 1,
+                display: 'flex',
+                justifyContent: 'leading',
+                alignItems: 'leading',
+                color: '#fff',
+                fontWeight: 'bold',
+                fontSize: '25px',
+                fontFamily: 'Arial, sans-serif',
+                cursor: 'pointer',
+                margin: 1,
+                padding: 1,
+                backgroundColor: color,
+                '&:hover': {
+                    boxShadow: 3,
+                },
+            }}
             onClick={onClick}
         >
-            {title}
-        </div>
+            <Typography>{title}</Typography>
+        </Box>
     );
-};
-
-const styles = {
-    board: {
-        width: '200px',
-        height: '120px',
-        borderRadius: '8px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#ffffff',
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        margin: '10px',
-        padding: '10px',
-    },
 };
 
 export default BoardCard;
