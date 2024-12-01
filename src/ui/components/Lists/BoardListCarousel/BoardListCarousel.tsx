@@ -6,9 +6,33 @@ import { NewListCard } from '../../Cards/NewListCard/NewListCard';
 
 type BoardListCarouselProps = {
   lists: { id: string; title: string; tasks: string[] }[];
+  onMoveListLeft: (index: number) => void;
+  onMoveListRight: (index: number) => void;
+  onMoveTaskLeft: (listIndex: number, task: string) => void;
+  onMoveTaskRight: (listIndex: number, task: string) => void;
+  onDeleteList: (listIndex: number) => void;
+  onDeleteTask: (listIndex: number, task: string) => void;
+  onAddCard: (listIndex: number) => void;
+  onUpdateTask: (listIndex: number, taskIndex: number, newTitle: string) => void;
+  onUpdateListTitle: (listIndex: number, newTitle: string) => void;
+  onCancelAddList: () => void;
+  onAddList: (title: string) => void;
 };
 
-export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) => {
+export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ 
+  lists,
+  onMoveListLeft,
+  onMoveListRight,
+  onMoveTaskLeft,
+  onMoveTaskRight,
+  onDeleteList,
+  onDeleteTask,
+  onAddCard,
+  onUpdateTask,
+  onUpdateListTitle,
+  onCancelAddList,
+  onAddList,
+}) => {
 
   const [listData, setListData] = useState(lists);
   const [editingTask, setEditingTask] = useState<{ listIndex: number; taskIndex: number } | null>(null);
@@ -20,6 +44,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     const [movedList] = newListData.splice(index, 1);
     newListData.splice(index - 1, 0, movedList);
     setListData(newListData);
+
+    onMoveListLeft(index);
   };
 
   const moveListRight = (index: number) => {
@@ -28,6 +54,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     const [movedList] = newListData.splice(index, 1);
     newListData.splice(index + 1, 0, movedList);
     setListData(newListData);
+
+    onMoveListRight(index);
   };
 
   const moveTaskLeft = (listIndex: number, task: string) => {
@@ -39,6 +67,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
       sourceList.tasks.splice(taskIndex, 1);
       newListData[listIndex - 1].tasks.push(task);
       setListData(newListData);
+
+      onMoveTaskLeft(listIndex, task);
     }
   };
 
@@ -51,6 +81,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
       sourceList.tasks.splice(taskIndex, 1);
       newListData[listIndex + 1].tasks.push(task);
       setListData(newListData);
+
+      onMoveTaskRight(listIndex, task);
     }
   };
 
@@ -58,6 +90,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     const newListData = [...listData];
     newListData.splice(listIndex, 1);
     setListData(newListData);
+
+    onDeleteList(listIndex);
   };
 
   const handleDeleteTask = (listIndex: number, task: string) => {
@@ -67,6 +101,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     if (taskIndex > -1) {
       sourceList.tasks.splice(taskIndex, 1);
       setListData(newListData);
+
+      onDeleteTask(listIndex, task);
     }
   };
 
@@ -77,6 +113,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     setListData(newListData);
 
     setEditingTask({ listIndex, taskIndex: newListData[listIndex].tasks.length - 1 });
+
+    onAddCard(listIndex);
   };
 
   const handleUpdateTask = (listIndex: number, taskIndex: number, newTitle: string) => {
@@ -85,6 +123,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     setListData(newListData);
 
     setEditingTask(null);
+
+    onUpdateTask(listIndex, taskIndex, newTitle);
   };
 
   const handleAddList = (title: string) => {
@@ -95,10 +135,22 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     };
     setListData([...listData, newList]);
     setIsAddingList(false); 
+
+    onAddList(title);
   };
 
   const handleCancelAddList = () => {
     setIsAddingList(false);  
+
+    onCancelAddList();
+  };
+
+  const handleUpdateListTitle = (listIndex: number, newTitle: string) => {
+    const newListData = [...listData];
+    newListData[listIndex].title = newTitle;
+    setListData(newListData);
+
+    onUpdateListTitle(listIndex, newTitle);
   };
 
   return (
@@ -121,6 +173,7 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
             handleUpdateTask(index, taskIndex, newTitle)
           }
           editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}
+          onUpdateListTitle={(newTitle) => handleUpdateListTitle(index, newTitle)}
         />
       ))}
       {isAddingList ? (
