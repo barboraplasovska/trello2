@@ -18,10 +18,10 @@ function HomePage() {
   }
 
   return (
-    <div>
-      <h1>My Boards</h1>
-      <BoardList boards={boards} />
-    </div>
+      <div>
+        <h1>My Boards</h1>
+        <BoardList boards={boards}/>
+      </div>
   );
 }
 

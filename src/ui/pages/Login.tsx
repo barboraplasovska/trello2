@@ -1,55 +1,57 @@
-import React, { useState } from "react";
-import { Button, Stack, TextField, ThemeProvider } from "@mui/material";
-import { LoginTheme } from '../styles/LoginStyle';
-import { login } from "../../core/services/LoginService";
-import { LoginRequest } from "../../core/models/LoginRequest";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import LoginCard from "../components/Forms/LoginCard/LoginCard";
 
 export default function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-
-    const navigate = useNavigate();
-
-    const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
-    }
-
-    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    }
-
-    const handleSubmit = async () => {
-    
-        if (!username || !password) {
-          setError('Please fill in all fields');
-          return;
-        }
-        
-        let loginRequest : LoginRequest = {
-            username: username,
-            password: password
-        }
-
-        await login(loginRequest).then(() => {
-            console.log("Success")
-            navigate("/")}).catch((err) => alert(err))
-        console.log('Username:', username);
-        console.log('Password:', password);
-        setError('');
-      };
-    
-    return (
-        <ThemeProvider theme={LoginTheme}>
-            <Stack direction="column">
-                <label>Username</label>
-                <TextField required className="custom-field" placeholder="Enter your username..." onChange={onUsernameChange}/>
-                <label>Password</label>
-                <TextField required className="custom-field" type="password" placeholder="Enter your password..." onChange={onPasswordChange}/>
-                <Button className="login-button" onClick={handleSubmit}>Login</Button>
-                <span>You don't have an account?</span> <Link to={"/signup"}>Create an account</Link>
-            </Stack>
-        </ThemeProvider>
-    )
+  return (
+      <div style={styles.container}>
+        <div style={styles.textContainer}>
+          <span style={styles.welcomeText}>Welcome to</span>
+          <span style={styles.appName}>Trello2</span>
+          <div style={styles.subtitle}>
+            the app that lets you organize yourself Kanban style
+          </div>
+        </div>
+        <LoginCard />
+      </div>
+  );
 }
+
+const styles = {
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    width: "100%",
+    backgroundColor: "#1D2125",
+  },
+  textContainer: {
+    marginBottom: "20px",
+  },
+  welcomeText: {
+    fontFamily: "Gill Sans Ultra Bold Condensed",
+    fontSize: "33px",
+    fontWeight: 400,
+    color: "#FFFFFF",
+  },
+  appName: {
+    fontFamily: "Luckiest Guy",
+    fontSize: "100px",
+    fontWeight: 400,
+    color: "#FFFFFF",
+  },
+  subtitle: {
+    fontFamily: "Gill Sans Nova",
+    fontSize: "30px",
+    fontWeight: 300,
+    marginTop: "10px",
+    color: "#FFFFFF",
+  },
+  cardContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+};
+
