@@ -23,6 +23,7 @@ export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
         width: '300px',
         height: '40px', 
         paddingLeft: 2, 
+        borderRadius: 2,
         textAlign: 'left', 
         display: 'flex', 
         justifyContent: 'flex-start', 

@@ -91,7 +91,7 @@ export const ListCard: React.FC<ListCardProps> = ({
             fullWidth
             sx={{
               backgroundColor: '#292D33',
-              borderRadius: 1,
+              borderRadius: 2,
               input: { color: 'white' },
               marginBottom: 1,
             }}

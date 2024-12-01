@@ -54,7 +54,7 @@ const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCa
                 disabled={isSubmitting}
                 sx={{
                     backgroundColor: '#fff',
-                    borderRadius: 1,
+                    borderRadius: 2,
                     width: '100%',
                     marginBottom: 1,
                     marginTop: 3,
@@ -106,7 +106,7 @@ const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCa
                 >
                     Add board
                 </Button>
-                <CustomIconButton onClick={onCancel} icon={<Close />} ariaLabel="Cancel" />
+                <CustomIconButton onClick={onCancel} icon={<Close />} ariaLabel="Cancel" paddingNb={10}/>
             </Box>
         </Box>
     );

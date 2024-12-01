@@ -45,7 +45,6 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 flexWrap: 'wrap',
                 justifyContent: 'flex-start',
                 padding: 2,
-                borderRadius: 1,
             }}
         >
             {localBoards.map((board) => (
