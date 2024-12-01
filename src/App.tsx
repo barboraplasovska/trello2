@@ -6,8 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Root from './ui/pages/Root';
 import HomeLayout from './ui/components/Layouts/HomeLayout';
 import BoardPage from "./ui/pages/Board/BoardPage";
-import LoginLayout from "./ui/components/Layouts/LoginLayout";
 import Login from "./ui/pages/Login";
+import LoginLayout from "./ui/components/Layouts/LoginLayout";
 
 function App() {
   return (
