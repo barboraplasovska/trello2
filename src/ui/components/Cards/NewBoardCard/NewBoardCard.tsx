@@ -53,6 +53,7 @@ const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCa
                 size="small"
                 disabled={isSubmitting}
                 sx={{
+                    input: { color: 'white' },
                     backgroundColor: '#292D33',
                     borderRadius: 2,
                     width: '100%',
