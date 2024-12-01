@@ -16,6 +16,7 @@ export default {
     icon: React.createElement(SyncAltIcon),
     ariaLabel: 'Move list',
     tooltip: 'Move list',
+    paddingNb: 5,
     ...ActionData, 
   },
 };

@@ -1,13 +1,11 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-interface BoardCardProps {
-    title: string;
-    color: string;
+interface AddBoardButtonProps {
     onClick: () => void;
 }
 
-const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
+const AddBoardButton: React.FC<AddBoardButtonProps> = ({ onClick }) => {
     return (
         <Box
             sx={{
@@ -15,25 +13,25 @@ const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
                 height: 220,
                 borderRadius: 3,
                 display: 'flex',
-                justifyContent: 'leading',
-                alignItems: 'leading',
+                justifyContent: 'center',
+                alignItems: 'center',
                 color: '#fff',
                 fontWeight: 'bold',
-                fontSize: '25px',
+                fontSize: 16,
                 fontFamily: 'Arial, sans-serif',
                 cursor: 'pointer',
                 margin: 1,
                 padding: 1,
-                backgroundColor: color,
+                backgroundColor: '#292D33',
                 '&:hover': {
                     boxShadow: 3,
                 },
             }}
             onClick={onClick}
         >
-            <Typography sx={{ padding: 2 }}>{title}</Typography>
+            <Typography>Create new board</Typography>
         </Box>
     );
 };
 
-export default BoardCard;
+export default AddBoardButton;

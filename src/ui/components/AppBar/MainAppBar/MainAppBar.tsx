@@ -20,7 +20,8 @@ const MainAppBar: React.FC<MainAppBarProps> = ({ href, onLogout }) => {
 
 const styles = {
     appBar: {
-        backgroundColor: '#2c3e50',
+        backgroundColor: '#1E2125',
+        borderBottom: '4px solid #292D33',
         padding: '10px 20px',
         display: 'flex',
         justifyContent: 'space-between',

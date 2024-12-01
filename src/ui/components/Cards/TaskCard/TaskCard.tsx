@@ -87,7 +87,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             if (e.key === 'Enter') handleEditComplete();
           }}
           placeholder="Enter a task"
-          sx={{ input: { color: 'white' } }}
+          sx={{ 
+            input: { color: 'white' },
+            backgroundColor: '#292D33',
+         }}
         />
       ) : (
         <Typography variant="body1" sx={{ flexGrow: 1 }}>

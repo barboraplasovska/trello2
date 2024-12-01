@@ -13,6 +13,7 @@ export const AddCardButton: React.FC<AddCardButtonProps> = ({ onClick }) => {
       sx={{
         textTransform: 'none',
         color: 'white',
+        borderRadius: 2,
         justifyContent: 'flex-start',
         '&:hover': {
           backgroundColor: 'rgba(255, 255, 255, 0.2)',

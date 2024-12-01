@@ -3,7 +3,6 @@ import { Board } from '../../../core/models/Board';
 import { Link } from 'react-router-dom';
 import BoardItem from './BoardItem';
 import BoardCard from "../Cards/BoardCard/BoardCard";
-import CreateBoardButton from "../Buttons/CreateBoardButton/CreateBoardButton";
 import {createBoard} from "../../../core/services/BoardService";
 
 interface BoardListProps {
@@ -24,11 +23,11 @@ const BoardList: React.FC<BoardListProps> = ({ boards }) => {
                 <BoardCard
                     title={board.name}
                     color={"#000000"}
+                    onClick={() => {}}
                 />
               </Link>
             </div>
         ))}
-        <CreateBoardButton onClick={createBoardClick}/>
       </div>
   );
 };

@@ -18,7 +18,7 @@ const styles = {
         color: '#ffffff',
         border: 'none',
         padding: '8px 16px',
-        borderRadius: '4px',
+        borderRadius: 2,
         cursor: 'pointer',
     },
 };

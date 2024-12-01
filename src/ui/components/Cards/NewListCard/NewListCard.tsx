@@ -53,7 +53,7 @@ export const NewListCard: React.FC<NewListCardProps> = ({ onAddList, onCancel })
           sx={{
             input: { color: 'white' },
             backgroundColor: '#292D33',
-            borderRadius: 1,
+            borderRadius: 2,
             marginBottom: 1, 
           }}
         />
@@ -78,7 +78,7 @@ export const NewListCard: React.FC<NewListCardProps> = ({ onAddList, onCancel })
           >
             Add list
           </Button>
-          <CustomIconButton onClick={onCancel} icon={<Close />} ariaLabel="Cancel" />
+          <CustomIconButton onClick={onCancel} icon={<Close />} ariaLabel="Cancel" paddingNb={10} />
         </Box>
       </Box>
     </Box>
