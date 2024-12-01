@@ -101,6 +101,12 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
     setIsAddingList(false);  
   };
 
+  const handleUpdateListTitle = (listIndex: number, newTitle: string) => {
+    const newListData = [...listData];
+    newListData[listIndex].title = newTitle;
+    setListData(newListData);
+  };
+
   return (
     <Box sx={{ display: 'flex', overflowX: 'auto', padding: 2 }}>
       {listData.map((list, index) => (
@@ -121,6 +127,7 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({ lists }) =
             handleUpdateTask(index, taskIndex, newTitle)
           }
           editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}
+          onUpdateListTitle={(newTitle) => handleUpdateListTitle(index, newTitle)}
         />
       ))}
       {isAddingList ? (
