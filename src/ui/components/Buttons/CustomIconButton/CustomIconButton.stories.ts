@@ -15,6 +15,7 @@ export default {
   args: {
     icon: React.createElement(SyncAltIcon),
     ariaLabel: 'Move list',
+    tooltip: 'Move list',
     ...ActionData, 
   },
 };

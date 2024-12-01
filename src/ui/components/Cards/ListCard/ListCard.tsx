@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { ArrowBackIos, ArrowForwardIos, Delete } from '@mui/icons-material';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
@@ -36,6 +36,8 @@ export const ListCard: React.FC<ListCardProps> = ({
   onUpdateTask,
   editingTask,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <Box
       sx={{
@@ -49,15 +51,25 @@ export const ListCard: React.FC<ListCardProps> = ({
         flexDirection: 'column',
         gap: 1,
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)} 
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
         <Typography variant="h6" color="white" sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {title}
         </Typography>
-        <Box>
-          {canMoveLeft && <CustomIconButton onClick={moveListLeft} icon={<ArrowBackIos />} ariaLabel="Move list left" />}
-          {canMoveRight && <CustomIconButton onClick={moveListRight} icon={<ArrowForwardIos />} ariaLabel="Move list right" />}
-          <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete list" />
+        <Box
+          className="card-buttons"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            opacity: isHovered ? 1 : 0, 
+            transition: 'opacity 0.3s ease',
+          }}
+        >
+          {canMoveLeft && <CustomIconButton onClick={moveListLeft} icon={<ArrowBackIos />} ariaLabel="Move list left"  tooltip="Move list left"/>}
+          {canMoveRight && <CustomIconButton onClick={moveListRight} icon={<ArrowForwardIos />} ariaLabel="Move list right" tooltip="Move list right"/>}
+          <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete list" tooltip="Delete list"/>
         </Box>
       </Box>
 

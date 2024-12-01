@@ -104,10 +104,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           transition: 'opacity 0.3s ease',
         }}
       >
-        {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" />}
-        {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" />}
-        <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" />
-        <CustomIconButton onClick={handleEditClick} icon={<Edit />} ariaLabel="Edit task" />
+        {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" tooltip="Move task left"/>}
+        {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" tooltip="Move task right"/>}
+        <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" tooltip="Delete task"/>
+        <CustomIconButton onClick={handleEditClick} icon={<Edit />} ariaLabel="Edit task" tooltip="Edit task"/>
       </Box>
     </Box>
   );
