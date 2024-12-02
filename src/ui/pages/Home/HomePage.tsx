@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
-import { Typography, Container, Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 
@@ -13,14 +13,13 @@ function HomePage() {
     userId, 
     loadBoards, 
     handleCreateBoard, 
-    handleDeleteBoard,
-    handleUpdateBoard 
   } = useBoardsViewModel();
 
   const navigate = useNavigate();
 
   const handleBoardClick = (board: Board) => {
-    navigate(`/boards/${board.name.toLowerCase().replace(/\s/g, '-')}`);
+    const boardNameSlug = board.name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/board/${boardNameSlug}`);
   };
 
   const colors = [
