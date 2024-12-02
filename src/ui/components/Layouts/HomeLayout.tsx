@@ -1,16 +1,19 @@
 // ui/layouts/HomeLayout.tsx
 import React from 'react';
-import HomeNavBar from '../Navbars/HomeNavbar';
+import MainAppBar from '../AppBar/MainAppBar/MainAppBar';
 import { Box } from '@mui/material';
 
 interface HomeLayoutProps {
   children: React.ReactNode;
+  onLogout: () => void;
 }
 
-const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
+const HomeLayout: React.FC<HomeLayoutProps> = ({ children, onLogout }) => {
   return (
     <>
-      <HomeNavBar />
+      <MainAppBar 
+        onLogout={onLogout}
+      />
       <Box sx={{ marginTop: "80px", marginLeft: "20px", marginRight: "20px", marginBottom: "20px" }}>
         {children}
       </Box>

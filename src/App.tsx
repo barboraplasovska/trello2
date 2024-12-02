@@ -9,6 +9,13 @@ import BoardPage from "./ui/pages/Board/BoardPage";
 import Login from "./ui/pages/Login";
 import LoginLayout from "./ui/components/Layouts/LoginLayout";
 
+import { logout } from "./core/services/LoginService";
+
+function onLogout() {
+  logout();
+  window.location.href = '/login';
+}
+
 function App() {
   return (
     <React.Fragment>
@@ -22,12 +29,12 @@ function App() {
             </LoginLayout>
           } />
           <Route path="/boards" element={
-            <HomeLayout>
+            <HomeLayout onLogout={onLogout}>
               <HomePage />
             </HomeLayout>
           } />
           <Route path="/board/:id" element={
-            <HomeLayout>
+            <HomeLayout onLogout={onLogout}>
               <BoardPage />
             </HomeLayout>
           } />

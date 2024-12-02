@@ -43,3 +43,13 @@ export const login = async (loginRequest: LoginRequest): Promise<JwtResponse> =>
         throw error;
     }
 };
+
+export const logout = async (): Promise<void> => {
+    try {
+        localStorage.removeItem('accessToken');
+        useAuthStore.getState().logout()
+    } catch (error) {
+        console.error('Error logging out:', error);
+        throw error;
+    }
+}
