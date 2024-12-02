@@ -55,7 +55,7 @@ export default function LoginCard() {
         }
 
         const isPasswordValid = validatePassword(password);
-        if (isPasswordValid !== 'Mot de passe valide.') {
+        if (isPasswordValid !== 'Valid password.') {
             setError(isPasswordValid);
             return;
         }
@@ -67,7 +67,7 @@ export default function LoginCard() {
 
         await register(registerRequest)
             .then(() => {
-                navigate("/login");
+                navigate("/");
             })
             .catch((err) => {
                 setError('An error occurred while registering.');
@@ -80,15 +80,15 @@ export default function LoginCard() {
         const maxLength = 24;
 
         if (password.length < minLength || password.length > maxLength) {
-            return 'Le mot de passe doit contenir entre 8 et 24 caractères.';
+            return 'Password must contain between 8 et 24 characters.';
         }
 
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,24}$/;
         if (!regex.test(password)) {
-            return 'Le mot de passe doit contenir : au moins une lettre majuscule, au moins une lettre minuscule, au moins un chiffre, au moins un caractère spécial.';
+            return 'The password must contain at least: one uppercase letter, one lowercase letter, one digit, and one special character.';
         }
 
-        return 'Mot de passe valide.';
+        return 'Valid password.';
     }
 
     const toggleFormMode = () => {
