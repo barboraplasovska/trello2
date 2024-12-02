@@ -1,0 +1,36 @@
+.delete-dialog {
+    background-color: #292e33;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 18rem;
+}
+
+.dialog-text {
+    text-align: center;
+    color: #b6c2cf;
+}
+
+.buttons {
+    padding: 0.5rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    color: white;
+    padding: 0.7rem;
+    border: 0px;
+    border-radius: 4px;
+}
+
+.cancel-button {
+    background-color: #689BF8;
+}
+
+.delete-button {
+    align-self: end;
+    background-color: #A35353;
+}
