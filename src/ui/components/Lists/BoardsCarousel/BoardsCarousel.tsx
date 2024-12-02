@@ -23,11 +23,10 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
     const [localBoards, setLocalBoards] = useState(boards);
     const [isCreating, setIsCreating] = useState(false);
 
-    const handleCreateBoard = (title: string, color: string) => {
+    const handleCreateBoard = (title: string) => {
         if (title.length === 0) {
             title = "New board"
         }
-        color = `#${color}`;
         
         const newBoard: Board = {
             id: `local-${Date.now()}`,
@@ -58,14 +57,13 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 <BoardCard
                     key={board.id}
                     board={board}
-                    color={colors[localBoards.indexOf(board) % colors.length]}
+                    color={`#${colors[localBoards.indexOf(board) % colors.length]}`}
                     onBoardClick={() => onBoardClick(board)}
                 />
             ))}
 
             {isCreating ? (
                 <NewBoardCard
-                    colors={colors}
                     onCreateBoard={handleCreateBoard}
                     onCancel={() => setIsCreating(false)}
                 />

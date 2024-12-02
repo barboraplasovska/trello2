@@ -4,14 +4,12 @@ import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButto
 import { Close } from '@mui/icons-material';
 
 interface NewBoardCardProps {
-    colors: string[];
-    onCreateBoard: (title: string, color: string) => void;
+    onCreateBoard: (title: string) => void;
     onCancel: () => void;
 }
 
-const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCancel }) => {
+const NewBoardCard: React.FC<NewBoardCardProps> = ({ onCreateBoard, onCancel }) => {
     const [title, setTitle] = useState('');
-    const [selectedColor, setSelectedColor] = useState(colors[0]);
     const inputRef = useRef<HTMLInputElement>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,7 +22,7 @@ const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCa
     const handleCreate = () => {
         if (title.trim()) {
             setIsSubmitting(true);
-            onCreateBoard(title.trim(), selectedColor);
+            onCreateBoard(title.trim());
         }
     };
 
@@ -61,30 +59,6 @@ const NewBoardCard: React.FC<NewBoardCardProps> = ({ colors, onCreateBoard, onCa
                     marginTop: 3,
                 }}
             />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    gap: 1,
-                    marginBottom: 1,
-                }}
-            >
-                {colors.map((color) => (
-                    <Box
-                        key={color}
-                        onClick={() => setSelectedColor(color)}
-                        sx={{
-                            width: 24,
-                            height: 24,
-                            borderRadius: '50%',
-                            backgroundColor: `#${color}`,
-                            border: selectedColor === color ? '2px solid #fff' : '2px solid transparent',
-                            cursor: 'pointer',
-                        }}
-                    />
-                ))}
-            </Box>
 
             <Box
                 sx={{

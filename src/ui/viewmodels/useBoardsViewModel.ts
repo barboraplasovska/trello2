@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useBoardStore } from '../../core/stores/BoardStore';
-import {getBoardById, listUserBoards} from "../../core/services/BoardService";
+import { getBoardById, listUserBoards } from "../../core/services/BoardService";
+import { createBoard, updateBoard, deleteBoard } from "../../core/services/BoardService";
 
 export function useBoardsViewModel() {
   const { boards, selectedBoard, userId, setBoards, setSelectedBoard } = useBoardStore();
@@ -33,6 +34,45 @@ export function useBoardsViewModel() {
     }
   };
 
+  const handleCreateBoard = async (name: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await createBoard(name);
+      await loadBoards();
+    } catch (error) {
+      setError('Failed to create board');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleUpdateBoard = async (boardId: string, name: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await updateBoard(boardId, name);
+      await loadBoards();
+    } catch (error) {
+      setError('Failed to update board');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleDeleteBoard = async (boardId: string) => { 
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteBoard(boardId);
+      await loadBoards();
+    } catch (error) {
+      setError('Failed to delete board');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return {
     boards,
     selectedBoard,
@@ -41,5 +81,8 @@ export function useBoardsViewModel() {
     userId,
     loadBoards,
     loadBoardById,
+    handleCreateBoard,
+    handleUpdateBoard,
+    handleDeleteBoard,
   };
 }

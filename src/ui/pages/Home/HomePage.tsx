@@ -6,11 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 
 function HomePage() {
-  const { boards, loading, error, userId, loadBoards } = useBoardsViewModel();
+  const { 
+    boards, 
+    loading, 
+    error, 
+    userId, 
+    loadBoards, 
+    handleCreateBoard, 
+    handleDeleteBoard,
+    handleUpdateBoard 
+  } = useBoardsViewModel();
+
   const navigate = useNavigate();
 
   const handleBoardClick = (board: Board) => {
-    navigate(`/boards/${board.id}`);
+    navigate(`/boards/${board.name.toLowerCase().replace(/\s/g, '-')}`);
   };
 
   const colors = [
@@ -45,7 +55,9 @@ function HomePage() {
             boards={boards}
             colors={colors}
             onBoardClick={(board) => handleBoardClick(board)}
-            onCreateBoard={() => {}}
+            onCreateBoard={(board) => {
+                handleCreateBoard(board.name);
+            }}
             userId={userId!}
           />
         </>
