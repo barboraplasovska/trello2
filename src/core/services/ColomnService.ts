@@ -3,10 +3,10 @@ import {Column} from "../models/Column";
 import {StatusObjectColumn} from "../models/StatusObjectColumn";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-const jwt = localStorage.getItem('accessToken');
 
 export const updateColumn = async (columnData: Column): Promise<void> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.put(`${KANBAN_API_URL}/columns/`, columnData, {
             headers: {
                 'Content-Type': 'application/json',
@@ -23,6 +23,7 @@ export const updateColumn = async (columnData: Column): Promise<void> => {
 
 export const createColumn = async (boardId: string, name: string): Promise<Column> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.post<Column>(`${KANBAN_API_URL}/columns/board/${boardId}/name/${name}`, null, {
             headers: {
                 'Accept': '*/*',
@@ -39,6 +40,7 @@ export const createColumn = async (boardId: string, name: string): Promise<Colum
 
 export const getColumnsByBoardId = async (boardId: string): Promise<Column[]> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.get<Column[]>(`${KANBAN_API_URL}/columns/board/${boardId}`, {
             headers: {
                 'Accept': '*/*',
@@ -55,6 +57,7 @@ export const getColumnsByBoardId = async (boardId: string): Promise<Column[]> =>
 
 export const deleteColumn = async (columnId: string): Promise<StatusObjectColumn> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.delete<StatusObjectColumn>(`${KANBAN_API_URL}/columns/${columnId}`, {
             headers: {
                 'Accept': '*/*',

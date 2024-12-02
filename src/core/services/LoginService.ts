@@ -25,7 +25,6 @@ export const register = async (loginRequest: LoginRequest): Promise<User> => {
 
 export const login = async (loginRequest: LoginRequest): Promise<JwtResponse> => {
     try {
-        console.log(`${KANBAN_API_URL}/login`)
         const response = await axios.post<JwtResponse>(`${KANBAN_API_URL}/login`, loginRequest, {
             headers: {
                 'Accept': '*/*',

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
-import { Typography, Container, Box } from '@mui/material';
+import { Typography, } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 
@@ -29,7 +29,12 @@ function HomePage() {
   ];
 
   useEffect(() => {
-    loadBoards();
+    const jwt = localStorage.getItem('accessToken');
+    if (jwt) {
+      loadBoards();
+    } else {
+      console.log('No JWT found. Waiting for it to be set...');
+    }
   }, []);
 
   return (

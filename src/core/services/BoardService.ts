@@ -4,10 +4,10 @@ import {BoardDto} from "../models/BoardDto";
 import {StatusObjectBoard} from "../models/StatusObjectBoard";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-const jwt = localStorage.getItem('accessToken');
 
 export const updateBoard = async (id: string, name: string): Promise<Board> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.put<Board>(`${KANBAN_API_URL}/boards/${id}/${name}`, null, {
             headers: {
                 'Accept': '*/*',
@@ -24,6 +24,7 @@ export const updateBoard = async (id: string, name: string): Promise<Board> => {
 
 export const createBoard = async (name: string): Promise<Board> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.post<Board>(`${KANBAN_API_URL}/boards/${name}`, null, {
             headers: {
                 'Accept': '*/*',
@@ -40,6 +41,7 @@ export const createBoard = async (name: string): Promise<Board> => {
 
 export const getBoardById = async (id: string | undefined): Promise<BoardDto> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.get<BoardDto>(`${KANBAN_API_URL}/boards/${id}`, {
             headers: {
                 'Accept': '*/*',
@@ -56,6 +58,7 @@ export const getBoardById = async (id: string | undefined): Promise<BoardDto> =>
 
 export const deleteBoard = async (id: string): Promise<StatusObjectBoard> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.delete<StatusObjectBoard>(`${KANBAN_API_URL}/boards/${id}`, {
             headers: {
                 'Accept': '*/*',
@@ -72,6 +75,7 @@ export const deleteBoard = async (id: string): Promise<StatusObjectBoard> => {
 
 export const listUserBoards = async (): Promise<Board[]> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.get<Board[]>(`${KANBAN_API_URL}/boards/`, {
             headers: {
                 'Accept': '*/*',

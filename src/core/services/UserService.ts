@@ -2,10 +2,10 @@ import axios from "axios";
 import {User} from "../models/User";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-const jwt = localStorage.getItem('accessToken');
 
 export const getUsers = async (): Promise<User[]> => {
     try {
+        const jwt = localStorage.getItem('accessToken');
         const response = await axios.get<User[]>(`${KANBAN_API_URL}/users`, {
             headers: {
                 'Accept': '*/*',
