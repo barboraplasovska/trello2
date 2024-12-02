@@ -33,7 +33,7 @@ function App() {
               <HomePage />
             </HomeLayout>
           } />
-          <Route path="/board/:id" element={
+          <Route path="/board/:name" element={
             <HomeLayout onLogout={onLogout}>
               <BoardPage />
             </HomeLayout>
