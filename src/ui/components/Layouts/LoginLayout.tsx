@@ -1,6 +1,5 @@
 // ui/layouts/HomeLayout.tsx
 import React from 'react';
-import HomeNavBar from '../Navbars/HomeNavbar';
 import { Box } from '@mui/material';
 
 interface LoginLayoutProps {
@@ -11,18 +10,13 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({ children }) => {
   return (
     <>
         <Box sx={styles.background}>
-            <Box sx={styles.margins}>
-                {children}
-            </Box>
+            {children}
         </Box>
     </>
   );
 };
 
 const styles = {
-    margins :{
-    },
-
     background: {
         backgroundColor: "#1D2125",
         minHeight: "100vh",

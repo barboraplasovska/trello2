@@ -1,0 +1,89 @@
+.container-login-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; /* Espace égal entre les sections */
+    height: 100vh;
+    width: 100%;
+    background-color: #1d2125;
+}
+
+.top-text-container-login-page {
+    display: flex;
+    align-items: center;
+}
+
+.text-container-login-page {
+    display: flex;
+    flex-direction: column; /* Aligner le texte verticalement */
+    justify-content: center;
+    align-items: flex-start; /* Aligner à gauche */
+}
+
+.welcome-text-login-page {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.app-name-login-page {
+    font-family: "Luckiest Guy";
+    font-size: 100px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.subtitle-login-page {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 26px;
+    font-weight: 300;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+.card-container-login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .container-login-page {
+        flex-direction: column; /* Passer en colonne */
+        justify-content: center;
+        gap: 20px; /* Espacement vertical entre les sections */
+        height: auto;
+        padding: 20px;
+    }
+
+    .text-container-login-page {
+        align-items: center; /* Centrer le texte */
+        text-align: center;
+    }
+
+    .top-text-container-login-page {
+        flex-direction: column;
+    }
+
+    .welcome-text-login-page {
+        font-size: 25px;
+    }
+
+    .app-name-login-page {
+        font-size: 60px;
+    }
+
+    .subtitle-login-page {
+        font-size: 15px;
+    }
+
+    .card-container-login-page {
+        width: 100%;
+        max-width: 400px; /* Garde une largeur raisonnable */
+    }
+}
