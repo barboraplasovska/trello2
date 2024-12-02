@@ -2,7 +2,7 @@ import { fn } from '@storybook/test';
 import BoardCard from './BoardCard';
 
 const ActionData = {
-    onClick: fn(),
+    onBoardClick: fn(),
 };
 
 export default {
@@ -10,7 +10,14 @@ export default {
     title: 'Components/Cards/BoardCard',
     tags: ['autodocs'],
     args: {
-        title: 'My super duper board card',
+        board: {
+            id: '1',
+            name: 'My super duper board',
+            userId: '1',
+            version: 1,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        },
         color: '#A3537A',
         ...ActionData,
     },

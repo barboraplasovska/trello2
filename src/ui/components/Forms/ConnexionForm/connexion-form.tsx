@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './connexion-form.css';
 import InputField from '../../Inputs/inputs';
 import ConnexionButton from '../../Buttons/ConnexionButton/connexion-button';

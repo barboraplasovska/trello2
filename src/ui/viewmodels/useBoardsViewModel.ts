@@ -3,7 +3,7 @@ import { useBoardStore } from '../../core/stores/BoardStore';
 import {getBoardById, listUserBoards} from "../../core/services/BoardService";
 
 export function useBoardsViewModel() {
-  const { boards, selectedBoard, setBoards, setSelectedBoard } = useBoardStore();
+  const { boards, selectedBoard, userId, setBoards, setSelectedBoard } = useBoardStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,6 +38,7 @@ export function useBoardsViewModel() {
     selectedBoard,
     loading,
     error,
+    userId,
     loadBoards,
     loadBoardById,
   };

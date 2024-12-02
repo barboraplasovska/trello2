@@ -1,13 +1,14 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { Board } from '../../../../core/models/Board';
 
 interface BoardCardProps {
-    title: string;
+    board: Board;
     color: string;
-    onClick: () => void;
+    onBoardClick?: () => void;
 }
 
-const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
+const BoardCard: React.FC<BoardCardProps> = ({ board, color, onBoardClick }) => {
     return (
         <Box
             sx={{
@@ -29,9 +30,9 @@ const BoardCard: React.FC<BoardCardProps> = ({ title, color, onClick }) => {
                     boxShadow: 3,
                 },
             }}
-            onClick={onClick}
+            onClick={onBoardClick}
         >
-            <Typography sx={{ padding: 2 }}>{title}</Typography>
+            <Typography sx={{ padding: 2 }}>{board.name}</Typography>
         </Box>
     );
 };

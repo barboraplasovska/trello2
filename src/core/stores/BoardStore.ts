@@ -4,7 +4,7 @@ import { Board } from '../models/Board';
 interface BoardStore {
     boards: Board[];
     selectedBoard: Board | null;
-    user: string | null;
+    userId: string | null;
 
     setBoards: (boards: Board[]) => void;
     setSelectedBoard: (board: Board) => void;
@@ -15,16 +15,16 @@ interface BoardStore {
 export const useBoardStore = create<BoardStore>((set) => ({
     boards: [],
     selectedBoard: null,
-    user: localStorage.getItem('user') || null,
+    userId: localStorage.getItem('userId') || null,
 
     setBoards: (boards) => set({ boards }),
     setSelectedBoard: (board) => set({ selectedBoard: board }),
-    setUser: (user) => {
-        localStorage.setItem('user', user);
-        set({ user });
+    setUser: (userId) => {
+        localStorage.setItem('userId', userId);
+        set({ userId });
     },
     clearUser: () => {
         localStorage.removeItem('user');
-        set({ user: null });
+        set({ userId: null });
     }
 }));

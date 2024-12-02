@@ -15,6 +15,7 @@ export const register = async (loginRequest: LoginRequest): Promise<User> => {
             },
         });
         console.log('User registered successfully:', response.data);
+        localStorage.setItem('userId', response.data.id);
         return response.data;
     } catch (error) {
         console.error('Error registering user:', error);
@@ -35,6 +36,7 @@ export const login = async (loginRequest: LoginRequest): Promise<JwtResponse> =>
 
         const jwt_token = response.data.jwt;
         localStorage.setItem('accessToken', jwt_token);
+        localStorage.setItem('userId', response.data.user.id);
         useAuthStore.getState().login()
 
         return response.data;
@@ -47,6 +49,7 @@ export const login = async (loginRequest: LoginRequest): Promise<JwtResponse> =>
 export const logout = async (): Promise<void> => {
     try {
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('userId');
         useAuthStore.getState().logout()
     } catch (error) {
         console.error('Error logging out:', error);

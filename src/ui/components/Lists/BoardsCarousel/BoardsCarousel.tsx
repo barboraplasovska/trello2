@@ -3,17 +3,20 @@ import { Box } from '@mui/material';
 import BoardCard from '../../Cards/BoardCard/BoardCard';
 import CreateBoardButton from '../../Buttons/AddBoardButton/AddBoardButton';
 import NewBoardCard from '../../Cards/NewBoardCard/NewBoardCard';
+import { Board } from '../../../../core/models/Board';
 
 interface BoardsCarouselProps {
-    boards: { id: string; title: string; color: string }[];
+    boards: Board[];
     colors: string[];
-    onBoardClick: (boardId: string) => void;
-    onCreateBoard: (title: string, color: string) => void;
+    userId: string;
+    onBoardClick: (board: Board) => void;
+    onCreateBoard: (board: Board) => void;
 }
 
 const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
     boards,
     colors,
+    userId,
     onBoardClick,
     onCreateBoard,
 }) => {
@@ -26,16 +29,19 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
         }
         color = `#${color}`;
         
-        const newBoard = {
+        const newBoard: Board = {
             id: `local-${Date.now()}`,
-            title,
-            color,
+            version: 1,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            name: title,
+            userId,
         };
 
         setLocalBoards([...localBoards, newBoard]);
         setIsCreating(false);
 
-        onCreateBoard(title, color);
+        onCreateBoard(newBoard);
     };
 
     return (
@@ -44,15 +50,16 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'flex-start',
-                padding: 2,
+                padding: 0,
+                margin: 0,
             }}
         >
             {localBoards.map((board) => (
                 <BoardCard
                     key={board.id}
-                    title={board.title}
-                    color={board.color}
-                    onClick={() => onBoardClick(board.id)}
+                    board={board}
+                    color={colors[localBoards.indexOf(board) % colors.length]}
+                    onBoardClick={() => onBoardClick(board)}
                 />
             ))}
 
