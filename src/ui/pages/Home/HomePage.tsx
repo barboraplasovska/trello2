@@ -4,6 +4,8 @@ import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
+import HomeLayout from '../../components/Layouts/HomeLayout';
+import { logout } from '../../../core/services/LoginService';
 
 function HomePage() {
   const { 
@@ -17,15 +19,19 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  const handleBoardClick = (board: Board) => {
-    const boardNameSlug = board.name.toLowerCase().replace(/\s+/g, '-');
-    navigate(`/board/${boardNameSlug}`);
-  };
-
   const colors = [
     'A3537A', '5366A3', '57A353', 'A35353',
     '7453A3', 'D29034', '06AECC', '838C91'
   ];
+
+  const handleBoardClick = (board: Board) => {
+    const boardNameSlug = board.name.toLowerCase().replace(/\s+/g, '-');
+
+    const index = boards.findIndex(b => b.id === board.id);
+    const color = `#${colors[index % colors.length]}`;
+    
+    navigate(`/board/${boardNameSlug}`, { state: { color, board: board } });
+  };
 
   useEffect(() => {
     const jwt = localStorage.getItem('accessToken');
@@ -36,8 +42,14 @@ function HomePage() {
     }
   }, []);
 
+  function onLogout() {
+    logout();
+    window.location.href = '/login';
+  }
+  
+
   return (
-    <>
+    <HomeLayout onLogout={onLogout}>
       {loading ? (
         <Typography variant="h6" color="white">
           Loading...
@@ -66,7 +78,7 @@ function HomePage() {
           />
         </>
       )}
-    </>
+    </HomeLayout>
   );
 }
 

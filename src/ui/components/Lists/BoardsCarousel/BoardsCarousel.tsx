@@ -38,6 +38,10 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
         };
 
         setLocalBoards([...localBoards, newBoard]);
+        setLocalBoards(localBoards.sort((a, b) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        }));
+
         setIsCreating(false);
 
         onCreateBoard(newBoard);
@@ -57,7 +61,7 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 <BoardCard
                     key={board.id}
                     board={board}
-                    color={`#${colors[localBoards.indexOf(board) % colors.length]}`}
+                    color={`#${colors[localBoards.findIndex(b => b.id === board.id) % colors.length]}`}
                     onBoardClick={() => onBoardClick(board)}
                 />
             ))}

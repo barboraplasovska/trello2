@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BoardDto } from '../../../core/models/BoardDto';
 import { getBoardById } from '../../../core/services/BoardService';
 import { Typography } from '@mui/material';
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {BoardListCarousel} from "../../components/Lists/BoardListCarousel/BoardListCarousel";
+import BoardLayout from '../../components/Layouts/BoardLayout';
 
 const defaultBoard : BoardDto = {
     board: {
@@ -19,7 +20,15 @@ const defaultBoard : BoardDto = {
 
 function BoardPage() {
     const { name } = useParams<{ name: string }>();
-    const [board, setBoard] = useState<BoardDto>(defaultBoard);
+
+    const location = useLocation();
+  
+    const { color, board } = location.state || {};
+    console.log(color);
+  
+    //const [board, setBoard] = useState<BoardDto>(defaultBoard);
+
+    var title = "";
 
     // useEffect(() => {
     //     const fetchBoard = async () => {
@@ -28,18 +37,36 @@ function BoardPage() {
     //     fetchBoard();
     // }, [id])
 
-    const convertedColumns = board.columns.map((columnDto) => {
-        return {
-            id: columnDto.column.id, // ID de la colonne
-            title: columnDto.column.name, // Nom de la colonne
-            tasks: columnDto.cards.map(cardDto => cardDto.card.title) // Titres des cartes dans cette colonne
-        };
-    });
+    // const convertedColumns = board.columns.map((columnDto) => {
+    //     return {
+    //         id: columnDto.column.id, // ID de la colonne
+    //         title: columnDto.column.name, // Nom de la colonne
+    //         tasks: columnDto.cards.map(cardDto => cardDto.card.title) // Titres des cartes dans cette colonne
+    //     };
+    // });
+
+    const handleEditBoard = () => {
+        console.log('Edit board');
+    }
+
+    const handleDeleteBoard = () => {
+        console.log('Delete board');
+    }
+
+    const onLogout = () => {
+        console.log('Logout');
+    }
 
     return (
-        <div>
-            <Typography>{board.board.name}</Typography>
-            <BoardListCarousel
+        <BoardLayout
+              color={color}
+              title={board.name}
+              onEdit={handleEditBoard}
+              onDelete={handleDeleteBoard}
+              onLogout={onLogout}
+            >
+                <Typography variant="h6" color="white">h</Typography>
+            {/* <BoardListCarousel
                 lists={convertedColumns}
                 onMoveListLeft={() => {}}
                 onMoveListRight={() => {}}
@@ -52,8 +79,8 @@ function BoardPage() {
                 onUpdateListTitle={() => {}}
                 onCancelAddList={() => {}}
                 onAddList={() => {}}
-            />
-        </div>
+            /> */}
+        </BoardLayout>
     )
 }
 
