@@ -29,6 +29,12 @@
     align-items: center;
 }
 
+.form-error {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+}
+
 .bottom-text {
     font-size: 14px;
     color: white;

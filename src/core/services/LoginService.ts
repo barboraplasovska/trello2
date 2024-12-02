@@ -5,7 +5,6 @@ import {JwtResponse} from "../models/JwtResponse";
 import useAuthStore from "../stores/userStore";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
-const jwt = localStorage.getItem('accessToken');
 
 export const register = async (loginRequest: LoginRequest): Promise<User> => {
     try {

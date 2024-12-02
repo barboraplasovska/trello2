@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Button, Stack, TextField, ThemeProvider } from "@mui/material";
-import { LoginTheme } from '../../../styles/LoginStyle';
 import {login, register} from "../../../../core/services/LoginService";
 import { LoginRequest } from "../../../../core/models/LoginRequest";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ConnexionForm from "../ConnexionForm/connexion-form";
 
 export default function LoginCard() {
@@ -39,12 +37,10 @@ export default function LoginCard() {
 
         await login(loginRequest)
             .then(() => {
-                console.log("Login success");
                 navigate("/");
             })
             .catch((err) => {
                 setError("Login failed. Please check your credentials.");
-                console.error(err);
             });
     };
 
