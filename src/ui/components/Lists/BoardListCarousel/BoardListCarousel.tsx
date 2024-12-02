@@ -33,8 +33,14 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   onCancelAddList,
   onAddList,
 }) => {
-
-  const [listData, setListData] = useState(lists);
+  console.log(lists);
+  const [listData, setListData] = useState(lists != null && lists.length > 0 ? lists : 
+    [
+      {id: "1", title: "To Do", tasks: []},
+      {id: "2", title: "Ongoing", tasks: []},
+      {id: "3", title: "Done", tasks: []},
+    ]
+   );
   const [editingTask, setEditingTask] = useState<{ listIndex: number; taskIndex: number } | null>(null);
   const [isAddingList, setIsAddingList] = useState(false); 
 
