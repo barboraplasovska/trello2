@@ -1,10 +1,11 @@
 import DeleteDialog from './DeleteDialog';
 import { fn } from "@storybook/test";
+import {DialogType} from "../../../core/models/DialogType";
 
 const ActionData = {
     onCancel: fn(),
     onDelete: fn(),
-}
+};
 
 export default {
     component: DeleteDialog,
@@ -17,12 +18,18 @@ export default {
 
 export const DeleteTask = {
     args: {
-        isTask: true,
-    }
-}
+        type: DialogType.Task,
+    },
+};
+
+export const DeleteColumn = {
+    args: {
+        type: DialogType.Column,
+    },
+};
 
 export const DeleteBoard = {
     args: {
-        isTask: false,
-    }
-}
+        type: DialogType.Board,
+    },
+};
