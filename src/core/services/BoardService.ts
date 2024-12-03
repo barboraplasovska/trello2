@@ -1,7 +1,8 @@
 import axios from "axios";
-import { Board } from "../models/Board";
-import { BoardDto } from "../models/BoardDto";
-import { StatusObjectBoard } from "../models/StatusObjectBoard";
+import {Board} from "../models/Board";
+import {BoardDto} from "../models/BoardDto";
+import {StatusObjectBoard} from "../models/StatusObjectBoard";
+import { createColumn } from "./ColomnService";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
 
@@ -32,6 +33,10 @@ export const createBoard = async (name: string): Promise<Board> => {
             },
         });
         console.log('Board created successfully:', response.data);
+        const defaultColumns = ['To Do', 'Ongoing', 'Done'];
+        for (let colName of defaultColumns) {
+            createColumn(response.data.id, colName);
+        }
         return response.data;
     } catch (error) {
         console.error('Error creating board:', error);
