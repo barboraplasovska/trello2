@@ -5,6 +5,7 @@ import BoardLayout from '../../components/Layouts/BoardLayout';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
 import { Box, Typography } from '@mui/material';
+import { logout } from '../../../core/services/LoginService';
 
 function BoardPage() {
     const location = useLocation();
@@ -32,8 +33,9 @@ function BoardPage() {
         console.log('Delete board');
     }
 
-    const onLogout = () => {
-        console.log('Logout');
+    function onLogout() {
+        logout();
+        window.location.href = '/login';
     }
 
     return (
