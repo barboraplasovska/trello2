@@ -8,13 +8,13 @@ import HomeLayout from '../../components/Layouts/HomeLayout';
 import { logout } from '../../../core/services/LoginService';
 
 function HomePage() {
-  const { 
-    boards, 
-    loading, 
-    error, 
-    userId, 
-    loadBoards, 
-    handleCreateBoard, 
+  const {
+    boards,
+    loading,
+    error,
+    userId,
+    loadBoards,
+    handleCreateBoard,
   } = useBoardsViewModel();
 
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ function HomePage() {
 
     const index = boards.findIndex(b => b.id === board.id);
     const color = `#${colors[index % colors.length]}`;
-    
-    navigate(`/board/${boardNameSlug}`, { state: { color, board: board } });
+
+    navigate(`/board/${boardNameSlug}`, { state: { color, id: board.id } });
   };
 
   useEffect(() => {
@@ -46,7 +46,6 @@ function HomePage() {
     logout();
     window.location.href = '/login';
   }
-  
 
   return (
     <HomeLayout onLogout={onLogout}>
@@ -72,7 +71,7 @@ function HomePage() {
             colors={colors}
             onBoardClick={(board) => handleBoardClick(board)}
             onCreateBoard={(board) => {
-                handleCreateBoard(board.name);
+              handleCreateBoard(board.name);
             }}
             userId={userId!}
           />

@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import { ArrowBackIos, ArrowForwardIos, Delete, Edit } from '@mui/icons-material';
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
+import { CardDto } from '../../../../core/models/CardDto';
 
 type TaskCardProps = {
-  title: string;
+  card: CardDto;
   isEditing?: boolean;
-  onClick?: () => void;
-  onEditComplete?: (newTitle: string) => void;
+  onEditComplete?: (updatedCard: CardDto) => void;
   moveTaskLeft?: () => void;
   moveTaskRight?: () => void;
   canMoveLeft: boolean;
@@ -16,7 +16,7 @@ type TaskCardProps = {
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({
-  title,
+  card,
   isEditing = false,
   onEditComplete,
   moveTaskLeft,
@@ -25,7 +25,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   canMoveRight,
   onDelete,
 }) => {
-  const [editingTitle, setEditingTitle] = useState(title);
+  const [editingTitle, setEditingTitle] = useState(card.card.title);
   const [, setIsHovered] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isCurrentlyEditing, setIsCurrentlyEditing] = useState(isEditing);
@@ -39,9 +39,16 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   const handleEditComplete = () => {
     const finalTitle = editingTitle.trim() || 'New task';
     setEditingTitle(finalTitle);
-    setIsCurrentlyEditing(false); 
+    setIsCurrentlyEditing(false);
     if (onEditComplete) {
-      onEditComplete(finalTitle);
+      const updatedCard = {
+        ...card,
+        card: {
+          ...card.card,
+          title: finalTitle,
+        },
+      };
+      onEditComplete(updatedCard);
     }
   };
 
@@ -87,14 +94,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             if (e.key === 'Enter') handleEditComplete();
           }}
           placeholder="Enter a task"
-          sx={{ 
+          sx={{
             input: { color: 'white' },
             backgroundColor: '#292D33',
-         }}
+          }}
         />
       ) : (
         <Typography variant="body1" sx={{ flexGrow: 1 }}>
-          {title}
+          {card.card.title}
         </Typography>
       )}
 
@@ -107,10 +114,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           transition: 'opacity 0.3s ease',
         }}
       >
-        {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" tooltip="Move task left"/>}
-        {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" tooltip="Move task right"/>}
-        <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" tooltip="Delete task"/>
-        <CustomIconButton onClick={handleEditClick} icon={<Edit />} ariaLabel="Edit task" tooltip="Edit task"/>
+        {canMoveLeft && <CustomIconButton onClick={moveTaskLeft} icon={<ArrowBackIos />} ariaLabel="Move task left" tooltip="Move task left" />}
+        {canMoveRight && <CustomIconButton onClick={moveTaskRight} icon={<ArrowForwardIos />} ariaLabel="Move task right" tooltip="Move task right" />}
+        <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete task" tooltip="Delete task" />
+        <CustomIconButton onClick={handleEditClick} icon={<Edit />} ariaLabel="Edit task" tooltip="Edit task" />
       </Box>
     </Box>
   );

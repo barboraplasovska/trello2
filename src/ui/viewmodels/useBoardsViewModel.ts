@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useBoardStore } from '../../core/stores/BoardStore';
 import { getBoardById, listUserBoards } from "../../core/services/BoardService";
 import { createBoard, updateBoard, deleteBoard } from "../../core/services/BoardService";
+import { BoardDto } from '../../core/models/BoardDto';
 
 export function useBoardsViewModel() {
   const { boards, selectedBoard, userId, setBoards, setSelectedBoard } = useBoardStore();
@@ -25,8 +26,8 @@ export function useBoardsViewModel() {
     setLoading(true);
     setError(null);
     try {
-      const data = await getBoardById(id);
-      setSelectedBoard(data.board);
+      const data: BoardDto = await getBoardById(id);
+      setSelectedBoard(data);
     } catch (error) {
       setError('Failed to load board details');
     } finally {
@@ -60,7 +61,7 @@ export function useBoardsViewModel() {
     }
   }
 
-  const handleDeleteBoard = async (boardId: string) => { 
+  const handleDeleteBoard = async (boardId: string) => {
     setLoading(true);
     setError(null);
     try {

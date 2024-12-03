@@ -27,6 +27,7 @@ export const NewListCard: React.FC<NewListCardProps> = ({ onAddList, onCancel })
         padding: 2,
         borderRadius: 2,
         width: 300,
+        minWidth: 300,
         marginRight: 2,
         position: 'relative',
         display: 'flex',
@@ -54,13 +55,13 @@ export const NewListCard: React.FC<NewListCardProps> = ({ onAddList, onCancel })
             input: { color: 'white' },
             backgroundColor: '#292D33',
             borderRadius: 2,
-            marginBottom: 1, 
+            marginBottom: 1,
           }}
         />
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-start', 
+            justifyContent: 'flex-start',
             gap: 1,
           }}
         >

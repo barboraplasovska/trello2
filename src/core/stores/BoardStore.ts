@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { Board } from '../models/Board';
+import { BoardDto } from '../models/BoardDto';
 
 interface BoardStore {
     boards: Board[];
-    selectedBoard: Board | null;
+    selectedBoard: BoardDto | null;
     userId: string | null;
 
     setBoards: (boards: Board[]) => void;
-    setSelectedBoard: (board: Board) => void;
+    setSelectedBoard: (board: BoardDto) => void;
     setUser: (user: string) => void;
     clearUser: () => void;
 }
