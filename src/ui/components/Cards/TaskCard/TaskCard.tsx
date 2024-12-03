@@ -48,6 +48,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           title: finalTitle,
         },
       };
+      card.card.title = finalTitle;
       onEditComplete(updatedCard);
     }
   };
