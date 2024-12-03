@@ -7,7 +7,7 @@ interface MainAppBarProps {
     onLogout: () => void;
 }
 
-const MainAppBar: React.FC<MainAppBarProps> = ({ onLogout }) => {
+export const MainAppBar: React.FC<MainAppBarProps> = ({ onLogout }) => {
     if (!onLogout) {
         return <div>Error: onLogout is not passed properly</div>;
     }
@@ -54,5 +54,3 @@ const styles = {
         textDecoration: 'none',
     },
 };
-
-export default MainAppBar;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
-import MainAppBar from './MainAppBar';
+import { MainAppBar } from './MainAppBar';
 import { fn } from '@storybook/test';
 
 const ActionData = {
@@ -16,4 +16,4 @@ export default {
   },
 };
 
-export const Default = (args: any) => <MainAppBar {...args} />; 
+export const Default = (args: any) => <MemoryRouter><MainAppBar {...args} /></MemoryRouter>; 
