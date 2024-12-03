@@ -16,9 +16,9 @@ export default {
     },
 };
 
-export const DeleteTask = {
+export const DeleteCard = {
     args: {
-        type: DialogType.Task,
+        type: DialogType.Card,
     },
 };
 

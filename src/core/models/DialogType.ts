@@ -1,5 +1,5 @@
 export enum DialogType {
-    Task = 'task',
+    Card = 'card',
     Column = 'column',
     Board = 'board',
 }

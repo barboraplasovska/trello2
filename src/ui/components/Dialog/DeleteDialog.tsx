@@ -1,5 +1,6 @@
 import "./DeleteDialog.css"
 import {DialogType} from "../../../core/models/DialogType";
+import React from "react";
 
 type DialogProps = {
     type: DialogType;
@@ -10,8 +11,8 @@ type DialogProps = {
 export default function DeleteDialog({ type, onCancel, onDelete }: DialogProps) {
     const getMessage = () => {
         switch (type) {
-            case DialogType.Task:
-                return "Are you sure you want to delete this task?";
+            case DialogType.Card:
+                return "Are you sure you want to delete this card?";
             case DialogType.Column:
                 return "Are you sure you want to delete this column?";
             case DialogType.Board:
