@@ -36,10 +36,11 @@ function BoardPage() {
     } = useBoardsViewModel();
 
     useEffect(() => {
-        if (id) {
+        if (id && (!selectedBoard || selectedBoard.board.id !== id)) {
             loadBoardById(id);
         }
-    }, [id, loadBoardById]);
+    }, [id, selectedBoard, loadBoardById]);
+
 
     const handleEditBoard = () => {
         console.log('Edit board');

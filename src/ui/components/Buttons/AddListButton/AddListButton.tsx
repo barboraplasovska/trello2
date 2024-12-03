@@ -12,8 +12,8 @@ export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
       color="secondary"
       onClick={onClick}
       sx={{
-        textTransform: 'none', 
-        backgroundColor: 'rgba(255, 255, 255, 0.25)', 
+        textTransform: 'none',
+        backgroundColor: 'rgba(255, 255, 255, 0.25)',
         color: 'white',
         boxShadow: 'none',
         '&:hover': {
@@ -21,12 +21,13 @@ export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
           boxShadow: 'none',
         },
         width: '300px',
-        height: '40px', 
-        paddingLeft: 2, 
+        minWidth: '300px',
+        height: '40px',
+        paddingLeft: 2,
         borderRadius: 2,
-        textAlign: 'left', 
-        display: 'flex', 
-        justifyContent: 'flex-start', 
+        textAlign: 'left',
+        display: 'flex',
+        justifyContent: 'flex-start',
       }}
     >
       + Add another list

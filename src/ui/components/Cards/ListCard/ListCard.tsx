@@ -71,6 +71,7 @@ export const ListCard: React.FC<ListCardProps> = ({
         padding: 2,
         borderRadius: 2,
         width: 300,
+        minWidth: 300,
         marginRight: 2,
         position: 'relative',
         display: 'flex',

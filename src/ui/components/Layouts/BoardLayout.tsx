@@ -36,7 +36,14 @@ const BoardLayout: React.FC<BoardLayoutProps> = ({
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Box sx={{ marginTop: "10px", marginLeft: "10px", marginRight: "10px", marginBottom: "10px" }}>
+      <Box
+        sx={{
+          margin: '10px',
+          flex: 1,
+          overflowY: 'auto',
+          padding: 2,
+        }}
+      >
         {children}
       </Box>
     </Box>

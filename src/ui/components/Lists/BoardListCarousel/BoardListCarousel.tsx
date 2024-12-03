@@ -165,7 +165,16 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   };
 
   return (
-    <Box sx={{ display: 'flex', overflowX: 'auto', padding: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',               // Arrange the columns in a row
+        flexDirection: 'row',           // Horizontal direction
+        overflowX: 'auto',             // Allow horizontal scrolling if the content overflows horizontally
+        overflowY: 'hidden',           // Prevent vertical scroll in the carousel itself (as the parent handles that)
+        padding: 2,
+        width: '100%',                 // Ensure full width to avoid overflow
+      }}
+    >
       {columnData.map((columnDto, index) => (
         <ListCard
           key={columnDto.column.id}
