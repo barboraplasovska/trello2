@@ -4,38 +4,38 @@ import { ArrowBackIos, ArrowForwardIos, Delete, Edit } from '@mui/icons-material
 import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
 import { TaskCard } from '../TaskCard/TaskCard';
 import { AddCardButton } from '../../Buttons/AddCardButton/AddCardButton';
-import { Card } from '../../../../core/models/Card';
+import { CardDto } from '../../../../core/models/CardDto';
 
 type ListCardProps = {
   title: string;
-  tasks: Card[];
+  cards: CardDto[];
   onAddCard: () => void;
   moveListLeft?: () => void;
   moveListRight?: () => void;
   canMoveLeft: boolean;
   canMoveRight: boolean;
-  onMoveTaskLeft: (task: Card) => void; 
-  onMoveTaskRight: (task: Card) => void; 
+  onMoveCardLeft: (card: CardDto) => void;
+  onMoveCardRight: (card: CardDto) => void;
   onDelete: () => void;
-  onDeleteTask: (task: Card) => void; 
-  onUpdateTask: (taskIndex: number, newTitle: string) => void;
-  onUpdateListTitle: (newTitle: string) => void; 
+  onDeleteCard: (card: CardDto) => void;
+  onUpdateCard: (cardIndex: number, newCard: CardDto) => void;
+  onUpdateListTitle: (newTitle: string) => void;
   editingTask: number | null;
 };
 
 export const ListCard: React.FC<ListCardProps> = ({
   title,
-  tasks,
+  cards,
   onAddCard,
   moveListLeft,
   moveListRight,
   canMoveLeft,
   canMoveRight,
-  onMoveTaskLeft,
-  onMoveTaskRight,
+  onMoveCardLeft,
+  onMoveCardRight,
   onDelete,
-  onDeleteTask,
-  onUpdateTask,
+  onDeleteCard,
+  onUpdateCard,
   onUpdateListTitle,
   editingTask,
 }) => {
@@ -44,7 +44,7 @@ export const ListCard: React.FC<ListCardProps> = ({
   const [newTitle, setNewTitle] = useState(title);
 
   const handleTitleEdit = () => {
-    setIsEditingTitle(true); 
+    setIsEditingTitle(true);
   };
 
   const handleTitleSave = () => {
@@ -55,12 +55,12 @@ export const ListCard: React.FC<ListCardProps> = ({
   };
 
   const handleTitleBlur = () => {
-    handleTitleSave(); 
+    handleTitleSave();
   };
 
   const handleTitleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleTitleSave(); 
+      handleTitleSave();
     }
   };
 
@@ -78,7 +78,7 @@ export const ListCard: React.FC<ListCardProps> = ({
         gap: 1,
       }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)} 
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 0.5 }}>
         {isEditingTitle ? (
@@ -107,32 +107,34 @@ export const ListCard: React.FC<ListCardProps> = ({
           sx={{
             display: 'flex',
             alignItems: 'center',
-            opacity: isHovered ? 1 : 0, 
+            opacity: isHovered ? 1 : 0,
             transition: 'opacity 0.3s ease',
           }}
         >
-          {canMoveLeft && <CustomIconButton onClick={moveListLeft} icon={<ArrowBackIos />} ariaLabel="Move list left"  tooltip="Move list left"/>}
-          {canMoveRight && <CustomIconButton onClick={moveListRight} icon={<ArrowForwardIos />} ariaLabel="Move list right" tooltip="Move list right"/>}
-          <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete list" tooltip="Delete list"/>
-          <CustomIconButton onClick={handleTitleEdit} icon={<Edit />} ariaLabel="Edit list title" tooltip="Edit title"/>
+          {canMoveLeft && <CustomIconButton onClick={moveListLeft} icon={<ArrowBackIos />} ariaLabel="Move list left" tooltip="Move list left" />}
+          {canMoveRight && <CustomIconButton onClick={moveListRight} icon={<ArrowForwardIos />} ariaLabel="Move list right" tooltip="Move list right" />}
+          <CustomIconButton onClick={onDelete} icon={<Delete />} ariaLabel="Delete list" tooltip="Delete list" />
+          <CustomIconButton onClick={handleTitleEdit} icon={<Edit />} ariaLabel="Edit list title" tooltip="Edit title" />
         </Box>
       </Box>
 
-      {tasks.length > 0 && (
+      {cards.length > 0 && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          {tasks.map((task, index) => (
-            <TaskCard
-              key={task.id}
-              title={task.title}
-              isEditing={editingTask === index}
-              onEditComplete={(newTitle) => onUpdateTask(index, newTitle)}
-              moveTaskLeft={() => onMoveTaskLeft(task)}
-              moveTaskRight={() => onMoveTaskRight(task)}
-              canMoveLeft={canMoveLeft}
-              canMoveRight={canMoveRight}
-              onDelete={() => onDeleteTask(task)}
-            />
-          ))}
+          {cards
+            .sort((a, b) => a.card.rank - b.card.rank)
+            .map((cardDto, index) => (
+              <TaskCard
+                key={cardDto.card.id}
+                card={cardDto}
+                isEditing={editingTask === index}
+                onEditComplete={(newCard) => onUpdateCard(index, newCard)}
+                moveTaskLeft={() => onMoveCardLeft(cardDto)}
+                moveTaskRight={() => onMoveCardRight(cardDto)}
+                canMoveLeft={canMoveLeft}
+                canMoveRight={canMoveRight}
+                onDelete={() => onDeleteCard(cardDto)}
+              />
+            ))}
         </Box>
       )}
 

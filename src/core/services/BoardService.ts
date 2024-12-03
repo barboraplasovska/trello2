@@ -1,7 +1,7 @@
 import axios from "axios";
-import {Board} from "../models/Board";
-import {BoardDto} from "../models/BoardDto";
-import {StatusObjectBoard} from "../models/StatusObjectBoard";
+import { Board } from "../models/Board";
+import { BoardDto } from "../models/BoardDto";
+import { StatusObjectBoard } from "../models/StatusObjectBoard";
 
 const KANBAN_API_URL = `/kanban-api/v1`;
 
@@ -82,8 +82,11 @@ export const listUserBoards = async (): Promise<Board[]> => {
                 'Authorization': `Bearer ${jwt}`,
             },
         });
-        console.log('Boards listed successfully:', response.data);
-        return response.data;
+
+        const sortedBoards = response.data.sort((a, b) => new Date(a.createdAt).getDate() - new Date(b.createdAt).getDate());
+
+        console.log('Boards listed and sorted by createdAt successfully:', sortedBoards);
+        return sortedBoards;
     } catch (error) {
         console.error('Error listing boards:', error);
         throw error;

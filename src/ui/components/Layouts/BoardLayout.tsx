@@ -13,30 +13,30 @@ interface BoardLayoutProps {
   onEdit: () => void;
 }
 
-const BoardLayout: React.FC<BoardLayoutProps> = ({ 
-    color, 
-    title, 
-    children, 
-    onLogout ,
-    onDelete,
-    onEdit,
+const BoardLayout: React.FC<BoardLayoutProps> = ({
+  color,
+  title,
+  children,
+  onLogout,
+  onDelete,
+  onEdit,
 }) => {
   return (
-    <Box sx={{ 
-        backgroundColor: color, 
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
+    <Box sx={{
+      backgroundColor: color,
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
-      <MainAppBar 
+      <MainAppBar
         onLogout={onLogout}
       />
-      <SubAppBar 
+      <SubAppBar
         title={title}
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Box sx={{ marginTop: "20px", marginLeft: "20px", marginRight: "20px", marginBottom: "20px" }}>
+      <Box sx={{ marginTop: "10px", marginLeft: "10px", marginRight: "10px", marginBottom: "10px" }}>
         {children}
       </Box>
     </Box>

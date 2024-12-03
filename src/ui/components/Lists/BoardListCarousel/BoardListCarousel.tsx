@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { ListCard } from '../../Cards/ListCard/ListCard';
 import { AddListButton } from '../../Buttons/AddListButton/AddListButton';
 import { NewListCard } from '../../Cards/NewListCard/NewListCard';
-import { Column } from '../../../../core/models/Column';
+import { ColumnDto } from '../../../../core/models/ColumnDto';
 import { Card } from '../../../../core/models/Card';
+import { CardDto } from '../../../../core/models/CardDto';
 
 type BoardListCarouselProps = {
-  columns: Column[];
-  cards: Card[][]; 
+  columns: ColumnDto[];
   boardId: string;
   onMoveColumnLeft: (index: number) => void;
   onMoveColumnRight: (index: number) => void;
-  onMoveCardLeft: (columnIndex: number, card: Card) => void;
-  onMoveCardRight: (columnIndex: number, card: Card) => void;
+  onMoveCardLeft: (columnIndex: number, card: CardDto) => void;
+  onMoveCardRight: (columnIndex: number, card: CardDto) => void;
   onDeleteColumn: (columnIndex: number) => void;
   onDeleteCard: (columnIndex: number, cardId: string) => void;
   onAddCard: (columnIndex: number) => void;
-  onUpdateCard: (columnIndex: number, cardIndex: number, newTitle: string) => void;
+  onUpdateCard: (columnIndex: number, cardIndex: number, newCard: CardDto) => void;
   onUpdateColumnTitle: (columnIndex: number, newTitle: string) => void;
   onCancelAddColumn: () => void;
   onAddColumn: (title: string) => void;
@@ -25,7 +25,6 @@ type BoardListCarouselProps = {
 
 export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   columns,
-  cards,
   boardId,
   onMoveColumnLeft,
   onMoveColumnRight,
@@ -39,171 +38,155 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   onCancelAddColumn,
   onAddColumn,
 }) => {
-  const [columnData, setColumnData] = useState(columns);
-  const [cardData, setCardData] = useState(cards);
+  const [columnData, setColumnData] = useState<ColumnDto[]>([]);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [editingTask, setEditingTask] = useState<{ listIndex: number; taskIndex: number } | null>(null);
 
-  // Function to move columns (lists) left
+  useEffect(() => {
+    const sortedColumns = [...columns].sort((a, b) => a.column.rank - b.column.rank);
+    setColumnData(sortedColumns);
+  }, [columns]);
+
+  const updateRanks = (updatedColumns: ColumnDto[]) => {
+    setColumnData([...updatedColumns].sort((a, b) => a.column.rank - b.column.rank));
+  };
+
   const moveColumnLeft = (index: number) => {
     if (index === 0) return;
     const newColumnData = [...columnData];
-    const [movedColumn] = newColumnData.splice(index, 1);
-    newColumnData.splice(index - 1, 0, movedColumn);
-    setColumnData(newColumnData);
-
+    [newColumnData[index - 1], newColumnData[index]] = [
+      { ...newColumnData[index - 1], column: { ...newColumnData[index - 1].column, rank: newColumnData[index - 1].column.rank + 1 } },
+      { ...newColumnData[index], column: { ...newColumnData[index].column, rank: newColumnData[index].column.rank - 1 } },
+    ];
+    updateRanks(newColumnData);
     onMoveColumnLeft(index);
   };
 
-  // Function to move columns (lists) right
   const moveColumnRight = (index: number) => {
     if (index === columnData.length - 1) return;
     const newColumnData = [...columnData];
-    const [movedColumn] = newColumnData.splice(index, 1);
-    newColumnData.splice(index + 1, 0, movedColumn);
-    setColumnData(newColumnData);
+    [newColumnData[index], newColumnData[index + 1]] = [
+      { ...newColumnData[index], column: { ...newColumnData[index].column, rank: newColumnData[index].column.rank + 1 } },
+      { ...newColumnData[index + 1], column: { ...newColumnData[index + 1].column, rank: newColumnData[index + 1].column.rank - 1 } },
+    ];
+    updateRanks(newColumnData);
     onMoveColumnRight(index);
   };
 
-  // Function to move cards (tasks) left
-  const moveCardLeft = (columnIndex: number, card: Card) => {
+  const moveCardLeft = (columnIndex: number, card: CardDto) => {
     if (columnIndex === 0) return;
-    const newCardData = [...cardData];
-    const sourceColumn = newCardData[columnIndex];
-    const cardIndex = sourceColumn.findIndex(c => c.id === card.id);
-    if (cardIndex > -1) {
-      sourceColumn.splice(cardIndex, 1);
-      newCardData[columnIndex - 1].push(card);
-      setCardData(newCardData);
+    const newColumnData = [...columnData];
+    const sourceColumn = newColumnData[columnIndex];
+    const destinationColumn = newColumnData[columnIndex - 1];
+    const cardIndex = sourceColumn.cards.findIndex(c => c.card.id === card.card.id);
 
+    if (cardIndex > -1) {
+      const movedCard = { ...sourceColumn.cards[cardIndex], card: { ...sourceColumn.cards[cardIndex].card, rank: destinationColumn.cards.length } };
+      sourceColumn.cards.splice(cardIndex, 1);
+      destinationColumn.cards.push(movedCard);
+
+      updateRanks(newColumnData);
       onMoveCardLeft(columnIndex, card);
     }
   };
 
-  // Function to move cards (tasks) right
-  const moveCardRight = (columnIndex: number, card: Card) => {
+  const moveCardRight = (columnIndex: number, card: CardDto) => {
     if (columnIndex === columnData.length - 1) return;
-    const newCardData = [...cardData];
-    const sourceColumn = newCardData[columnIndex];
-    const cardIndex = sourceColumn.findIndex(c => c.id === card.id);
-    if (cardIndex > -1) {
-      sourceColumn.splice(cardIndex, 1);
-      newCardData[columnIndex + 1].push(card);
-      setCardData(newCardData);
+    const newColumnData = [...columnData];
+    const sourceColumn = newColumnData[columnIndex];
+    const destinationColumn = newColumnData[columnIndex + 1];
+    const cardIndex = sourceColumn.cards.findIndex(c => c.card.id === card.card.id);
 
+    if (cardIndex > -1) {
+      const movedCard = { ...sourceColumn.cards[cardIndex], card: { ...sourceColumn.cards[cardIndex].card, rank: destinationColumn.cards.length } };
+      sourceColumn.cards.splice(cardIndex, 1);
+      destinationColumn.cards.push(movedCard);
+
+      updateRanks(newColumnData);
       onMoveCardRight(columnIndex, card);
     }
   };
 
-  // Function to delete a column (list)
   const handleDeleteColumn = (columnIndex: number) => {
-    const newColumnData = [...columnData];
-    newColumnData.splice(columnIndex, 1);
-    setColumnData(newColumnData);
-
+    const newColumnData = columnData.filter((_, idx) => idx !== columnIndex);
+    updateRanks(newColumnData);
     onDeleteColumn(columnIndex);
   };
 
-  // Function to delete a card (task)
   const handleDeleteCard = (columnIndex: number, cardId: string) => {
-    const newCardData = [...cardData];
-    const sourceColumn = newCardData[columnIndex];
-    const cardIndex = sourceColumn.findIndex(c => c.id === cardId);
-    if (cardIndex > -1) {
-      sourceColumn.splice(cardIndex, 1);
-      setCardData(newCardData);
+    const newColumnData = [...columnData];
+    const sourceColumn = newColumnData[columnIndex];
+    const cardIndex = sourceColumn.cards.findIndex(c => c.card.id === cardId);
 
+    if (cardIndex > -1) {
+      sourceColumn.cards.splice(cardIndex, 1);
+      updateRanks(newColumnData);
       onDeleteCard(columnIndex, cardId);
     }
   };
 
-  // Function to add a new card (task)
   const handleAddCard = (columnIndex: number) => {
-    const newCardData = [...cardData];
-    const newCard : Card = {
-      id: `card-${newCardData[columnIndex].length + 1}`,
+    const newColumnData = [...columnData];
+    const newCard: Card = {
+      id: `card-${newColumnData[columnIndex].cards.length + 1}`,
       title: '',
       body: '',
-      columnId: columnData[columnIndex].id,
-      rank: newCardData[columnIndex].length,
+      columnId: newColumnData[columnIndex].column.id,
+      rank: newColumnData[columnIndex].cards.length,
       version: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    newCardData[columnIndex].push(newCard);
-    setCardData(newCardData);
 
-    setEditingTask({ listIndex: columnIndex, taskIndex: newCardData[columnIndex].length - 1 });
-
+    newColumnData[columnIndex].cards.push({ card: newCard, boardId });
+    updateRanks(newColumnData);
+    setEditingTask({ listIndex: columnIndex, taskIndex: newCard.rank });
     onAddCard(columnIndex);
   };
 
-  // Function to update a card's title
-  const handleUpdateCard = (columnIndex: number, cardIndex: number, newTitle: string) => {
-    const newCardData = [...cardData];
-    newCardData[columnIndex][cardIndex].title = newTitle;
-    setCardData(newCardData);
-
-    setEditingTask(null);
-
-    onUpdateCard(columnIndex, cardIndex, newTitle);
-  };
-
-  // Function to add a new column (list)
   const handleAddColumn = (title: string) => {
-    const newColumn = {
-      id: `column-${columnData.length + 1}`,
-      name: title,
-      boardId: boardId,
-      rank: columnData.length,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      version: 1,
+    const newColumn: ColumnDto = {
+      column: {
+        id: `column-${columnData.length + 1}`,
+        name: title,
+        boardId,
+        rank: columnData.length,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        version: 1,
+      },
+      cards: [],
     };
-    setColumnData([...columnData, newColumn]);
-    setIsAddingColumn(false);
 
+    const newColumnData = [...columnData, newColumn];
+    updateRanks(newColumnData);
+    setIsAddingColumn(false);
     onAddColumn(title);
-  };
-
-  // Function to cancel adding a new column (list)
-  const handleCancelAddColumn = () => {
-    setIsAddingColumn(false);
-    onCancelAddColumn();
-  };
-
-  // Function to update a column's title
-  const handleUpdateColumnTitle = (columnIndex: number, newTitle: string) => {
-    const newColumnData = [...columnData];
-    newColumnData[columnIndex].name = newTitle;
-    setColumnData(newColumnData);
-
-    onUpdateColumnTitle(columnIndex, newTitle);
   };
 
   return (
     <Box sx={{ display: 'flex', overflowX: 'auto', padding: 2 }}>
-      {columnData.map((column, index) => (
+      {columnData.map((columnDto, index) => (
         <ListCard
-          key={column.id}
-          title={column.name}
-          tasks={cardData[index]}
+          key={columnDto.column.id}
+          title={columnDto.column.name}
+          cards={columnDto.cards ?? []}
           moveListLeft={() => moveColumnLeft(index)}
           moveListRight={() => moveColumnRight(index)}
           canMoveLeft={index > 0}
           canMoveRight={index < columnData.length - 1}
-          onMoveTaskLeft={(task) => moveCardLeft(index, task)}
-          onMoveTaskRight={(task) => moveCardRight(index, task)}
+          onMoveCardLeft={(card: CardDto) => moveCardLeft(index, card)}
+          onMoveCardRight={(card: CardDto) => moveCardRight(index, card)}
           onDelete={() => handleDeleteColumn(index)}
-          onDeleteTask={(task) => handleDeleteCard(index, task.id)}
+          onDeleteCard={(card: CardDto) => handleDeleteCard(index, card.card.id)}
           onAddCard={() => handleAddCard(index)}
-          onUpdateTask={(taskIndex, newTitle) => handleUpdateCard(index, taskIndex, newTitle)}
-          onUpdateListTitle={(newTitle) => handleUpdateColumnTitle(index, newTitle)} 
-          editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}        
-          />
+          onUpdateCard={(taskIndex, newCard) => onUpdateCard(index, taskIndex, newCard)}
+          onUpdateListTitle={(newTitle) => onUpdateColumnTitle(index, newTitle)}
+          editingTask={editingTask?.listIndex === index ? editingTask.taskIndex : null}
+        />
       ))}
       {isAddingColumn ? (
-        <NewListCard onAddList={handleAddColumn} onCancel={handleCancelAddColumn} />
+        <NewListCard onAddList={handleAddColumn} onCancel={() => setIsAddingColumn(false)} />
       ) : (
         <AddListButton onClick={() => setIsAddingColumn(true)} />
       )}
