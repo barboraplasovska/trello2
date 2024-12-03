@@ -27,7 +27,9 @@ export const SubAppBar: React.FC<SubAppBarProps> = ({ title, style, onDelete, on
   };
 
   const handleTitleSubmit = () => {
-    onEdit(newTitle);
+    if (newTitle.trim() !== title) {
+      onEdit(newTitle);
+    }
     setIsEditing(false);
   };
 

@@ -6,6 +6,7 @@ import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
 import { Box, Typography } from '@mui/material';
 import { logout } from '../../../core/services/LoginService';
+import {deleteBoard, updateBoard} from "../../../core/services/BoardService";
 
 function BoardPage() {
     const location = useLocation();
@@ -25,17 +26,37 @@ function BoardPage() {
     }, [id, selectedBoard, loadBoardById]);
 
 
-    const handleEditBoard = () => {
-        console.log('Edit board');
-    }
+    const handleEditBoard = async (newTitle: string) => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
 
-    const handleDeleteBoard = () => {
-        console.log('Delete board');
-    }
+        try {
+            const updatedBoard = await updateBoard(selectedBoard.board.id, newTitle);
+            console.log('Board updated successfully:', updatedBoard);
+            await loadBoardById(selectedBoard.board.id)
+        } catch (error) {
+            console.error('Failed to update board:', error);
+        }
+    };
+
+    const handleDeleteBoard = async () => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
+        try {
+            const status = await deleteBoard(selectedBoard.board.id);
+            console.log('Board deleted successfully:', status);
+            window.location.href = '/boards';
+        } catch (error) {
+            console.error('Failed to delete board:', error);
+        }
+    };
+
 
     function onLogout() {
-        logout();
-        window.location.href = '/login';
+        logout().then(() => {
+            window.location.href = '/login';
+        });
     }
 
     return (

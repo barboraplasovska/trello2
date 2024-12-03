@@ -10,7 +10,7 @@ interface BoardLayoutProps {
   children: React.ReactNode;
   onLogout: () => void;
   onDelete: () => void;
-  onEdit: () => void;
+  onEdit: (newTitle: string) => void;
 }
 
 const BoardLayout: React.FC<BoardLayoutProps> = ({
