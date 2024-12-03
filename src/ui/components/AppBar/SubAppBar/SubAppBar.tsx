@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { AppBar, Toolbar, Typography, IconButton, TextField } from '@mui/material';
+import {AppBar, IconButton, TextField, Toolbar, Typography} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {CardDto} from "../../../../core/models/CardDto";
+import {DialogType} from "../../../../core/models/DialogType";
 
 type SubAppBarProps = {
   title: string;
   style?: React.CSSProperties;
-  onDelete: () => void;
+  onDelete: (type: DialogType, item: string | CardDto | null) => void;
   onEdit: (newTitle: string) => void;
 };
 
@@ -23,7 +25,7 @@ export const SubAppBar: React.FC<SubAppBarProps> = ({ title, style, onDelete, on
   };
 
   const handleDeleteClick = () => {
-    onDelete();
+    onDelete(DialogType.Board, null);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
