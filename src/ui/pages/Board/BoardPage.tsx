@@ -48,8 +48,7 @@ function BoardPage() {
             return;
 
         try {
-            await deleteBoard(selectedBoard.board.id);
-            window.location.href = '/boards';
+            await deleteBoard(selectedBoard.board.id).then(() => navigate('/boards'))
         } catch (error) {
             console.error('Failed to delete board:', error);
         }

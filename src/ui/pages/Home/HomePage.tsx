@@ -43,8 +43,7 @@ function HomePage() {
   }, []);
 
   function onLogout() {
-    logout();
-    window.location.href = '/login';
+    logout().then(() => navigate('/login'));
   }
 
   return (
