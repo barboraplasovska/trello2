@@ -109,22 +109,26 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   };
 
   const handleDeleteColumn = async (columnId: string) => {
-    const newColumnData = columnData.filter((column) => column.column.id !== columnId);
-    updateRanks(newColumnData);
+    if (process.env.STORYBOOK) {
+      const newColumnData = columnData.filter((column) => column.column.id !== columnId);
+      updateRanks(newColumnData);
+    }
     onDeleteColumn(DialogType.Column, columnId);
   };
 
   const handleDeleteCard = async (card: CardDto) => {
-    const newColumnData = columnData.map((column) => {
-      if (column.column.id === card.card.columnId) {
-        return {
-          ...column,
-          cards: column.cards.filter((c) => c.card.id !== card.card.id),
-        };
-      }
-      return column;
-    });
-    updateRanks(newColumnData);
+    if (process.env.STORYBOOK) {
+      const newColumnData = columnData.map((column) => {
+        if (column.column.id === card.card.columnId) {
+          return {
+            ...column,
+            cards: column.cards.filter((c) => c.card.id !== card.card.id),
+          };
+        }
+        return column;
+      });
+      updateRanks(newColumnData);
+    }
     onDeleteCard(DialogType.Card, card);
   };
 

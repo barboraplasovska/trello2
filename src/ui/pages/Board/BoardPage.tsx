@@ -266,7 +266,7 @@ function BoardPage() {
         }
     }
 
-    const handleDelete = (type: DialogType, item: string | CardDto | null) => {
+    const handleDelete = async (type: DialogType, item: string | CardDto | null) => {
         setDeleteType(type);
         setItemToDelete(item);
         setIsDialogOpen(true);
