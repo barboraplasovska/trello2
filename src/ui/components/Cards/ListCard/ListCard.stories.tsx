@@ -3,14 +3,14 @@ import { ListCard } from './ListCard';
 
 const ActionData = {
   onAddCard: fn(),
-  onArrowClick: fn(),
-  onMoreClick: fn(),
   moveListLeft: fn(),
   moveListRight: fn(),
-  onMoveTaskLeft: fn(),
-  onMoveTaskRight: fn(),
+  onMoveCardLeft: fn(),
+  onMoveCardRight: fn(),
   onDelete: fn(),
-  onDeleteTask: fn(),
+  onDeleteCard: fn(),
+  onUpdateCard: fn(),
+  onUpdateListTitle: fn(),
 };
 
 export default {
@@ -18,10 +18,20 @@ export default {
   component: ListCard,
   tags: ['autodocs'],
   args: {
-    title: 'Ongoing',
-    tasks: ['Task 1', 'Task 2', 'Task 3'],
+    title: 'List Title',
+    cards: [
+      {
+        card:
+        {
+          title: 'Card Title',
+          description: 'Card Description'
+        },
+        boardId: '1'
+      }
+    ],
     canMoveLeft: true,
     canMoveRight: true,
+    editingTask: null,
     ...ActionData,
   },
 };

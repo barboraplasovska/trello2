@@ -1,9 +1,10 @@
-import { fn } from '@storybook/test';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
 import MainAppBar from './MainAppBar';
+import { fn } from '@storybook/test';
 
 const ActionData = {
   onLogout: fn(),
-  href: 'https://google.com',
 };
 
 export default {
@@ -15,4 +16,4 @@ export default {
   },
 };
 
-export const Default = {};
+export const Default = (args: any) => <MainAppBar {...args} />; 

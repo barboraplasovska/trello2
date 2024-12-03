@@ -14,5 +14,23 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
+  webpackFinal: async (config) => {
+    // Ensure TypeScript files and JSX are handled correctly
+    if (config.module && config.module.rules) {
+      config.module.rules.push({
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-react', '@babel/preset-typescript'],
+            },
+          },
+        ],
+
+      });
+    }
+    return config;
+  },
 };
 export default config;

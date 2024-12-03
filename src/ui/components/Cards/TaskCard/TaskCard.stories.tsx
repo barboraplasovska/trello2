@@ -2,10 +2,10 @@ import { fn } from '@storybook/test';
 import { TaskCard } from './TaskCard';
 
 const ActionData = {
-    onClick: fn(),
-    moveTaskLeft: fn(),
-    moveTaskRight: fn(),
-    onDelete: fn(),
+  onEditComplete: fn(),
+  moveTaskLeft: fn(),
+  moveTaskRight: fn(),
+  onDelete: fn(),
 };
 
 export default {
@@ -13,7 +13,14 @@ export default {
   component: TaskCard,
   tags: ['autodocs'],
   args: {
-    title: 'Ongoing',
+    card: {
+      card: {
+        title: 'Card Title',
+        description: 'Card Description'
+      },
+      boardId: '1'
+    },
+    isEditing: false,
     canMoveLeft: true,
     canMoveRight: true,
     ...ActionData
