@@ -14,8 +14,8 @@ type BoardListCarouselProps = {
   onMoveColumnRight: (index: number) => void;
   onMoveCardLeft: (columnIndex: number, card: CardDto) => void;
   onMoveCardRight: (columnIndex: number, card: CardDto) => void;
-  onDeleteColumn: (columnIndex: number) => void;
-  onDeleteCard: (columnIndex: number, cardId: string) => void;
+  onDeleteColumn: (columnId: string) => void;
+  onDeleteCard: (card: CardDto) => void;
   onAddCard: (columnIndex: number) => void;
   onUpdateCard: (columnIndex: number, cardIndex: number, newCard: CardDto) => void;
   onUpdateColumnTitle: (columnIndex: number, newTitle: string) => void;
@@ -107,22 +107,24 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
     }
   };
 
-  const handleDeleteColumn = (columnIndex: number) => {
-    const newColumnData = columnData.filter((_, idx) => idx !== columnIndex);
+  const handleDeleteColumn = async (columnId: string) => {
+    const newColumnData = columnData.filter((column) => column.column.id !== columnId);
     updateRanks(newColumnData);
-    onDeleteColumn(columnIndex);
+    onDeleteColumn(columnId);
   };
 
-  const handleDeleteCard = (columnIndex: number, cardId: string) => {
-    const newColumnData = [...columnData];
-    const sourceColumn = newColumnData[columnIndex];
-    const cardIndex = sourceColumn.cards.findIndex(c => c.card.id === cardId);
-
-    if (cardIndex > -1) {
-      sourceColumn.cards.splice(cardIndex, 1);
-      updateRanks(newColumnData);
-      onDeleteCard(columnIndex, cardId);
-    }
+  const handleDeleteCard = async (card: CardDto) => {
+    const newColumnData = columnData.map((column) => {
+      if (column.column.id === card.card.columnId) {
+        return {
+          ...column,
+          cards: column.cards.filter((c) => c.card.id !== card.card.id),
+        };
+      }
+      return column;
+    });
+    updateRanks(newColumnData);
+    onDeleteCard(card);
   };
 
   const handleAddCard = (columnIndex: number) => {
@@ -183,8 +185,8 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
           canMoveRight={index < columnData.length - 1}
           onMoveCardLeft={(card: CardDto) => moveCardLeft(index, card)}
           onMoveCardRight={(card: CardDto) => moveCardRight(index, card)}
-          onDelete={() => handleDeleteColumn(index)}
-          onDeleteCard={(card: CardDto) => handleDeleteCard(index, card.card.id)}
+          onDelete={() => handleDeleteColumn(columnDto.column.id)}
+          onDeleteCard={(card: CardDto) => handleDeleteCard(card)}
           onAddCard={() => handleAddCard(index)}
           onUpdateCard={(taskIndex, newCard) => onUpdateCard(index, taskIndex, newCard)}
           onUpdateListTitle={(newTitle) => onUpdateColumnTitle(index, newTitle)}

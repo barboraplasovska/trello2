@@ -9,8 +9,8 @@ import { logout } from '../../../core/services/LoginService';
 import {deleteBoard, updateBoard} from "../../../core/services/BoardService";
 import { CardCreationForm } from '../../../core/models/CardCreationForm';
 import { Column } from '../../../core/models/Column';
-import { createCard, updateCard, moveCardToColumn } from '../../../core/services/CardService';
-import { createColumn, updateColumn } from '../../../core/services/ColomnService';
+import {createCard, updateCard, moveCardToColumn, deleteCard} from '../../../core/services/CardService';
+import {createColumn, deleteColumn, updateColumn} from '../../../core/services/ColomnService';
 
 function BoardPage() {
     const location = useLocation();
@@ -36,8 +36,7 @@ function BoardPage() {
             return;
 
         try {
-            const updatedBoard = await updateBoard(selectedBoard.board.id, newTitle);
-            console.log('Board updated successfully:', updatedBoard);
+            await updateBoard(selectedBoard.board.id, newTitle);
             await loadBoardById(selectedBoard.board.id)
         } catch (error) {
             console.error('Failed to update board:', error);
@@ -49,8 +48,7 @@ function BoardPage() {
             return;
 
         try {
-            const status = await deleteBoard(selectedBoard.board.id);
-            console.log('Board deleted successfully:', status);
+            await deleteBoard(selectedBoard.board.id);
             window.location.href = '/boards';
         } catch (error) {
             console.error('Failed to delete board:', error);
@@ -65,12 +63,12 @@ function BoardPage() {
 
     /// Column functions
     const addColumn = async (title : string) => {
-        await createColumn(id, title).then(() => console.log('Added column ', title)).catch(err => console.log(err))  
+        await createColumn(id, title).then(() => console.log('Added column ', title)).catch(err => console.log(err))
     }
     
     const updColumn = async (columnIndex : number, newTitle : string) => {
         let col : Column = selectedBoard?.columns[columnIndex].column
-        ? selectedBoard.columns[columnIndex].column : { 
+        ? selectedBoard.columns[columnIndex].column : {
             id: "",
             name: newTitle,
             boardId: "",
@@ -142,6 +140,29 @@ function BoardPage() {
         .catch(err => console.log(err))
     }
 
+    const handleDeleteColumn = async (columnId: string) => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
+        await deleteColumn(columnId)
+            .catch(err => console.log(err))
+    }
+
+    const handleDeleteCard = async (card: CardDto) => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
+        let cardData : CardCreationForm = {
+            title: card.card.title,
+            body: card.card.body,
+            columnId: card.card.columnId,
+            boardId: card.boardId,
+            rank: card.card.rank
+        }
+
+        await deleteCard(card.card.id, cardData);
+    }
+
     return (
         <BoardLayout
             color={color}
@@ -168,12 +189,8 @@ function BoardPage() {
                     }}
                     onMoveCardLeft={moveCardLeft}
                     onMoveCardRight={moveCardRight}
-                    onDeleteColumn={function (columnIndex: number): void {
-                        console.log('Function not implemented.');
-                    }}
-                    onDeleteCard={function (columnIndex: number, cardId: string): void {
-                        console.log('Function not implemented.');
-                    }}
+                    onDeleteColumn={handleDeleteColumn}
+                    onDeleteCard={handleDeleteCard}
                     onAddCard={addCard}
                     onUpdateCard={updCard}
                     onUpdateColumnTitle={updColumn}
