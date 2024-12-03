@@ -52,7 +52,6 @@ function BoardPage() {
         }
     };
 
-
     function onLogout() {
         logout().then(() => {
             window.location.href = '/login';

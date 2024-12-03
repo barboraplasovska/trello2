@@ -61,7 +61,7 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 <BoardCard
                     key={board.id}
                     board={board}
-                    color={`#${colors[localBoards.findIndex(b => b.id === board.id) % colors.length]}`}
+                    color={`#${colors[board.id.charAt(0).charCodeAt(0) % colors.length]}`}
                     onBoardClick={() => onBoardClick(board)}
                 />
             ))}

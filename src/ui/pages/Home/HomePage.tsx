@@ -27,8 +27,8 @@ function HomePage() {
   const handleBoardClick = (board: Board) => {
     const boardNameSlug = board.name.toLowerCase().replace(/\s+/g, '-');
 
-    const index = boards.findIndex(b => b.id === board.id);
-    const color = `#${colors[index % colors.length]}`;
+    // use the first character ascii code of the board id to determine the color
+    const color = `#${colors[board.id.charAt(0).charCodeAt(0) % colors.length]}`;
 
     navigate(`/board/${boardNameSlug}`, { state: { color, id: board.id } });
   };
