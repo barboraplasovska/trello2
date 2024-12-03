@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { AppBar, Toolbar, Typography, IconButton, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +13,10 @@ type SubAppBarProps = {
 export const SubAppBar: React.FC<SubAppBarProps> = ({ title, style, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
+
+  useEffect(() => {
+    setNewTitle(title);
+  }, [title]);
 
   const handleEditClick = () => {
     setIsEditing(true);
