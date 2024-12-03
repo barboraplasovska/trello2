@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { BoardListCarousel } from "../../components/Lists/BoardListCarousel/BoardListCarousel";
 import BoardLayout from '../../components/Layouts/BoardLayout';
@@ -11,8 +11,14 @@ import { CardCreationForm } from '../../../core/models/CardCreationForm';
 import { Column } from '../../../core/models/Column';
 import {createCard, updateCard, moveCardToColumn, deleteCard} from '../../../core/services/CardService';
 import {createColumn, deleteColumn, updateColumn} from '../../../core/services/ColomnService';
+import {DialogType} from "../../../core/models/DialogType";
+import DeleteDialog from "../../components/Dialog/DeleteDialog";
 
 function BoardPage() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [deleteType, setDeleteType] = useState<DialogType | null>(null);
+    const [itemToDelete, setItemToDelete] = useState<any>(null); // FIXME : any type is not good
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -163,6 +169,26 @@ function BoardPage() {
         await deleteCard(card.card.id, cardData);
     }
 
+    /// Dialog functions
+    const handleCancelDelete = () => {
+        setIsDialogOpen(false);
+    }
+
+    const handleDeleteConfirm = async () => {
+        setIsDialogOpen(false);
+        switch (deleteType) {
+            case DialogType.Column:
+                await handleDeleteColumn(itemToDelete.id);
+                break;
+            case DialogType.Card:
+                await handleDeleteCard(itemToDelete);
+                break;
+            case DialogType.Board:
+                await handleDeleteBoard();
+                break;
+        }
+    }
+
     return (
         <BoardLayout
             color={color}
@@ -199,6 +225,21 @@ function BoardPage() {
                     }}
                     onAddColumn={addColumn}
                 />
+            )}
+
+            {isDialogOpen && (
+                <>
+
+
+                    <div className="dialog-div">
+                        <DeleteDialog
+                            type={deleteType!}
+                            onCancel={handleCancelDelete}
+                            onDelete={handleDeleteConfirm}
+                        />
+                    </div>
+                    <div className="behind-dialog-div"></div>
+                </>
             )}
         </BoardLayout>
     )
