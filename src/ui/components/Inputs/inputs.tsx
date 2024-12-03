@@ -1,3 +1,5 @@
+import React from 'react';
+
 import "./inputs.css"
 import PropTypes from 'prop-types';
 

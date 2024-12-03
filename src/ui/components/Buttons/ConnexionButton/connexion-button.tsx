@@ -1,3 +1,5 @@
+import React from 'react';
+
 import './connexion-buttons.css';
 import PropTypes from 'prop-types';
 
@@ -11,7 +13,7 @@ export default function ConnexionButton({ isLogIn, connect }: ConnexionButtonsPr
         <div className="connexion-button">
             <button
                 onClick={connect}>
-                    {isLogIn ? "Log in" : "Sign up"}
+                {isLogIn ? "Log in" : "Sign up"}
             </button>
         </div>
     )
