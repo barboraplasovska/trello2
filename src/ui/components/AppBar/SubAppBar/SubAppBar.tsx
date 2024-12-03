@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {AppBar, IconButton, TextField, Toolbar, Typography} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { AppBar, Toolbar, Typography, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {CardDto} from "../../../../core/models/CardDto";
-import {DialogType} from "../../../../core/models/DialogType";
+import { CustomIconButton } from '../../Buttons/CustomIconButton/CustomIconButton';
+import { DialogType } from '../../../../core/models/DialogType';
+import { CardDto } from '../../../../core/models/CardDto';
 
 type SubAppBarProps = {
   title: string;
@@ -12,7 +13,12 @@ type SubAppBarProps = {
   onEdit: (newTitle: string) => void;
 };
 
-export const SubAppBar: React.FC<SubAppBarProps> = ({ title, style, onDelete, onEdit }) => {
+export const SubAppBar: React.FC<SubAppBarProps> = ({
+  title,
+  style,
+  onDelete = () => { },
+  onEdit = () => { }
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
 
@@ -67,17 +73,8 @@ export const SubAppBar: React.FC<SubAppBarProps> = ({ title, style, onDelete, on
         )}
 
         <div>
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={handleEditClick}
-            sx={{ marginRight: 2 }}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton edge="end" color="inherit" onClick={handleDeleteClick}>
-            <DeleteIcon />
-          </IconButton>
+          <CustomIconButton icon={<EditIcon />} onClick={handleEditClick} ariaLabel="edit" />
+          <CustomIconButton icon={<DeleteIcon />} onClick={handleDeleteClick} ariaLabel="delete" />
         </div>
       </Toolbar>
     </AppBar>

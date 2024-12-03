@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { BoardListCarousel } from "../../components/Lists/BoardListCarousel/BoardListCarousel";
 import BoardLayout from '../../components/Layouts/BoardLayout';
@@ -6,12 +6,12 @@ import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
 import { Box, Typography } from '@mui/material';
 import { logout } from '../../../core/services/LoginService';
-import {deleteBoard, updateBoard} from "../../../core/services/BoardService";
+import { deleteBoard, updateBoard } from "../../../core/services/BoardService";
 import { CardCreationForm } from '../../../core/models/CardCreationForm';
 import { Column } from '../../../core/models/Column';
-import {createCard, updateCard, moveCardToColumn, deleteCard} from '../../../core/services/CardService';
-import {createColumn, deleteColumn, updateColumn} from '../../../core/services/ColomnService';
-import {DialogType} from "../../../core/models/DialogType";
+import { createCard, updateCard, moveCardToColumn, deleteCard } from '../../../core/services/CardService';
+import { createColumn, deleteColumn, updateColumn } from '../../../core/services/ColomnService';
+import { DialogType } from "../../../core/models/DialogType";
 import DeleteDialog from "../../components/Dialog/DeleteDialog";
 
 function BoardPage() {
@@ -68,26 +68,26 @@ function BoardPage() {
     };
 
     /// Column functions
-    const addColumn = async (title : string) => {
+    const addColumn = async (title: string) => {
         await createColumn(id, title).then(() => loadBoardById(id))
-        .catch(err => console.log(err))
-        .finally(() => console.log('Added column ', title))
+            .catch(err => console.log(err))
+            .finally(() => console.log('Added column ', title))
     }
-    
-    const updColumn = async (columnIndex : number, newTitle : string) => {
+
+    const updColumn = async (columnIndex: number, newTitle: string) => {
         if (!selectedBoard || !selectedBoard.board.id)
             return;
 
-        let col : Column = selectedBoard?.columns[columnIndex].column
-        ? selectedBoard.columns[columnIndex].column : {
-            id: "",
-            name: newTitle,
-            boardId: "",
-            version: 0,
-            createdAt: "",
-            updatedAt: "",
-            rank: 0
-        };
+        let col: Column = selectedBoard?.columns[columnIndex].column
+            ? selectedBoard.columns[columnIndex].column : {
+                id: "",
+                name: newTitle,
+                boardId: "",
+                version: 0,
+                createdAt: "",
+                updatedAt: "",
+                rank: 0
+            };
         col.name = newTitle;
 
         try {
@@ -100,7 +100,7 @@ function BoardPage() {
     }
 
     const moveColumnLeft = async (index: number) => {
-        let col = selectedBoard ? selectedBoard.columns[index].column : { 
+        let col = selectedBoard ? selectedBoard.columns[index].column : {
             id: "",
             name: "",
             boardId: "",
@@ -110,7 +110,7 @@ function BoardPage() {
             rank: 0
         };
         col.rank = index - 1
-        let colLeft = selectedBoard ? selectedBoard.columns[index - 1].column : { 
+        let colLeft = selectedBoard ? selectedBoard.columns[index - 1].column : {
             id: "",
             name: "",
             boardId: "",
@@ -131,7 +131,7 @@ function BoardPage() {
     }
 
     const moveColumnRight = async (index: number) => {
-        let col = selectedBoard ? selectedBoard.columns[index].column : { 
+        let col = selectedBoard ? selectedBoard.columns[index].column : {
             id: "",
             name: "",
             boardId: "",
@@ -141,7 +141,7 @@ function BoardPage() {
             rank: 0
         };
         col.rank = index + 1
-        let colRight = selectedBoard ? selectedBoard.columns[index + 1].column : { 
+        let colRight = selectedBoard ? selectedBoard.columns[index + 1].column : {
             id: "",
             name: "",
             boardId: "",
@@ -171,8 +171,8 @@ function BoardPage() {
 
     /// Card functions
 
-    const addCard = async (columnIndex : number) => {
-        let card : CardCreationForm = {
+    const addCard = async (columnIndex: number) => {
+        let card: CardCreationForm = {
             title: "New card",
             body: "New card",
             columnId: selectedBoard ? selectedBoard.columns[columnIndex].column.id : "none",
@@ -180,11 +180,11 @@ function BoardPage() {
             rank: selectedBoard ? selectedBoard.columns[columnIndex].cards.length : 0
         }
         await createCard(card).then(() => loadBoardById(id))
-        .then(() => console.log('Added card'))
+            .then(() => console.log('Added card'))
     }
 
     const updCard = async (columnIndex: number, cardIndex: number, newCard: CardDto) => {
-        let card : CardCreationForm = {
+        let card: CardCreationForm = {
             title: newCard.card.title,
             body: newCard.card.body,
             columnId: selectedBoard ? selectedBoard.columns[columnIndex].column.id : "none",
@@ -192,13 +192,13 @@ function BoardPage() {
             rank: cardIndex
         }
         await updateCard(newCard.card.id, card).then(() => loadBoardById(id))
-        .finally(() => console.log('Updated card ', card.title))
+            .finally(() => console.log('Updated card ', card.title))
     }
 
 
     const moveCardLeft = async (columnIndex: number, card: CardDto) => {
         let newColumnId = selectedBoard ? selectedBoard.columns[columnIndex - 1].column.id : "none"
-        let movedCard : CardCreationForm = {
+        let movedCard: CardCreationForm = {
             title: card.card.title,
             body: card.card.body,
             columnId: card.card.columnId,
@@ -207,14 +207,14 @@ function BoardPage() {
         }
 
         await moveCardToColumn(card.card.id, newColumnId, movedCard).then(() => loadBoardById(id))
-        .catch(err => console.log(err))
-        .finally(() => console.log(`Moved ${movedCard.title} to the left`))
+            .catch(err => console.log(err))
+            .finally(() => console.log(`Moved ${movedCard.title} to the left`))
     }
 
     const moveCardRight = async (columnIndex: number, card: CardDto) => {
         let newColumnId = selectedBoard ? selectedBoard.columns[columnIndex + 1].column.id : "none"
 
-        let movedCard : CardCreationForm = {
+        let movedCard: CardCreationForm = {
             title: card.card.title,
             body: card.card.body,
             columnId: card.card.columnId,
@@ -223,9 +223,9 @@ function BoardPage() {
         }
 
         await moveCardToColumn(card.card.id, newColumnId, movedCard)
-        .then(() => loadBoardById(id))
-        .catch(err => console.log(err))
-        .finally(() => console.log(`Moved ${movedCard.title} to the right`))
+            .then(() => loadBoardById(id))
+            .catch(err => console.log(err))
+            .finally(() => console.log(`Moved ${movedCard.title} to the right`))
     }
 
 
@@ -234,7 +234,7 @@ function BoardPage() {
         if (!selectedBoard || !selectedBoard.board.id)
             return;
 
-        let cardData : CardCreationForm = {
+        let cardData: CardCreationForm = {
             title: card.card.title,
             body: card.card.body,
             columnId: card.card.columnId,
@@ -243,7 +243,7 @@ function BoardPage() {
         }
 
         await deleteCard(card.card.id, cardData).then(() => loadBoardById(id))
-        .finally(() => console.log("Deleted card : ", card.card.title));
+            .finally(() => console.log("Deleted card : ", card.card.title));
     }
 
     /// Dialog functions

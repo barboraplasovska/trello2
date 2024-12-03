@@ -6,7 +6,11 @@ interface LogoutButtonProps {
 
 const LogoutButton: React.FC<LogoutButtonProps> = ({ onClick }) => {
     return (
-        <button style={styles.button} onClick={onClick}>
+        <button
+            style={styles.button}
+            onClick={onClick}
+            aria-label="logout"
+        >
             Log out
         </button>
     );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
 import { Typography } from '@mui/material';
@@ -40,7 +40,7 @@ function HomePage() {
     } else {
       console.log('No JWT found. Waiting for it to be set...');
     }
-  }, []);
+  }, [loadBoards]);
 
   function onLogout() {
     logout().then(() => navigate('/login'));

@@ -1,19 +1,45 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
+import { MemoryRouter } from 'react-router-dom';
 import { MainAppBar } from './MainAppBar';
-import { fn } from '@storybook/test';
+import { action } from '@storybook/addon-actions';
 
-const ActionData = {
-  onLogout: fn(),
+import { within, userEvent } from '@storybook/testing-library';
+import { Meta, StoryObj } from '@storybook/react';
+
+const meta: Meta<typeof MainAppBar> = {
+  title: 'Components/AppBars/MainAppBar',
+  component: MainAppBar,
+  decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
 };
 
-export default {
-  component: MainAppBar,
-  title: 'Components/AppBars/MainAppBar',
-  tags: ['autodocs'],
+export default meta;
+
+type Story = StoryObj<typeof MainAppBar>;
+
+export const Default: Story = {
   args: {
-    ...ActionData,
+    onLogout: action('onLogout'),
   },
 };
 
-export const Default = (args: any) => <MemoryRouter><MainAppBar {...args} /></MemoryRouter>; 
+export const MissingOnLogout: Story = {
+  args: {
+    onLogout: undefined,
+  },
+};
+
+export const Interactions: Story = {
+  args: {
+    onLogout: action('onLogout'),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const boardsLink = canvas.getByText('My boards');
+    await userEvent.click(boardsLink);
+    console.log('Link clicked:', boardsLink);
+
+    const logoutButton = canvas.getByRole('button', { name: /logout/i });
+    await userEvent.click(logoutButton);
+  },
+};

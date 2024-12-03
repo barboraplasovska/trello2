@@ -4,10 +4,11 @@ const config: StorybookConfig = {
   stories: ['../src/ui/components/**/*.stories.@(ts|tsx)'],
   addons: [
     "@storybook/preset-create-react-app",
+    '@storybook/addon-essentials',
+    '@storybook/addon-links',
+    '@storybook/addon-actions',
     "@storybook/addon-onboarding",
-    "@storybook/addon-essentials",
-    "@chromatic-com/storybook",
-    "@storybook/addon-interactions",
+    "@storybook/addon-interactions"
   ],
   framework: {
     name: "@storybook/react-webpack5",
