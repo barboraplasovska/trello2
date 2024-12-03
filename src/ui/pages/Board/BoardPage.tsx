@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { BoardDto } from '../../../core/models/BoardDto';
-import { getBoardById } from '../../../core/services/BoardService';
-import { Typography } from '@mui/material';
-import { useLocation, useParams } from "react-router-dom";
+import { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import { BoardListCarousel } from "../../components/Lists/BoardListCarousel/BoardListCarousel";
 import BoardLayout from '../../components/Layouts/BoardLayout';
-import { Card } from '../../../core/models/Card';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
-
-const defaultBoard: BoardDto = {
-    board: {
-        name: '',
-        id: '',
-        version: 0,
-        createdAt: '',
-        updatedAt: '',
-        userId: ''
-    },
-    columns: []
-}
+import { Box, Typography } from '@mui/material';
 
 function BoardPage() {
-    const { name } = useParams<{ name: string }>();
-
     const location = useLocation();
 
     const { color, id } = location.state || {};
@@ -31,7 +14,6 @@ function BoardPage() {
     const {
         selectedBoard,
         loadBoardById,
-        loading,
         error,
     } = useBoardsViewModel();
 
@@ -62,32 +44,51 @@ function BoardPage() {
             onDelete={handleDeleteBoard}
             onLogout={onLogout}
         >
-            <BoardListCarousel
-                columns={selectedBoard?.columns ?? []}
-                boardId={id} onMoveColumnLeft={function (index: number): void {
-                    throw new Error('Function not implemented.');
-                }} onMoveColumnRight={function (index: number): void {
-                    throw new Error('Function not implemented.');
-                }} onMoveCardLeft={function (columnIndex: number, card: CardDto): void {
-                    throw new Error('Function not implemented.');
-                }} onMoveCardRight={function (columnIndex: number, card: CardDto): void {
-                    throw new Error('Function not implemented.');
-                }} onDeleteColumn={function (columnIndex: number): void {
-                    throw new Error('Function not implemented.');
-                }} onDeleteCard={function (columnIndex: number, cardId: string): void {
-                    throw new Error('Function not implemented.');
-                }} onAddCard={function (columnIndex: number): void {
-                    throw new Error('Function not implemented.');
-                }} onUpdateCard={function (columnIndex: number, cardIndex: number, newCard: CardDto): void {
-                    throw new Error('Function not implemented.');
-                }} onUpdateColumnTitle={function (columnIndex: number, newTitle: string): void {
-                    throw new Error('Function not implemented.');
-                }} onCancelAddColumn={function (): void {
-                    throw new Error('Function not implemented.');
-                }} onAddColumn={function (title: string): void {
-                    throw new Error('Function not implemented.');
-                }}
-            />
+            {error ? (
+                <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
+                    <Typography variant="h6" sx={{ color: 'red' }}>
+                        Error: {error || "Something went wrong!"}
+                    </Typography>
+                </Box>
+            ) : (
+                <BoardListCarousel
+                    columns={selectedBoard?.columns ?? []}
+                    boardId={id}
+                    onMoveColumnLeft={function (index: number): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onMoveColumnRight={function (index: number): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onMoveCardLeft={function (columnIndex: number, card: CardDto): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onMoveCardRight={function (columnIndex: number, card: CardDto): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onDeleteColumn={function (columnIndex: number): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onDeleteCard={function (columnIndex: number, cardId: string): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onAddCard={function (columnIndex: number): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onUpdateCard={function (columnIndex: number, cardIndex: number, newCard: CardDto): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onUpdateColumnTitle={function (columnIndex: number, newTitle: string): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onCancelAddColumn={function (): void {
+                        console.log('Function not implemented.');
+                    }}
+                    onAddColumn={function (title: string): void {
+                        console.log('Function not implemented.');
+                    }}
+                />
+            )}
         </BoardLayout>
     )
 }

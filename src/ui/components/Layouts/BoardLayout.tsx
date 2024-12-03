@@ -38,15 +38,18 @@ const BoardLayout: React.FC<BoardLayoutProps> = ({
       />
       <Box
         sx={{
+          backgroundColor: color,
           margin: '10px',
           flex: 1,
-          overflowY: 'auto',
           padding: 2,
+          overflowX: 'scroll',
+          scrollbarColor: `#1E2125 ${color}`,
+          msScrollbarShadowColor: 'transparent',
         }}
       >
         {children}
       </Box>
-    </Box>
+    </Box >
   );
 };
 
