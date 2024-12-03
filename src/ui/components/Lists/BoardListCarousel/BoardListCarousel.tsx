@@ -6,6 +6,7 @@ import { NewListCard } from '../../Cards/NewListCard/NewListCard';
 import { ColumnDto } from '../../../../core/models/ColumnDto';
 import { Card } from '../../../../core/models/Card';
 import { CardDto } from '../../../../core/models/CardDto';
+import {DialogType} from "../../../../core/models/DialogType";
 
 type BoardListCarouselProps = {
   columns: ColumnDto[];
@@ -14,8 +15,8 @@ type BoardListCarouselProps = {
   onMoveColumnRight: (index: number) => void;
   onMoveCardLeft: (columnIndex: number, card: CardDto) => void;
   onMoveCardRight: (columnIndex: number, card: CardDto) => void;
-  onDeleteColumn: (columnId: string) => void;
-  onDeleteCard: (card: CardDto) => void;
+  onDeleteColumn: (type: DialogType, item: string | CardDto | null) => void
+  onDeleteCard: (type: DialogType, item: string | CardDto | null) => void
   onAddCard: (columnIndex: number) => void;
   onUpdateCard: (columnIndex: number, cardIndex: number, newCard: CardDto) => void;
   onUpdateColumnTitle: (columnIndex: number, newTitle: string) => void;
@@ -108,23 +109,27 @@ export const BoardListCarousel: React.FC<BoardListCarouselProps> = ({
   };
 
   const handleDeleteColumn = async (columnId: string) => {
-    const newColumnData = columnData.filter((column) => column.column.id !== columnId);
-    updateRanks(newColumnData);
-    onDeleteColumn(columnId);
+    if (process.env.STORYBOOK) {
+      const newColumnData = columnData.filter((column) => column.column.id !== columnId);
+      updateRanks(newColumnData);
+    }
+    onDeleteColumn(DialogType.Column, columnId);
   };
 
   const handleDeleteCard = async (card: CardDto) => {
-    const newColumnData = columnData.map((column) => {
-      if (column.column.id === card.card.columnId) {
-        return {
-          ...column,
-          cards: column.cards.filter((c) => c.card.id !== card.card.id),
-        };
-      }
-      return column;
-    });
-    updateRanks(newColumnData);
-    onDeleteCard(card);
+    if (process.env.STORYBOOK) {
+      const newColumnData = columnData.map((column) => {
+        if (column.column.id === card.card.columnId) {
+          return {
+            ...column,
+            cards: column.cards.filter((c) => c.card.id !== card.card.id),
+          };
+        }
+        return column;
+      });
+      updateRanks(newColumnData);
+    }
+    onDeleteCard(DialogType.Card, card);
   };
 
   const handleAddCard = (columnIndex: number) => {

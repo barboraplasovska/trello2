@@ -2,14 +2,16 @@
 import React from 'react';
 import { MainAppBar } from '../AppBar/MainAppBar/MainAppBar';
 import { Box } from '@mui/material';
-import { SubAppBar } from '../AppBar/SubAppBar/SubAppBar';
+import {SubAppBar} from '../AppBar/SubAppBar/SubAppBar';
+import {CardDto} from "../../../core/models/CardDto";
+import {DialogType} from "../../../core/models/DialogType";
 
 interface BoardLayoutProps {
   color: string;
   title: string;
   children: React.ReactNode;
   onLogout: () => void;
-  onDelete: () => void;
+  onDelete: (type: DialogType, item: string | CardDto | null) => void;
   onEdit: (newTitle: string) => void;
 }
 

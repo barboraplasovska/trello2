@@ -17,7 +17,7 @@ import DeleteDialog from "../../components/Dialog/DeleteDialog";
 function BoardPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [deleteType, setDeleteType] = useState<DialogType | null>(null);
-    const [itemToDelete, setItemToDelete] = useState<any>(null); // FIXME : any type is not good
+    const [itemToDelete, setItemToDelete] = useState<null | string | CardDto>(null);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -36,6 +36,13 @@ function BoardPage() {
         }
     }, [id, selectedBoard, loadBoardById]);
 
+    function onLogout() {
+        logout().then(() => {
+            navigate('/login');
+        });
+    }
+
+    /// Board functions
 
     const handleEditBoard = async (newTitle: string) => {
         if (!selectedBoard || !selectedBoard.board.id)
@@ -60,12 +67,6 @@ function BoardPage() {
         }
     };
 
-    function onLogout() {
-        logout().then(() => {
-            navigate('/login');
-        });
-    }
-
     /// Column functions
     const addColumn = async (title : string) => {
         await createColumn(id, title).then(() => loadBoardById(id))
@@ -74,6 +75,9 @@ function BoardPage() {
     }
     
     const updColumn = async (columnIndex : number, newTitle : string) => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
         let col : Column = selectedBoard?.columns[columnIndex].column
         ? selectedBoard.columns[columnIndex].column : {
             id: "",
@@ -85,9 +89,14 @@ function BoardPage() {
             rank: 0
         };
         col.name = newTitle;
-        console.log(col);
-        await updateColumn(col).catch(err => console.log(err))
-        .finally(() => console.log("Updated column ", col.name))
+
+        try {
+            await updateColumn(col).catch(err => console.log(err))
+                .finally(() => console.log("Updated column ", col.name))
+            await loadBoardById(selectedBoard.board.id)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const moveColumnLeft = async (index: number) => {
@@ -151,12 +160,21 @@ function BoardPage() {
         }
     }
 
+    const handleDeleteColumn = async (columnId: string) => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
+        await deleteColumn(columnId)
+            .then(() => loadBoardById(id))
+            .catch(err => console.log(err))
+    }
+
     /// Card functions
 
     const addCard = async (columnIndex : number) => {
         let card : CardCreationForm = {
-            title: "card",
-            body: "card",
+            title: "New card",
+            body: "New card",
             columnId: selectedBoard ? selectedBoard.columns[columnIndex].column.id : "none",
             boardId: id,
             rank: selectedBoard ? selectedBoard.columns[columnIndex].cards.length : 0
@@ -210,14 +228,7 @@ function BoardPage() {
         .finally(() => console.log(`Moved ${movedCard.title} to the right`))
     }
 
-    const handleDeleteColumn = async (columnId: string) => {
-        if (!selectedBoard || !selectedBoard.board.id)
-            return;
 
-        await deleteColumn(columnId)
-            .then(() => loadBoardById(id))
-            .catch(err => console.log(err))
-    }
 
     const handleDeleteCard = async (card: CardDto) => {
         if (!selectedBoard || !selectedBoard.board.id)
@@ -244,10 +255,10 @@ function BoardPage() {
         setIsDialogOpen(false);
         switch (deleteType) {
             case DialogType.Column:
-                await handleDeleteColumn(itemToDelete.id);
+                await handleDeleteColumn(itemToDelete as string);
                 break;
             case DialogType.Card:
-                await handleDeleteCard(itemToDelete);
+                await handleDeleteCard(itemToDelete as CardDto);
                 break;
             case DialogType.Board:
                 await handleDeleteBoard();
@@ -255,12 +266,18 @@ function BoardPage() {
         }
     }
 
+    const handleDelete = async (type: DialogType, item: string | CardDto | null) => {
+        setDeleteType(type);
+        setItemToDelete(item);
+        setIsDialogOpen(true);
+    }
+
     return (
         <BoardLayout
             color={color}
             title={selectedBoard?.board.name ?? "No name"}
             onEdit={handleEditBoard}
-            onDelete={handleDeleteBoard}
+            onDelete={handleDelete}
             onLogout={onLogout}
         >
             {error ? (
@@ -277,8 +294,8 @@ function BoardPage() {
                     onMoveColumnRight={moveColumnRight}
                     onMoveCardLeft={moveCardLeft}
                     onMoveCardRight={moveCardRight}
-                    onDeleteColumn={handleDeleteColumn}
-                    onDeleteCard={handleDeleteCard}
+                    onDeleteColumn={handleDelete}
+                    onDeleteCard={handleDelete}
                     onAddCard={addCard}
                     onUpdateCard={updCard}
                     onUpdateColumnTitle={updColumn}
@@ -291,8 +308,6 @@ function BoardPage() {
 
             {isDialogOpen && (
                 <>
-
-
                     <div className="dialog-div">
                         <DeleteDialog
                             type={deleteType!}
