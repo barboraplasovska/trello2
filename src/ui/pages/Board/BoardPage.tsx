@@ -84,6 +84,71 @@ function BoardPage() {
         await updateColumn(col).then(() => console.log("Updated column ", col.name)).catch(err => console.log(err))
     }
 
+    const moveColumnLeft = async (index: number) => {
+        let col = selectedBoard ? selectedBoard.columns[index].column : { 
+            id: "",
+            name: "",
+            boardId: "",
+            version: 0,
+            createdAt: "",
+            updatedAt: "",
+            rank: 0
+        };
+        col.rank = index - 1
+        let colLeft = selectedBoard ? selectedBoard.columns[index - 1].column : { 
+            id: "",
+            name: "",
+            boardId: "",
+            version: 0,
+            createdAt: "",
+            updatedAt: "",
+            rank: 0
+        };
+        colLeft.rank = index
+        try {
+            console.log(colLeft)
+            await Promise.all([updateColumn(col), updateColumn(colLeft)]).then(() => loadBoardById(id))
+        } catch (e) {
+            console.log(e)
+        } finally {
+            console.log(`Moved column ${col.name} to the left`)
+            console.log("Rank col: ", col.rank)
+            console.log("Rank colLeft: ", colLeft.rank)
+        }
+    }
+
+    const moveColumnRight = async (index: number) => {
+        let col = selectedBoard ? selectedBoard.columns[index].column : { 
+            id: "",
+            name: "",
+            boardId: "",
+            version: 0,
+            createdAt: "",
+            updatedAt: "",
+            rank: 0
+        };
+        col.rank = index + 1
+        let colRight = selectedBoard ? selectedBoard.columns[index + 1].column : { 
+            id: "",
+            name: "",
+            boardId: "",
+            version: 0,
+            createdAt: "",
+            updatedAt: "",
+            rank: index
+        };
+        colRight.rank = index
+        try {
+            await Promise.all([updateColumn(col), updateColumn(colRight)]).then(() => loadBoardById(id))
+        } catch (e) {
+            console.log(e)
+        } finally {
+            console.log(`Moved column ${col.name} to the right`)
+            console.log("Rank col: ", col.rank)
+            console.log("Rank colRight: ", colRight.rank)
+        }
+    }
+
     /// Card functions
 
     const addCard = async (columnIndex : number) => {
@@ -160,12 +225,8 @@ function BoardPage() {
                 <BoardListCarousel
                     columns={selectedBoard?.columns ?? []}
                     boardId={id}
-                    onMoveColumnLeft={function (index: number): void {
-                        console.log('Function not implemented.');
-                    }}
-                    onMoveColumnRight={function (index: number): void {
-                        console.log('Function not implemented.');
-                    }}
+                    onMoveColumnLeft={moveColumnLeft}
+                    onMoveColumnRight={moveColumnRight}
                     onMoveCardLeft={moveCardLeft}
                     onMoveCardRight={moveCardRight}
                     onDeleteColumn={function (columnIndex: number): void {
