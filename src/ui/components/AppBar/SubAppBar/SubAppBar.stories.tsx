@@ -4,6 +4,7 @@ import { StoryObj } from '@storybook/react';
 import { expect } from '@storybook/test';
 import { fn } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
+import { DialogType } from '../../../../core/models/DialogType';
 
 const ActionData = {
   onDelete: fn(),
@@ -122,5 +123,5 @@ Interactions.play = async ({ canvasElement }) => {
 
   // Now test the delete button
   await userEvent.click(deleteButton);
-  //await expect(action('onDelete')).toHaveBeenCalled();
+  //await expect(ActionData.onDelete).toHaveBeenCalledWith(DialogType.Board, null);
 };
