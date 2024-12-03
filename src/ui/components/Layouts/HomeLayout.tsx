@@ -1,6 +1,6 @@
 // ui/layouts/HomeLayout.tsx
 import React from 'react';
-import MainAppBar from '../AppBar/MainAppBar/MainAppBar';
+import { MainAppBar } from '../AppBar/MainAppBar/MainAppBar';
 import { Box } from '@mui/material';
 
 interface HomeLayoutProps {

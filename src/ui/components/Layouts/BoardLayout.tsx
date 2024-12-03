@@ -1,6 +1,6 @@
 // ui/layouts/BoardLayout.tsx
 import React from 'react';
-import MainAppBar from '../AppBar/MainAppBar/MainAppBar';
+import { MainAppBar } from '../AppBar/MainAppBar/MainAppBar';
 import { Box } from '@mui/material';
 import { SubAppBar } from '../AppBar/SubAppBar/SubAppBar';
 
