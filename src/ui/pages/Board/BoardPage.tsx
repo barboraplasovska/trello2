@@ -63,7 +63,9 @@ function BoardPage() {
 
     /// Column functions
     const addColumn = async (title : string) => {
-        await createColumn(id, title).then(() => console.log('Added column ', title)).catch(err => console.log(err))
+        await createColumn(id, title).then(() => loadBoardById(id))
+        .catch(err => console.log(err))
+        .finally(() => console.log('Added column ', title))
     }
     
     const updColumn = async (columnIndex : number, newTitle : string) => {
@@ -79,7 +81,8 @@ function BoardPage() {
         };
         col.name = newTitle;
         console.log(col);
-        await updateColumn(col).then(() => console.log("Updated column ", col.name)).catch(err => console.log(err))
+        await updateColumn(col).catch(err => console.log(err))
+        .finally(() => console.log("Updated column ", col.name))
     }
 
     const moveColumnLeft = async (index: number) => {
@@ -109,9 +112,7 @@ function BoardPage() {
         } catch (e) {
             console.log(e)
         } finally {
-            console.log(`Moved column ${col.name} to the left`)
-            console.log("Rank col: ", col.rank)
-            console.log("Rank colLeft: ", colLeft.rank)
+            console.log(`Moved column ${col.name} to the left`);
         }
     }
 
@@ -141,9 +142,7 @@ function BoardPage() {
         } catch (e) {
             console.log(e)
         } finally {
-            console.log(`Moved column ${col.name} to the right`)
-            console.log("Rank col: ", col.rank)
-            console.log("Rank colRight: ", colRight.rank)
+            console.log(`Moved column ${col.name} to the right`);
         }
     }
 
@@ -157,7 +156,8 @@ function BoardPage() {
             boardId: id,
             rank: selectedBoard ? selectedBoard.columns[columnIndex].cards.length : 0
         }
-        await createCard(card).then(() => console.log('Added card')).catch(err => console.log(err))
+        await createCard(card).then(() => loadBoardById(id))
+        .then(() => console.log('Added card'))
     }
 
     const updCard = async (columnIndex: number, cardIndex: number, newCard: CardDto) => {
@@ -168,8 +168,8 @@ function BoardPage() {
             boardId: id,
             rank: cardIndex
         }
-        await updateCard(newCard.card.id, card).then(() => console.log('Updated card ', card.title))
-        .catch(err => console.log(err))
+        await updateCard(newCard.card.id, card).then(() => loadBoardById(id))
+        .finally(() => console.log('Updated card ', card.title))
     }
 
 
@@ -178,31 +178,31 @@ function BoardPage() {
         let movedCard : CardCreationForm = {
             title: card.card.title,
             body: card.card.body,
-            columnId: newColumnId,
+            columnId: card.card.columnId,
             boardId: id,
             rank: selectedBoard ? selectedBoard.columns[columnIndex - 1].cards.length : 0
         }
 
-        await moveCardToColumn(card.card.id, newColumnId, movedCard)
-        .then(() => console.log(`Moved ${movedCard.title} to the left`))
+        await moveCardToColumn(card.card.id, newColumnId, movedCard).then(() => loadBoardById(id))
         .catch(err => console.log(err))
+        .finally(() => console.log(`Moved ${movedCard.title} to the left`))
     }
 
     const moveCardRight = async (columnIndex: number, card: CardDto) => {
         let newColumnId = selectedBoard ? selectedBoard.columns[columnIndex + 1].column.id : "none"
-        console.log("New column index: ", columnIndex + 1)
-        console.log("New column id: ", newColumnId)
+
         let movedCard : CardCreationForm = {
             title: card.card.title,
             body: card.card.body,
-            columnId: newColumnId,
+            columnId: card.card.columnId,
             boardId: id,
-            rank: selectedBoard ? selectedBoard.columns[columnIndex + 1].cards.length : 0
+            rank: selectedBoard ? selectedBoard.columns[columnIndex + 1].cards.length - 1 : 0
         }
 
         await moveCardToColumn(card.card.id, newColumnId, movedCard)
-        .then(() => console.log(`Moved ${movedCard.title} to the right`))
+        .then(() => loadBoardById(id))
         .catch(err => console.log(err))
+        .finally(() => console.log(`Moved ${movedCard.title} to the right`))
     }
 
     const handleDeleteColumn = async (columnId: string) => {
@@ -210,6 +210,7 @@ function BoardPage() {
             return;
 
         await deleteColumn(columnId)
+            .then(() => loadBoardById(id))
             .catch(err => console.log(err))
     }
 
@@ -225,7 +226,8 @@ function BoardPage() {
             rank: card.card.rank
         }
 
-        await deleteCard(card.card.id, cardData);
+        await deleteCard(card.card.id, cardData).then(() => loadBoardById(id))
+        .finally(() => console.log("Deleted card : ", card.card.title));
     }
 
     return (
