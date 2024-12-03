@@ -1,46 +1,87 @@
-# Getting Started with Create React App
+# Trello2
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Trello2 is a task management application inspired by Trello, built to organize and prioritize your work with ease. This project uses modern web development practices, including **Domain-Driven Design (DDD)**, **MVVM architecture**, and component-driven UI development with **Storybook**.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Project Overview](#project-overview)
+- [Team Collaboration](#team-collaboration)
+- [Features](#features)
+- [Architecture](#architecture)
+- [License](#license)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Overview
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Trello2 is designed to streamline workflows for individuals and teams. Users can create, edit, and manage boards, lists, and cards, offering flexibility and efficiency in task management.
 
-### `npm test`
+This project leverages:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React** for a dynamic and interactive UI.
+- **TypeScript** for type safety and maintainable code.
+- **Material-UI (MUI)** for modern, responsive design components.
+- **Storybook** for isolated UI development and documentation.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Team Collaboration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project was developed by a team of four members:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Barbora** and **Ana**: Focused on designing the user interface and developing reusable UI components. Storybook was extensively used to ensure component reusability and visual consistency.
+- **Charlene** and **Lilian**: Worked primarily on backend integration, implementing Domain-Driven Design (DDD) principles for a scalable and maintainable architecture. They handled services, stores, and the integration of components with the MVVM-based viewmodels.
 
-### `npm run eject`
+The collaborative effort ensured a clear division of responsibilities while maintaining coherence in the final application.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- **User Authentication**: Secure login functionality.
+- **Task Management**: Create and organize boards, lists, and cards.
+- **Responsive Design**: Accessible across devices with a consistent user experience.
+- **Isolated Component Development**: Develop and test UI components with Storybook.
+- **Scalable Architecture**: Clean and maintainable codebase using DDD and MVVM principles.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## Architecture
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### **Domain-Driven Design (DDD)**  
+The `core` directory encapsulates domain logic:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Models**: Define entities like `Board`, `Card`, and `User`.
+- **Services**: Handle API calls and business logic.
+- **Stores**: Manage application state (e.g., `BoardStore`, `UserStore`).
+
+### **MVVM Architecture**  
+The `viewmodels` directory bridges domain logic and UI components, promoting separation of concerns and testability.
+
+### **Storybook**  
+Used for isolated UI development and documentation. Components under `ui/components` are documented and tested in Storybook to ensure visual consistency and reusability.
+
+---
+
+## Folder Structure
+
+```plaintext
+src
+├── core
+│   ├── models        # Domain models (e.g., Board, Card)
+│   ├── services      # Business logic and API services
+│   ├── stores        # Application state management
+├── ui
+│   ├── components    # Reusable UI components
+│   ├── pages         # High-level views (e.g., HomePage, BoardPage)
+│   ├── styles        # Global and component-specific styles
+│   ├── viewmodels    # Bridges between core and UI
+├── index.tsx         # App entry point
+```
+
+
+---
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
