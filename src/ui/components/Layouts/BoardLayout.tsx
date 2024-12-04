@@ -32,6 +32,7 @@ const BoardLayout: React.FC<BoardLayoutProps> = ({
     }}>
       <MainAppBar
         onLogout={onLogout}
+        showLogoutButton={true}
       />
       <SubAppBar
         title={title}

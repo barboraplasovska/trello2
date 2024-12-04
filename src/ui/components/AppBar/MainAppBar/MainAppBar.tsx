@@ -5,22 +5,27 @@ import { Typography } from '@mui/material';
 
 interface MainAppBarProps {
     onLogout: () => void;
+    showLogoutButton: Boolean;
 }
 
-export const MainAppBar: React.FC<MainAppBarProps> = ({ onLogout }) => {
-    if (!onLogout) {
+export const MainAppBar: React.FC<MainAppBarProps> = ({ onLogout, showLogoutButton = true }) => {
+    if (!onLogout && showLogoutButton) {
         return <div>Error: onLogout is not passed properly</div>;
     }
 
     return (
         <div style={styles.appBar}>
             <div style={styles.leftItems}>
-                <div style={styles.title}>Trello2</div>
-                <Link to={`/boards/`} style={styles.link}>
-                    <Typography>My boards</Typography>
+                <Link to={`/`} style={styles.link}>
+                    <div style={styles.title}>Trello2</div>
                 </Link>
+                {showLogoutButton && (
+                    <Link to={`/boards/`} style={styles.link}>
+                        <Typography>My boards</Typography>
+                    </Link>
+                )}
             </div>
-            <LogoutButton onClick={onLogout} />
+            {showLogoutButton && <LogoutButton onClick={onLogout} />}
         </div>
     );
 };

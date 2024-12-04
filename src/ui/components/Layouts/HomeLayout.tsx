@@ -18,6 +18,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children, onLogout }) => {
     }}>
       <MainAppBar
         onLogout={onLogout}
+        showLogoutButton={true}
       />
       <Box sx={{ marginTop: "20px", marginLeft: "20px", marginRight: "20px", marginBottom: "20px" }}>
         {children}

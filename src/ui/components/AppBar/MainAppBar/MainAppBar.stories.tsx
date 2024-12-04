@@ -20,6 +20,7 @@ type Story = StoryObj<typeof MainAppBar>;
 export const Default: Story = {
   args: {
     onLogout: action('onLogout'),
+    showLogoutButton: true,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -36,5 +37,6 @@ export const Default: Story = {
 export const MissingOnLogout: Story = {
   args: {
     onLogout: undefined,
+    showLogoutButton: false,
   },
 };
