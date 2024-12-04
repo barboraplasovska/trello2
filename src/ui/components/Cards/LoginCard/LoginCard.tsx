@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {login, register} from "../../../../core/services/LoginService";
 import { LoginRequest } from "../../../../core/models/LoginRequest";
 import { useNavigate } from "react-router-dom";
-import ConnexionForm from "../ConnexionForm/connexion-form";
+import ConnexionForm from "../../Forms/ConnexionForm/connexion-form";
 
 export default function LoginCard() {
     const [username, setUsername] = useState("");

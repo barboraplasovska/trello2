@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginCard from "../components/Forms/LoginCard/LoginCard";
+import LoginCard from "../components/Cards/LoginCard/LoginCard";
 import '../styles/LoginPageStyles.css';
 
 export default function Login() {
