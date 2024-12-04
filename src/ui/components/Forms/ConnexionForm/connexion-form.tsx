@@ -32,7 +32,7 @@ export default function ConnexionForm({
 }: formProps) {
     return (
         <div className="connexion-form">
-            <div className="form-title">{isLogIn ? "Login" : "Sign up"}</div>
+            <div className="form-title">{isLogIn ? "Login" : "Register"}</div>
 
             {error && <div className="form-error">{error}</div>}
 

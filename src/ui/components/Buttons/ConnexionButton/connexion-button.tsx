@@ -12,7 +12,9 @@ export default function ConnexionButton({ isLogIn, connect }: ConnexionButtonsPr
     return (
         <div className="connexion-button">
             <button
-                onClick={connect}>
+                onClick={connect}
+                aria-label={isLogIn ? "login" : "signup"}>
+
                 {isLogIn ? "Log in" : "Sign up"}
             </button>
         </div>
