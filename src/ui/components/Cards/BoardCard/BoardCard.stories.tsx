@@ -28,9 +28,7 @@ export default {
 
 type Story = StoryObj<typeof BoardCard>;
 
-export const Default: Story = {};
-
-export const Interactions: Story = {
+export const Default: Story = {
     play: async ({ canvasElement }) => {
         const canvas = within(canvasElement);
 

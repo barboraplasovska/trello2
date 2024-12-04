@@ -19,26 +19,22 @@ export default {
 
 type Story = StoryObj<typeof LogoutButton>;
 
-export const Default = {};
-
-export const Interactions: Story = {
+export const Default: Story = {
     args: {
         onClick: ActionData.onClick,
-    },
-};
+    }, play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
 
-Interactions.play = async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+        // Find the logout button by its aria-label
+        const button = await canvas.findByRole('button', { name: /logout/i });
 
-    // Find the logout button by its aria-label
-    const button = await canvas.findByRole('button', { name: /logout/i });
+        // Verify that the button is rendered in the DOM
+        await expect(button).toBeInTheDocument();
 
-    // Verify that the button is rendered in the DOM
-    await expect(button).toBeInTheDocument();
+        // Simulate a click event on the button
+        await userEvent.click(button);
 
-    // Simulate a click event on the button
-    await userEvent.click(button);
-
-    // Verify that the onClick handler was called when the button is clicked
-    await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
-};
+        // Verify that the onClick handler was called when the button is clicked
+        await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
+    }
+}

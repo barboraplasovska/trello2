@@ -19,25 +19,21 @@ export default {
 
 type Story = StoryObj<typeof AddBoardButton>;
 
-export const Default: Story = {};
-
-// Interactions Story
-export const Interactions: Story = {
+export const Default: Story = {
     args: {
         onClick: ActionData.onClick,
     },
-};
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
 
-Interactions.play = async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+        // Find and verify the button is rendered
+        const button = canvas.getByText('Create new board');
+        await expect(button).toBeInTheDocument();
 
-    // Find and verify the button is rendered
-    const button = canvas.getByText('Create new board');
-    await expect(button).toBeInTheDocument();
+        // Simulate a click event
+        await userEvent.click(button);
 
-    // Simulate a click event
-    await userEvent.click(button);
-
-    // Verify the onClick callback was called
-    await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
+        // Verify the onClick callback was called
+        await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
+    },
 };

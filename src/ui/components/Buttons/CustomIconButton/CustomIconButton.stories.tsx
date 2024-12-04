@@ -25,32 +25,29 @@ export default {
 
 type Story = StoryObj<typeof CustomIconButton>;
 
-export const Default = {};
-
-export const Interactions: Story = {
+export const Default: Story = {
   args: {
     icon: <SyncAltIcon />,
     ariaLabel: 'Move list',
     tooltip: 'Move list',
     onClick: ActionData.onClick,
   },
-};
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-Interactions.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
+    // Find the button by its aria-label
+    const button = canvas.getByRole('button', { name: 'Move list' });
 
-  // Find the button by its aria-label
-  const button = canvas.getByRole('button', { name: 'Move list' });
+    // Verify the button is rendered
+    await expect(button).toBeInTheDocument();
 
-  // Verify the button is rendered
-  await expect(button).toBeInTheDocument();
+    // Hover over the button to check tooltip behavior
+    await userEvent.hover(button);
 
-  // Hover over the button to check tooltip behavior
-  await userEvent.hover(button);
+    // Simulate a click on the button
+    await userEvent.click(button);
 
-  // Simulate a click on the button
-  await userEvent.click(button);
-
-  // Verify that the onClick callback was triggered
-  await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
+    // Verify that the onClick callback was triggered
+    await expect(ActionData.onClick).toHaveBeenCalledTimes(1);
+  }
 };
