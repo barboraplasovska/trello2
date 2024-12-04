@@ -4,7 +4,7 @@ import { BoardListCarousel } from "../../components/Lists/BoardListCarousel/Boar
 import BoardLayout from '../../components/Layouts/BoardLayout';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
-import { Box, Typography } from '@mui/material';
+import {Box, CircularProgress, Typography} from '@mui/material';
 import { logout } from '../../../core/services/LoginService';
 import { deleteBoard, updateBoard } from "../../../core/services/BoardService";
 import { CardCreationForm } from '../../../core/models/CardCreationForm';
@@ -18,6 +18,7 @@ function BoardPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [deleteType, setDeleteType] = useState<DialogType | null>(null);
     const [itemToDelete, setItemToDelete] = useState<null | string | CardDto>(null);
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -27,14 +28,43 @@ function BoardPage() {
     const {
         selectedBoard,
         loadBoardById,
+        setError,
+        loading,
         error,
     } = useBoardsViewModel();
 
     useEffect(() => {
         if (id && (!selectedBoard || selectedBoard.board.id !== id)) {
             loadBoardById(id);
+            setError(null)
         }
     }, [id, selectedBoard, loadBoardById]);
+
+    const handleOnline = () => {
+        if (!selectedBoard || !selectedBoard.board.id)
+            return;
+
+        setIsOnline(true);
+        console.log("You are back online.");
+        if (id) {
+            loadBoardById(selectedBoard.board.id)
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("online", handleOnline);
+        window.addEventListener("offline", handleOffline);
+
+        return () => {
+            window.removeEventListener("online", handleOnline);
+            window.removeEventListener("offline", handleOffline);
+        };
+    }, [id]);
+
+    const handleOffline = () => {
+        setIsOnline(false);
+        console.log("You are offline.");
+    };
 
     function onLogout() {
         logout().then(() => {
@@ -52,6 +82,7 @@ function BoardPage() {
             await updateBoard(selectedBoard.board.id, newTitle);
             await loadBoardById(selectedBoard.board.id)
         } catch (error) {
+            setError('Failed to update board')
             console.error('Failed to update board:', error);
         }
     };
@@ -63,16 +94,22 @@ function BoardPage() {
         try {
             await deleteBoard(selectedBoard.board.id).then(() => navigate('/boards'));
         } catch (error) {
+            setError('Failed to delete board')
             console.error('Failed to delete board:', error);
         }
     };
 
     /// Column functions
     const addColumn = async (title: string) => {
-        await createColumn(id, title).then(() => loadBoardById(id))
-            .catch(err => console.log(err))
-            .finally(() => console.log('Added column ', title))
-    }
+        try {
+            await createColumn(id, title);
+            await loadBoardById(id);
+            console.log('Added column:', title);
+        } catch (error) {
+            setError('Error adding column')
+            console.error('Error adding column:', error);
+        }
+    };
 
     const updColumn = async (columnIndex: number, newTitle: string) => {
         if (!selectedBoard || !selectedBoard.board.id)
@@ -91,11 +128,12 @@ function BoardPage() {
         col.name = newTitle;
 
         try {
-            await updateColumn(col).catch(err => console.log(err))
+            await updateColumn(col)
                 .finally(() => console.log("Updated column ", col.name))
             await loadBoardById(selectedBoard.board.id)
         } catch (e) {
-            console.log(e)
+            setError('Failed to update column')
+            console.error('Failed to update column:', e);
         }
     }
 
@@ -124,7 +162,8 @@ function BoardPage() {
             console.log(colLeft)
             await Promise.all([updateColumn(col), updateColumn(colLeft)]).then(() => loadBoardById(id))
         } catch (e) {
-            console.log(e)
+            setError('Failed to move (left) column')
+            console.error('Failed to move (left) column:', e);
         } finally {
             console.log(`Moved column ${col.name} to the left`);
         }
@@ -154,7 +193,8 @@ function BoardPage() {
         try {
             await Promise.all([updateColumn(col), updateColumn(colRight)]).then(() => loadBoardById(id))
         } catch (e) {
-            console.log(e)
+            setError('Failed to move (right) column')
+            console.error('Failed to move (right) column:', e);
         } finally {
             console.log(`Moved column ${col.name} to the right`);
         }
@@ -164,9 +204,13 @@ function BoardPage() {
         if (!selectedBoard || !selectedBoard.board.id)
             return;
 
-        await deleteColumn(columnId)
-            .then(() => loadBoardById(id))
-            .catch(err => console.log(err))
+        try {
+            await deleteColumn(columnId)
+                .then(() => loadBoardById(selectedBoard.board.id))
+        } catch (error) {
+            setError('Failed to delete column')
+            console.error('Failed to delete column:', error);
+        }
     }
 
     /// Card functions
@@ -179,8 +223,14 @@ function BoardPage() {
             boardId: id,
             rank: selectedBoard ? selectedBoard.columns[columnIndex].cards.length : 0
         }
-        await createCard(card).then(() => loadBoardById(id))
-            .then(() => console.log('Added card'))
+
+        try {
+            await createCard(card).then(() => loadBoardById(id))
+                .then(() => console.log('Added card'))
+        } catch (e) {
+            setError('Failed to add card')
+            console.error('Failed to add card:', error);
+        }
     }
 
     const updCard = async (columnIndex: number, cardIndex: number, newCard: CardDto) => {
@@ -191,8 +241,14 @@ function BoardPage() {
             boardId: id,
             rank: cardIndex
         }
-        await updateCard(newCard.card.id, card).then(() => loadBoardById(id))
-            .finally(() => console.log('Updated card ', card.title))
+
+        try {
+            await updateCard(newCard.card.id, card).then(() => loadBoardById(id))
+                .finally(() => console.log('Updated card ', card.title))
+        } catch (error) {
+            setError('Failed to update card')
+            console.error('Failed to update card:', error);
+        }
     }
 
 
@@ -206,9 +262,14 @@ function BoardPage() {
             rank: selectedBoard ? selectedBoard.columns[columnIndex - 1].cards.length : 0
         }
 
-        await moveCardToColumn(card.card.id, newColumnId, movedCard).then(() => loadBoardById(id))
-            .catch(err => console.log(err))
-            .finally(() => console.log(`Moved ${movedCard.title} to the left`))
+        try {
+            await moveCardToColumn(card.card.id, newColumnId, movedCard).then(() => loadBoardById(id))
+                .finally(() => console.log(`Moved ${movedCard.title} to the left`))
+        }
+        catch (error) {
+            setError('Failed to move (left) card')
+            console.error('Failed to move (left) card:', error);
+        }
     }
 
     const moveCardRight = async (columnIndex: number, card: CardDto) => {
@@ -222,10 +283,14 @@ function BoardPage() {
             rank: selectedBoard ? selectedBoard.columns[columnIndex + 1].cards.length - 1 : 0
         }
 
-        await moveCardToColumn(card.card.id, newColumnId, movedCard)
-            .then(() => loadBoardById(id))
-            .catch(err => console.log(err))
-            .finally(() => console.log(`Moved ${movedCard.title} to the right`))
+        try {
+            await moveCardToColumn(card.card.id, newColumnId, movedCard)
+                .then(() => loadBoardById(id))
+                .finally(() => console.log(`Moved ${movedCard.title} to the right`))
+        } catch (error) {
+            setError('Failed to move (right) card')
+            console.error('Failed to move (right) card:', error);
+        }
     }
 
 
@@ -242,8 +307,13 @@ function BoardPage() {
             rank: card.card.rank
         }
 
-        await deleteCard(card.card.id, cardData).then(() => loadBoardById(id))
-            .finally(() => console.log("Deleted card : ", card.card.title));
+        try {
+            await deleteCard(card.card.id, cardData).then(() => loadBoardById(id))
+                .finally(() => console.log("Deleted card : ", card.card.title));
+        } catch (error) {
+            setError('Failed to delete card')
+            console.error('Failed to delete card:', error);
+        }
     }
 
     /// Dialog functions
@@ -252,17 +322,22 @@ function BoardPage() {
     }
 
     const handleDeleteConfirm = async () => {
-        setIsDialogOpen(false);
-        switch (deleteType) {
-            case DialogType.Column:
-                await handleDeleteColumn(itemToDelete as string);
-                break;
-            case DialogType.Card:
-                await handleDeleteCard(itemToDelete as CardDto);
-                break;
-            case DialogType.Board:
-                await handleDeleteBoard();
-                break;
+        try {
+            setIsDialogOpen(false);
+            switch (deleteType) {
+                case DialogType.Column:
+                    await handleDeleteColumn(itemToDelete as string);
+                    break;
+                case DialogType.Card:
+                    await handleDeleteCard(itemToDelete as CardDto);
+                    break;
+                case DialogType.Board:
+                    await handleDeleteBoard();
+                    break;
+            }
+        } catch (error) {
+            setError('An error has occured on "delete confirm"')
+            console.error('An error has occured on "delete confirm":', error);
         }
     }
 
@@ -280,12 +355,20 @@ function BoardPage() {
             onDelete={handleDelete}
             onLogout={onLogout}
         >
-            {error ? (
-                <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
-                    <Typography variant="h6" sx={{ color: 'red' }}>
-                        Error: {error || "Something went wrong!"}
-                    </Typography>
-                </Box>
+            {loading ? (
+                    <div className="loader" style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <CircularProgress />
+                    </div>
+            ) : (error ? (
+                    <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
+                        <Typography variant="h6" sx={{ color: 'red' }}>
+                            Error: {error || "Something went wrong!"}
+                        </Typography>
+                    </Box>
             ) : (
                 <BoardListCarousel
                     columns={selectedBoard?.columns ?? []}
@@ -304,7 +387,7 @@ function BoardPage() {
                     }}
                     onAddColumn={addColumn}
                 />
-            )}
+            ))}
 
             {isDialogOpen && (
                 <>

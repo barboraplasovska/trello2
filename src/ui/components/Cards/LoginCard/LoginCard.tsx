@@ -40,7 +40,10 @@ export default function LoginCard() {
                 navigate("/");
             })
             .catch((err) => {
-                setError("Login failed. Please check your credentials.");
+                if (err.status === 500)
+                    setError("Login failed. Please check your connection.");
+                else
+                    setError("Login failed. Please check your credentials.");
             });
     };
 

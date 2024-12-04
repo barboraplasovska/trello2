@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
-import { CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 import HomeLayout from '../../components/Layouts/HomeLayout';
@@ -12,17 +12,46 @@ function HomePage() {
     boards,
     loading,
     error,
+    setError,
     userId,
     loadBoards,
     handleCreateBoard,
   } = useBoardsViewModel();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const navigate = useNavigate();
-
   const colors = [
     'A3537A', '5366A3', '57A353', 'A35353',
     '7453A3', 'D29034', '06AECC', '838C91'
   ];
+
+  const handleOnline = () => {
+    if (!boards)
+      return;
+
+    setIsOnline(true);
+    console.log("You are back online.");
+    try {
+      loadBoards()
+    } catch (e) {
+      setError("Failed to load boards")
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  const handleOffline = () => {
+    setIsOnline(false);
+    console.log("You are offline.");
+  };
 
   const handleBoardClick = (board: Board) => {
     const boardNameSlug = board.name.toLowerCase().replace(/\s+/g, '-');
@@ -57,9 +86,11 @@ function HomePage() {
           <CircularProgress />
         </div>
       ) : error ? (
-        <Typography variant="h6" color="error">
-          {error}
-        </Typography>
+          <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
+            <Typography variant="h6" sx={{ color: 'red' }}>
+              Error: {error || "Something went wrong!"}
+            </Typography>
+          </Box>
       ) : (
         <>
           <Typography
