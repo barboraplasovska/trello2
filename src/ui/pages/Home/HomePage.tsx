@@ -40,7 +40,7 @@ function HomePage() {
     } else {
       console.log('No JWT found. Waiting for it to be set...');
     }
-  }, [loadBoards]);
+  }, []);
 
   function onLogout() {
     logout().then(() => navigate('/login'));
