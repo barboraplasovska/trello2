@@ -29,7 +29,7 @@ This project leverages:
 
 This project was developed by a team of four members:
 
-- **Barbora** and **Ana**: Focused on designing the user interface and developing reusable UI components. Storybook was extensively used to ensure component reusability and visual consistency.
+- **Barbora** and **Bianca**: Focused on designing the user interface and developing reusable UI components. Storybook was extensively used to ensure component reusability and visual consistency.
 - **Charlene** and **Lilian**: Worked primarily on backend integration, implementing Domain-Driven Design (DDD) principles for a scalable and maintainable architecture. They handled services, stores, and the integration of components with the MVVM-based viewmodels.
 
 The collaborative effort ensured a clear division of responsibilities while maintaining coherence in the final application.
