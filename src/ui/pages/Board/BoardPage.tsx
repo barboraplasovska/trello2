@@ -4,7 +4,7 @@ import { BoardListCarousel } from "../../components/Lists/BoardListCarousel/Boar
 import BoardLayout from '../../components/Layouts/BoardLayout';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import { CardDto } from '../../../core/models/CardDto';
-import {Box, CircularProgress, Typography} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import { logout } from '../../../core/services/LoginService';
 import { deleteBoard, updateBoard } from "../../../core/services/BoardService";
 import { CardCreationForm } from '../../../core/models/CardCreationForm';
@@ -18,7 +18,7 @@ function BoardPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [deleteType, setDeleteType] = useState<DialogType | null>(null);
     const [itemToDelete, setItemToDelete] = useState<null | string | CardDto>(null);
-    const [isOnline, setIsOnline] = useState(navigator.onLine);
+    const [, setIsOnline] = useState(navigator.onLine);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -29,7 +29,6 @@ function BoardPage() {
         selectedBoard,
         loadBoardById,
         setError,
-        loading,
         error,
     } = useBoardsViewModel();
 
@@ -38,7 +37,7 @@ function BoardPage() {
             loadBoardById(id);
             setError(null)
         }
-    }, [id, selectedBoard, loadBoardById]);
+    }, [id, selectedBoard, loadBoardById, setError]);
 
     const handleOnline = () => {
         setIsOnline(true);
