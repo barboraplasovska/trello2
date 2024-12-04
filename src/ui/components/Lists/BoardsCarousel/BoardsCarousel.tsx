@@ -57,6 +57,14 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                 margin: 0,
             }}
         >
+             {isCreating ? (
+                <NewBoardCard
+                    onCreateBoard={handleCreateBoard}
+                    onCancel={() => setIsCreating(false)}
+                />
+            ) : (
+                <CreateBoardButton onClick={() => setIsCreating(true)} />
+            )}
             {localBoards.map((board) => (
                 <BoardCard
                     key={board.id}
@@ -65,15 +73,6 @@ const BoardsCarousel: React.FC<BoardsCarouselProps> = ({
                     onBoardClick={() => onBoardClick(board)}
                 />
             ))}
-
-            {isCreating ? (
-                <NewBoardCard
-                    onCreateBoard={handleCreateBoard}
-                    onCancel={() => setIsCreating(false)}
-                />
-            ) : (
-                <CreateBoardButton onClick={() => setIsCreating(true)} />
-            )}
         </Box>
     );
 };
