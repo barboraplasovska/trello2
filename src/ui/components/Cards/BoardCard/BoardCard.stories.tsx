@@ -1,5 +1,8 @@
-import { fn } from '@storybook/test';
+import { within, userEvent } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
 import BoardCard from './BoardCard';
+import { fn } from '@storybook/test';
+import { StoryObj } from '@storybook/react';
 
 const ActionData = {
     onBoardClick: fn(),
@@ -23,4 +26,24 @@ export default {
     },
 };
 
-export const Default = {};
+type Story = StoryObj<typeof BoardCard>;
+
+export const Default: Story = {};
+
+export const Interactions: Story = {
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        // Find the BoardCard element by its board name
+        const boardCard = await canvas.findByText('My super duper board');
+
+        // Verify that the board card is rendered in the DOM
+        await expect(boardCard).toBeInTheDocument();
+
+        // Simulate a click event on the board card
+        await userEvent.click(boardCard);
+
+        // Verify that the onBoardClick handler was called when the board card is clicked
+        await expect(ActionData.onBoardClick).toHaveBeenCalledTimes(1);
+    },
+};
