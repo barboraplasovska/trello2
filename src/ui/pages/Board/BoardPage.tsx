@@ -33,18 +33,10 @@ function BoardPage() {
     } = useBoardsViewModel();
 
     useEffect(() => {
-        if (id) {
-            loadBoardById(id)
-                .then((board) => {
-                    if (board == null) {
-                        navigate('/boardnotfound', { replace: true });
-                    }
-                })
-                .catch(() => {
-                    setError("Failed to load board.");
-                    navigate('/boardnotfound', { replace: true });
-                });
-        } else {
+        if (id && (!selectedBoard || selectedBoard.board.id !== id)) {
+            loadBoardById(id);
+            setError(null);
+        } else if (id == null) {
             navigate('/boardnotfound', { replace: true });
         }
     }, [id, loadBoardById, navigate, selectedBoard, setError]);
