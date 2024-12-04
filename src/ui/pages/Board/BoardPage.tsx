@@ -220,8 +220,8 @@ function BoardPage() {
 
     const addCard = async (columnIndex: number) => {
         let card: CardCreationForm = {
-            title: "New card",
-            body: "New card",
+            title: "",
+            body: "",
             columnId: selectedBoard ? selectedBoard.columns[columnIndex].column.id : "none",
             boardId: id,
             rank: selectedBoard ? selectedBoard.columns[columnIndex].cards.length : 0
