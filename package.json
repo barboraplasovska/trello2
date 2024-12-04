@@ -74,6 +74,7 @@
     "eslint-plugin-storybook": "^0.11.1",
     "prop-types": "^15.8.1",
     "storybook": "^8.4.6",
+    "testcafe": "^3.7.0",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5",
