@@ -37,15 +37,15 @@ function BoardPage() {
             loadBoardById(id)
                 .then((board) => {
                     if (board == null) {
-                        navigate('/notfound', { replace: true });
+                        navigate('/boardnotfound', { replace: true });
                     }
                 })
                 .catch(() => {
                     setError("Failed to load board.");
-                    navigate('/notfound', { replace: true });
+                    navigate('/boardnotfound', { replace: true });
                 });
         } else {
-            navigate('/notfound', { replace: true });
+            navigate('/boardnotfound', { replace: true });
         }
     }, [id, loadBoardById, navigate, selectedBoard, setError]);
 

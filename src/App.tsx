@@ -8,6 +8,7 @@ import BoardPage from "./ui/pages/Board/BoardPage";
 import Login from "./ui/pages/Login";
 import LoginLayout from "./ui/components/Layouts/LoginLayout";
 import NotFoundPage from './ui/pages/NotFoundPage';
+import BoardNotFoundPage from './ui/pages/BoardNotFoundPage';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/notfound" element={<NotFoundPage />} />
+          <Route path="/boardnotfound" element={<BoardNotFoundPage />} />
           <Route path="/" element={<Root />} />
           <Route path="/login" element= {
             <LoginLayout>
