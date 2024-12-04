@@ -39,5 +39,4 @@ packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
 
 *storybook.log
-package-lock.json
 .yarn/
