@@ -42,13 +42,12 @@ function BoardPage() {
     }, [id, loadBoardById, navigate, selectedBoard, setError]);
 
     const handleOnline = () => {
-        setIsOnline(true);
-        console.log("You are back online.");
-        
         if (!selectedBoard || !selectedBoard.board.id)
         {   
-        return;
+            return;
         }
+
+        setIsOnline(true);
 
         try {
             loadBoardById(selectedBoard?.board.id);
