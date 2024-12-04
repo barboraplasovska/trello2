@@ -41,13 +41,16 @@ function BoardPage() {
     }, [id, selectedBoard, loadBoardById]);
 
     const handleOnline = () => {
+        setIsOnline(true);
+        console.log("You are back online.");
+        
         if (!selectedBoard || !selectedBoard.board.id)
             return;
 
-        setIsOnline(true);
-        console.log("You are back online.");
-        if (id) {
-            loadBoardById(selectedBoard.board.id)
+        try {
+            loadBoardById(selectedBoard?.board.id);
+        } catch (e) {
+            setError("Failed to load boards")
         }
     };
 
@@ -59,7 +62,7 @@ function BoardPage() {
             window.removeEventListener("online", handleOnline);
             window.removeEventListener("offline", handleOffline);
         };
-    }, [id]);
+    }, []);
 
     const handleOffline = () => {
         setIsOnline(false);
@@ -355,15 +358,7 @@ function BoardPage() {
             onDelete={handleDelete}
             onLogout={onLogout}
         >
-            {loading ? (
-                    <div className="loader" style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                        <CircularProgress />
-                    </div>
-            ) : (error ? (
+            {error ? (
                     <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
                         <Typography variant="h6" sx={{ color: 'red' }}>
                             Error: {error || "Something went wrong!"}
@@ -387,7 +382,7 @@ function BoardPage() {
                     }}
                     onAddColumn={addColumn}
                 />
-            ))}
+            )}
 
             {isDialogOpen && (
                 <>
