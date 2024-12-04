@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 import HomeLayout from '../../components/Layouts/HomeLayout';
@@ -49,9 +49,13 @@ function HomePage() {
   return (
     <HomeLayout onLogout={onLogout}>
       {loading ? (
-        <Typography variant="h6" color="white">
-          Loading...
-        </Typography>
+        <div className="loader" style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <CircularProgress />
+        </div>
       ) : error ? (
         <Typography variant="h6" color="error">
           {error}

@@ -35,7 +35,7 @@ export const createBoard = async (name: string): Promise<Board> => {
         console.log('Board created successfully:', response.data);
         const defaultColumns = ['To Do', 'Ongoing', 'Done'];
         for (let colName of defaultColumns) {
-            createColumn(response.data.id, colName);
+            await createColumn(response.data.id, colName);
         }
         return response.data;
     } catch (error) {
