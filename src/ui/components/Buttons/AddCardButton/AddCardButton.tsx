@@ -7,9 +7,10 @@ type AddCardButtonProps = {
 
 export const AddCardButton: React.FC<AddCardButtonProps> = ({ onClick }) => {
   return (
-    <Button 
-      variant="text" 
-      onClick={onClick} 
+    <Button
+      variant="text"
+      onClick={onClick}
+      aria-label="add task"
       sx={{
         textTransform: 'none',
         color: 'white',

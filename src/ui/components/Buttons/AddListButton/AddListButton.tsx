@@ -10,6 +10,7 @@ export const AddListButton: React.FC<AddListButtonProps> = ({ onClick }) => {
     <Button
       variant="contained"
       color="secondary"
+      aria-label="add list"
       onClick={onClick}
       sx={{
         textTransform: 'none',
