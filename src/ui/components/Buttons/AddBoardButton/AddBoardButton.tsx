@@ -12,6 +12,7 @@ const AddBoardButton: React.FC<AddBoardButtonProps> = ({ onClick }) => {
                 width: 300,
                 height: 220,
                 borderRadius: 3,
+                ariaLabel: "create board",
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -30,7 +31,7 @@ const AddBoardButton: React.FC<AddBoardButtonProps> = ({ onClick }) => {
             onClick={onClick}
         >
             <Typography>Create new board</Typography>
-        </Box>
+        </Box >
     );
 };
 

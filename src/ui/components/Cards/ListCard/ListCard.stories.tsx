@@ -48,7 +48,7 @@ export const Interactions: Story = {
     const canvas = within(canvasElement);
 
     // Find the "Add Card" button and simulate a click
-    const addCardButton = await canvas.getByRole('button', { name: /add a card/i });
+    const addCardButton = await canvas.getByRole('button', { name: /add task/i });
     await userEvent.click(addCardButton);
     await expect(ActionData.onAddCard).toHaveBeenCalledTimes(1);
 
