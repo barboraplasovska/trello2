@@ -28,8 +28,10 @@ export function useBoardsViewModel() {
     try {
       const data: BoardDto = await getBoardById(id);
       setSelectedBoard(data);
+      return data;
     } catch (error) {
       setError('Failed to load board details');
+      return null;
     } finally {
       setLoading(false);
     }

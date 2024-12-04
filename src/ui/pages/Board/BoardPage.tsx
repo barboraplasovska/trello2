@@ -33,18 +33,30 @@ function BoardPage() {
     } = useBoardsViewModel();
 
     useEffect(() => {
-        if (id && (!selectedBoard || selectedBoard.board.id !== id)) {
-            loadBoardById(id);
-            setError(null)
+        if (id) {
+            loadBoardById(id)
+                .then((board) => {
+                    if (board == null) {
+                        navigate('/notfound', { replace: true });
+                    }
+                })
+                .catch(() => {
+                    setError("Failed to load board.");
+                    navigate('/notfound', { replace: true });
+                });
+        } else {
+            navigate('/notfound', { replace: true });
         }
-    }, [id, selectedBoard, loadBoardById, setError]);
+    }, [id, loadBoardById, navigate, selectedBoard, setError]);
 
     const handleOnline = () => {
         setIsOnline(true);
         console.log("You are back online.");
         
         if (!selectedBoard || !selectedBoard.board.id)
-            return;
+        {   
+        return;
+        }
 
         try {
             loadBoardById(selectedBoard?.board.id);

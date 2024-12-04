@@ -13,9 +13,9 @@ function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
-
         <Routes>
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/notfound" element={<NotFoundPage />} />
           <Route path="/" element={<Root />} />
           <Route path="/login" element= {
             <LoginLayout>
