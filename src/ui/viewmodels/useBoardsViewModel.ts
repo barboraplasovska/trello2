@@ -79,6 +79,7 @@ export function useBoardsViewModel() {
     selectedBoard,
     loading,
     error,
+    setError,
     userId,
     loadBoards,
     loadBoardById,

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useBoardsViewModel } from '../../viewmodels/useBoardsViewModel';
 import BoardsCarousel from "../../components/Lists/BoardsCarousel/BoardsCarousel";
-import { Typography } from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Board } from '../../../core/models/Board';
 import HomeLayout from '../../components/Layouts/HomeLayout';
@@ -53,9 +53,11 @@ function HomePage() {
           Loading...
         </Typography>
       ) : error ? (
-        <Typography variant="h6" color="error">
-          {error}
-        </Typography>
+          <Box sx={{ padding: 2, backgroundColor: '#fff', border: '1px solid red', borderRadius: 1 }}>
+            <Typography variant="h6" sx={{ color: 'red' }}>
+              Error: {error || "Something went wrong!"}
+            </Typography>
+          </Box>
       ) : (
         <>
           <Typography
